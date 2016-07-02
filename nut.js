@@ -15,7 +15,7 @@ var adapter = utils.adapter({
   name: 'nut',
   ready: function () {
     //oNut = new Nut(3493, 'localhost');
-    oNut = new Nut(adapter.config.host_port, adapter.config.host_port);
+    var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
 
     oNut.on('error', function(err) {
       adapter.log.error('There was an error: ' + err);
@@ -30,8 +30,9 @@ var adapter = utils.adapter({
 
     oNut.on('ready', function() {
       adapter.log.debug('NUT Connection ready');
-      self = this;
+      var self = this;
       this.GetUPSVars(adapter.config.ups_name,function(varlist) {
+        adapter.log.debug("Start setting values");
         storeNutData(varlist);
         self.close();
       });
@@ -91,8 +92,10 @@ function storeNutData(varlist) {
   }
 
   var valObj={};
-  for (var key in varlist)
+  for (var key in varlist) {
+    adapter.log.debug("Set Object structure: "+key);
     setObjPath(valObj, key, varlist[key]);
+  }
   createChannelsAndStates(valObj);
   for (var key in varlist) {
     adapter.log.debug("Set State "+key+" = "+varlist[key]);
