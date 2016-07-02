@@ -1,0 +1,62 @@
+<html>
+
+<!-- these 4 files always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+<!-- these two file always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+
+    // Dictionary (systemDictionary is global variable from adapter-settings.js)
+    systemDictionary = {
+        "host_ip":                    {"de": "IP NUT Server"},
+        "host_port":                  {"de": "Port NUT Server"},
+        "ups_name":                   {"de": "NUT Name of the UPS"}
+    };
+
+    function load(settings, onChange) {
+        $('#host_ip').val(settings['host_ip']);
+        $('#host_port').val(settings['host_port']);
+        $('#ups_name').val(settings['ups_name']);
+    }
+
+    function save(callback) {
+        callback({host_ip: $('#host_ip').val().trim(), host_port: $('#host_port').val().trim(), ups_name: $('#ups_name').val().trim()});
+    }
+</script>
+
+<!-- you have to put your config page in a div with id adapter-container -->
+<div id="adapter-container">
+
+    <table><tr>
+        <td><img src="nut.png"/></td>
+        <td><h3 class="translate">NUT Adapter Settings</h3></td>
+    </tr></table>
+    <p style="padding-left: 12px">
+        <label for="host_ip" class="translate">host_ip</label> <input class="value" type="text" id="host_ip" size="15"/><br/>
+        <label for="host_port" class="translate">host_port</label> <input class="value" type="text" id="host_port" size="6"/><br/>
+        <label for="ups_name" class="translate">ups_name</label> <input class="value" type="text" id="ups_name" size="20"/><br/>
+    </p>
+    <h3>host_ip</h3>
+    <p>
+    ...
+    <h3>host_port</h3>
+    <p>
+    ...
+    </p>
+    <h3>ups_name</h3>
+    <p>
+    ...
+    </p>
+
+</div>
+
+</html>
