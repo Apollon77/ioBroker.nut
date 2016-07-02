@@ -32,7 +32,7 @@ var adapter = utils.adapter({
       adapter.log.debug('NUT Connection ready');
       var self = this;
       this.GetUPSVars(adapter.config.ups_name,function(varlist) {
-        adapter.log.debug("Start setting values");
+        adapter.log.debug("Got values, start setting them");
         storeNutData(varlist);
         self.close();
       });
@@ -52,51 +52,34 @@ var adapter = utils.adapter({
 });
 
 function storeNutData(varlist) {
-  // helper function to convert dot-separated string into object structure
-  function setObjPath(obj, path, val, notation) {
-    function isObject(obj) { return (Object.prototype.toString.call(obj) === '[object Object]' && !!obj);}
-    notation = notation || '.';
-    path.split(notation).reduce(function (prev, cur, idx, arr) {
-      var isLast = (idx === arr.length - 1);
-      // if <cur> is last part of path
-      if (isLast) return (prev[cur] = val);
-      // if <cur> is not last part of path, then returns object if existing value is object or empty object
-      return (isObject(prev[cur])) ? prev[cur] : (prev[cur] = {});
-    }, obj);
+  var last="";
+  var current="";
+  var index=0;
+  var stateName="";
 
-    return obj;
-  };
-
-  function createChannelsAndStates(obj,prependStr) {
-    prependStr = prependStr || "";
-    Object.keys(obj).forEach(function(key) {
-      if (typeof obj[key] === 'string' || obj[key] instanceof String) {
-        adapter.log.debug("Create State "+prependStr+key);
-        adapter.setObjectNotExists(prependStr+key, {
-            type: 'state',
-            common: {name: prependStr+key},
-            native: {id: prependStr+key}
-        });
-      }
-      else {
-        adapter.log.debug("Create Channel "+prependStr+key);
-        adapter.setObjectNotExists(prependStr+key, {
-            type: 'channel',
-            role: 'info',
-            common: {name: prependStr+key, type: "string", read: true, write: false},
-            native: {}
-        });
-        createChannelsAndStates(obj[key],prependStr+key+".");
-      }
-    });
-  }
-
-  var valObj={};
   for (var key in varlist) {
-    adapter.log.debug("Set Object structure: "+key);
-    setObjPath(valObj, key, varlist[key]);
+    index=key.indexOf('.');
+    if (index>0) current=key.substring(0,index);
+      else { current=""; last=""; index=-1;}
+    if (((last=="") || (last!=current)) && (current!="")) {
+      adapter.log.debug("Create Channel "+current);
+      adapter.setObjectNotExists(current, {
+          type: 'channel',
+          role: 'info',
+          common: {name: current},
+          native: {}
+      });
+    }
+    stateName=current+"."+key.substring(index+1).replace(/\./g,"-");
+    adapter.log.debug("Create State "+stateName);
+    adapter.setObjectNotExists(stateName, {
+        type: 'state',
+        common: {name: stateName, type: "string", read: true, write: false},
+        native: {id: stateName}
+    });
+    last=current;
   }
-  createChannelsAndStates(valObj);
+
   for (var key in varlist) {
     adapter.log.debug("Set State "+key+" = "+varlist[key]);
     adapter.setState(key, {ack: true, val: varlist[key]});
