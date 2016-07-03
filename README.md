@@ -1,61 +1,22 @@
-![Logo](admin/wu.png)
-# ioBroker.weatherunderground
+![Logo](admin/nut.png)
+# ioBroker.nut
 ===============
 
-[![NPM version](http://img.shields.io/npm/v/iobroker.weatherunderground.svg)](https://www.npmjs.com/package/iobroker.weatherunderground)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.weatherunderground.svg)](https://www.npmjs.com/package/iobroker.weatherunderground)
-
-[![NPM](https://nodei.co/npm/iobroker.weatherunderground.png?downloads=true)](https://nodei.co/npm/iobroker.weatherunderground/)
-
-ioBroker Adapter to load 24h weather forecast for your location from [Weather Underground](http://www.wunderground.com/).
-The adapter loads all 15min (default) hourly forecast data for the next 24h. Additionally it calculates sum/avg/max values of the most used data for 6, 12, 24h.
-
-## Notes
-An api-key from WU is needed to use this adapter:
-* Register/Login at http://www.wunderground.com/weather/api/d/login.html
-* get your apikey at http://www.wunderground.com/weather/api/d/pricing . purchase a free developer key.
-
-As location see docu: http://www.wunderground.com/weather/api/d/docs?d=data/index (-> query)
-
-##in ioBroker Forum (German)
-http://forum.iobroker.org/viewtopic.php?f=20&t=2042&sid=a863d19838bc49439759bef89fcad1c3
-
-## ToDo
-There is a still a problem with encoding. The addresses with "äüöß" will be shown wrong.
+TODO
 
 # changelog
-## 0.1.1 (2016-06-07)
-* (ploebb) Fix forecast api URL
-
-## 0.1.0 (2016-05-07)
-* (bluefox) convert text to floats
-* (bluefox) support languages
-
-## 0.0.5
-corrected humidity value within current weather info (slice + unit)
-
-## 0.0.4
-checking for spaces in location
-added current conditions
-
-## 0.0.3
-bugfix in summed pop-value.
-
-## 0.0.2
-config dialog fixed
-
-## 0.0.1
-initial release with all basics to load WU-forecast data
+## 0.1.0
+initial release for testing
 
 # Todo
-TODO
+
 
 
 # License
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2016 dschaedl <daniel.schaedler@gmail.com>
+Copyright (c) 2015-2016 Apollon77 <ingo@fischer-ka.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
