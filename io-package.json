@@ -19,7 +19,7 @@
         "readme":                   "https://github.com/Apollon77/ioBroker.nut",
         "license":                  "MIT",
         "npmLibs": [],
-        "type":                     "ups",
+        "type":                     "hardware",
         "keywords":                 ["iobroker", "nut", "ups", "usv"],
         "loglevel":                 "info",
         "enabled":                  true

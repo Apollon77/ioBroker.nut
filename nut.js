@@ -52,17 +52,23 @@ var adapter = utils.adapter({
 });
 
 function storeNutData(varlist) {
-  var last="";
-  var current="";
+  var last='';
+  var current='';
   var index=0;
-  var stateName="";
+  var stateName='';
 
   for (var key in varlist) {
     index=key.indexOf('.');
-    if (index>0) current=key.substring(0,index);
-      else { current=""; last=""; index=-1;}
-    if (((last=="") || (last!=current)) && (current!="")) {
-      adapter.log.debug("Create Channel "+current);
+    if (index > 0) {
+      current=key.substring(0,index);
+    }
+    else {
+      current='';
+      last='';
+      index=-1;
+    }
+    if (((last=='') || (last!=current)) && (current!='')) {
+      adapter.log.debug('Create Channel '+current);
       adapter.setObjectNotExists(current, {
           type: 'channel',
           role: 'info',
@@ -70,7 +76,7 @@ function storeNutData(varlist) {
           native: {}
       });
     }
-    stateName=current+"."+key.substring(index+1).replace(/\./g,"-");
+    stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
     adapter.log.debug("Create State "+stateName);
     adapter.setObjectNotExists(stateName, {
         type: 'state',
