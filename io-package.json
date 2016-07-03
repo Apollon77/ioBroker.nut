@@ -22,7 +22,7 @@
         "type":                     "hardware",
         "keywords":                 ["iobroker", "nut", "ups", "usv"],
         "loglevel":                 "info",
-        "enabled":                  true
+        "enabled":                  false
     },
     "native": {
         "host_ip": "127.0.0.1",
