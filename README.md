@@ -21,8 +21,8 @@ Hint: If you want to connect to an UPS connected to a Synology diskstation the n
 If you have problems and the adapter do not deliver the data you can use the two scripts in directory "test"
 of the adapter installation (so normally in node_modules/iobroker.nut/test relative to your iobroker installation
 directory) to try it out on the commandline. Call the scripts using "node filename.js" to see the awaited parameters.</p>
-* test_upslist.js: Connects to the NUT server and returns a list of available UPS names
-* test_upsvars.js: Connects to the NUT server for a defined UPS and returns a list of available UPS variables
+* **test_upslist.js**: Connects to the NUT server and returns a list of available UPS names
+* **test_upsvars.js**: Connects to the NUT server for a defined UPS and returns a list of available UPS variables
 
 
 # changelog
