@@ -19,7 +19,8 @@
     systemDictionary = {
             "host_ip":   {"en": "NUT Server IP",       "de": "IP des NUT Servers",    "ru": "IP NUT сервера"},
             "host_port": {"en": "NUT Server port",     "de": "Port des NUT Servers",  "ru": "Порт NUT сервера"},
-            "ups_name":  {"en": "NUT Name of the UPS", "de": "NUT Name der UPS",     "ru": "NUT имя UPS"}
+            "ups_name":  {"en": "NUT Name of the UPS", "de": "NUT Name der UPS",     "ru": "NUT имя UPS"},
+            "ip_info": {"en":"","de": ""}
     };
     function load(settings, onChange) {
         $('#host_ip').val(settings['host_ip']);
@@ -44,16 +45,29 @@
         <label for="host_port" class="translate">host_port</label> <input class="value" type="text" id="host_port" size="6"/><br/>
         <label for="ups_name" class="translate">ups_name</label> <input class="value" type="text" id="ups_name" size="20"/><br/>
     </p>
-    <h3>host_ip</h3>
+    <h3 class="translate">host_ip</h3>
     <p>
-    ...
-    <h3>host_port</h3>
+    IP address of the NUT server. NUT needs to run in server mode and needs to be accessible by the computer the
+    iobroker NUT adapter runs on. So check firewall settings if you have problems and allow the access. If the UPS
+    is connected locally you can also use 127.0.0.1 or localhost.
+    <h3 class="translate">host_port</h3>
     <p>
-    ...
+    Port of NUT. The default port is 3493.
     </p>
-    <h3>ups_name</h3>
+    <h3 class="translate">ups_name</h3>
     <p>
-    ...
+    Name of the UPS as defined in the NUT configuration of the NUT server.</p>
+    Hint: If you want to connect to an UPS connected to a Synology diskstation the name is simply "ups".
+    </p>
+    <h3>Troubleshooting</h3>
+    <p>
+    If you have problems and the adapter do not deliver the data you can use the two scripts in directory "test"
+    of the adapter installation (so normally in node_modules/iobroker.nut/test relative to your iobroker installation
+    directory) to try it out on the commandline. Call the scripts using "node filename.js" to see the awaited parameters.</p>
+    <ul>
+      <li><b>test_upslist.js</b>: Connects to the NUT server and returns a list of available UPS names</li>
+      <li><b>test_upsvars.js</b>: Connects to the NUT server for a defined UPS and returns a list of available UPS variables</li>
+    </ul>
     </p>
 
 </div>
