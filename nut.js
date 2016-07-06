@@ -83,21 +83,10 @@ function storeNutData(varlist) {
         common: {name: stateName, type: "string", read: true, write: false},
         native: {id: stateName}
     });
+    adapter.log.debug("Set State "+stateName+" = "+varlist[key]);
+    adapter.setState(stateName, {ack: true, val: varlist[key]});
     last=current;
   }
 
-  for (var key in varlist) {
-    index=key.indexOf('.');
-    if (index > 0) {
-      current=key.substring(0,index);
-    }
-    else {
-      current='';
-      index=-1;
-    }
-    stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
-    adapter.log.debug("Set State "+stateName+" = "+varlist[key]);
-    adapter.setState(stateName, {ack: true, val: varlist[key]});
-  }
   adapter.log.info("All Nut values set");
 }
