@@ -18,11 +18,11 @@ var adapter = utils.adapter({
     var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
 
     oNut.on('error', function(err) {
-      adapter.log.error('There was an error: ' + err);
+      adapter.log.error('Error happend: ' + err);
     });
 
     oNut.on('close', function() {
-      adapter.log.debug('NUT Connection closed');
+      adapter.log.debug('NUT Connection closed. Done.');
       setTimeout(function () {
         adapter.stop();
       }, 2000);

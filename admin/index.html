@@ -17,11 +17,10 @@
 
     // Dictionary (systemDictionary is global variable from adapter-settings.js)
     systemDictionary = {
-        "host_ip":                    {"de": "IP NUT Server"},
-        "host_port":                  {"de": "Port NUT Server"},
-        "ups_name":                   {"de": "NUT Name of the UPS"}
+            "host_ip":   {"en": "NUT Server IP",       "de": "IP des NUT Servers",    "ru": "IP NUT сервера"},
+            "host_port": {"en": "NUT Server port",     "de": "Port des NUT Servers",  "ru": "Порт NUT сервера"},
+            "ups_name":  {"en": "NUT Name of the UPS", "de": "NUT Name der UPS",     "ru": "NUT имя UPS"}
     };
-
     function load(settings, onChange) {
         $('#host_ip').val(settings['host_ip']);
         $('#host_port').val(settings['host_port']);
