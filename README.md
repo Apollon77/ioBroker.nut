@@ -1,6 +1,6 @@
 ![Logo](admin/nut.png)
 # ioBroker.nut
----------------
+
 [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 
