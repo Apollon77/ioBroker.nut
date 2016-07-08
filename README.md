@@ -30,6 +30,9 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 
 # changelog
+## 0.3.0
+add better usable status states under "status" channel
+
 ## 0.2.1
 finalizied initial version
 
