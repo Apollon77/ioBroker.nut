@@ -32,7 +32,7 @@ var adapter = utils.adapter({
       adapter.log.debug('NUT Connection ready');
       var self = this;
       this.GetUPSVars(adapter.config.ups_name,function(varlist) {
-        adapter.log.debug("Got values, start setting them");
+        adapter.log.debug('Got values, start setting them');
         storeNutData(varlist);
         self.close();
       });
@@ -68,16 +68,56 @@ function storeNutData(varlist) {
       });
     }
     stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
-    adapter.log.debug("Create State "+stateName);
+    adapter.log.debug('Create State '+stateName);
     adapter.setObjectNotExists(stateName, {
         type: 'state',
-        common: {name: stateName, type: "string", read: true, write: false},
+        common: {name: stateName, type: 'string', read: true, write: false},
         native: {id: stateName}
     });
-    adapter.log.debug("Set State "+stateName+" = "+varlist[key]);
+    adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
     adapter.setState(stateName, {ack: true, val: varlist[key]});
     last=current;
   }
+  if (varlist['ups.status']) {
+    adapter.log.debug('Create Channel status');
+    adapter.setObjectNotExists(current, {
+        type: 'channel',
+        role: 'info',
+        common: {name: 'status'},
+        native: {}
+    });
+    var statusMap = { 'OL':'online',
+              'OB':'onbattery',
+              'LB':'lowbattery',
+              'HB':'highbattery',
+              'RB':'replacebattery',
+              'CHRG':'charging',
+              'DISCHRG':'discharging',
+              'BYPASS':'bypass',
+              'CAL':'calibration',
+              'OFF':'offline',
+              'OVER':'overload',
+              'TRIM':'trimming',
+              'BOOST':'boosting',
+              'FSD':'shutdown'
+            };
 
-  adapter.log.info("All Nut values set");
+    var checker=' '+varlist['ups.status']+' ';
+    for (var idx in statusMap) {
+      if (statusMap.hasOwnProperty(idx)) {
+        var found=(checker.indexOf(idx)>-1);
+        stateName='status.'+statusMap[idx];
+        adapter.log.debug('Create State '+stateName);
+        adapter.setObjectNotExists(stateName, {
+            type: 'state',
+            common: {name: stateName, type: 'boolean', read: true, write: false},
+            native: {id: stateName}
+        });
+        adapter.log.debug('Set State '+stateName+' = '+found);
+        adapter.setState(stateName, {ack: true, val: found});
+      }
+    };
+  }
+
+  adapter.log.info('All Nut values set');
 }
