@@ -1,12 +1,17 @@
 {
   "name": "iobroker.nut",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Network UPS Adapter",
   "author": "Ingo Fischer <ingo@fischer-ka.de>",
   "contributors": [],
   "homepage": "",
   "license": "MIT",
-  "keywords": ["iobroker", "nut", "ups", "usv"],
+  "keywords": [
+    "iobroker",
+    "nut",
+    "ups",
+    "usv"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Apollon77/ioBroker.nut"
