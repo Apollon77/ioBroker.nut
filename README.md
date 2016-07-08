@@ -30,6 +30,9 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 
 # changelog
+## 0.2.0
+finalizied initial version
+
 ## 0.1.0
 initial release for testing
 
