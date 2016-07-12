@@ -1,12 +1,12 @@
 {
     "common": {
         "name":                     "nut",
-        "version":                  "0.3.0",
+        "version":                  "0.3.1",
 		"news": {
-            "0.1.0": {
-                "en": "Initial release",
-                "de": "Initial release",
-                "ru": "Initial release"
+            "0.3.0": {
+                "en": "add better usable status states under 'status channel",
+                "de": "Besser nutzbare Stati States unter 'status' eingefügt",
+                "ru": "add better usable status states under 'status channel"
             }
         },
         "title":                    "Network UPS Adapter",
