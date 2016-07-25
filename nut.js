@@ -126,7 +126,7 @@ function storeNutData(varlist) {
           adapter.log.debug('Severity Flag '+statusMap[idx][1]+'=true');
         }
       }
-    };
+    }
   }
 
   adapter.log.info('All Nut values set');
