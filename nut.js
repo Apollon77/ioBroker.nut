@@ -86,27 +86,33 @@ function storeNutData(varlist) {
         common: {name: 'status'},
         native: {}
     });
-    var statusMap = { 'OL':'online',
-              'OB':'onbattery',
-              'LB':'lowbattery',
-              'HB':'highbattery',
-              'RB':'replacebattery',
-              'CHRG':'charging',
-              'DISCHRG':'discharging',
-              'BYPASS':'bypass',
-              'CAL':'calibration',
-              'OFF':'offline',
-              'OVER':'overload',
-              'TRIM':'trimming',
-              'BOOST':'boosting',
-              'FSD':'shutdown'
+    var statusMap = {
+              'OL':{'online','idle'},
+              'OB':{'onbattery','operating'},
+              'LB':{'lowbattery','operating_critical'},
+              'HB':{'highbattery','operating_critical'},
+              'RB':{'replacebattery','action_needed'},
+              'CHRG':{'charging','operating'},
+              'DISCHRG':{'discharging','operating'},
+              'BYPASS':{'bypass','action_needed'},
+              'CAL':{'calibration','operating'},
+              'OFF':{'offline','action_needed'},
+              'OVER':{'overload','action_needed'},
+              'TRIM':{'trimming','operating'},
+              'BOOST':{'boosting','operating'},
+              'FSD':{'shutdown','operating_critical'}
             };
-
+    var severity = {
+              'idle':false,
+              'operating':false,
+              'operating_critical':false,
+              'action_needed':false
+            };
     var checker=' '+varlist['ups.status']+' ';
     for (var idx in statusMap) {
       if (statusMap.hasOwnProperty(idx)) {
-        var found=(checker.indexOf(idx)>-1);
-        stateName='status.'+statusMap[idx];
+        var found=(checker.indexOf(idx[0])>-1);
+        stateName='status.'+statusMap[idx[0]];
         adapter.log.debug('Create State '+stateName);
         adapter.setObjectNotExists(stateName, {
             type: 'state',
@@ -115,6 +121,10 @@ function storeNutData(varlist) {
         });
         adapter.log.debug('Set State '+stateName+' = '+found);
         adapter.setState(stateName, {ack: true, val: found});
+        if (found) {
+          severity[idx[1]]=true;
+          adapter.log.debug('Severity Flag '+idx[1]+'=true')
+        }
       }
     };
   }
