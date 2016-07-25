@@ -111,8 +111,8 @@ function storeNutData(varlist) {
     var checker=' '+varlist['ups.status']+' ';
     for (var idx in statusMap) {
       if (statusMap.hasOwnProperty(idx)) {
-        var found=(checker.indexOf(idx[0])>-1);
-        stateName='status.'+statusMap[idx[0]];
+        var found=(checker.indexOf(idx)>-1);
+        stateName='status.'+statusMap[idx][0];
         adapter.log.debug('Create State '+stateName);
         adapter.setObjectNotExists(stateName, {
             type: 'state',
@@ -122,8 +122,8 @@ function storeNutData(varlist) {
         adapter.log.debug('Set State '+stateName+' = '+found);
         adapter.setState(stateName, {ack: true, val: found});
         if (found) {
-          severity[idx[1]]=true;
-          adapter.log.debug('Severity Flag '+idx[1]+'=true');
+          severity[statusMap[idx][1]]=true;
+          adapter.log.debug('Severity Flag '+statusMap[idx][1]+'=true');
         }
       }
     };
