@@ -122,8 +122,8 @@ function storeNutData(varlist) {
         adapter.log.debug('Set State '+stateName+' = '+found);
         adapter.setState(stateName, {ack: true, val: found});
         if (found) {
-          severity[statusMap[idx].severity]=true;
-          adapter.log.debug('Severity Flag '+statusMap[idx].severity+'=true');
+          severity[statusMap[idx]['severity']]=true;
+          adapter.log.debug('Severity Flag '+statusMap[idx]['severity']+'=true');
         }
       }
     }
