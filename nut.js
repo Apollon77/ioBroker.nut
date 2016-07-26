@@ -145,7 +145,7 @@ NOCOMM
       common: {name: 'status'},
       native: {}
   });
-  var severityVal = 'unknown';
+  var severityVal = 4;
   adapter.setObjectNotExists(stateName, {
       type: 'state',
       common: {
@@ -161,26 +161,26 @@ NOCOMM
   });
   if (varlist['ups.status']) {
     var statusMap = {
-              'OL':{name:'online',severity:0}, // idle
-              'OB':{name:'onbattery',severity:1}, // operating
-              'LB':{name:'lowbattery',severity:2}, // operating_critical
-              'HB':{name:'highbattery',severity:2}, // operating_critical
-              'RB':{name:'replacebattery',severity:3}, // action_needed
-              'CHRG':{name:'charging',severity:0}, // idle
-              'DISCHRG':{name:'discharging',severity:1}, // operating
-              'BYPASS':{name:'bypass',severity:3}, // action_needed
-              'CAL':{name:'calibration',severity:1}, // operating
-              'OFF':{name:'offline',severity:3}, // action_needed
-              'OVER':{name:'overload',severity:3}, // action_needed
-              'TRIM':{name:'trimming',severity:1}, // operating
-              'BOOST':{name:'boosting',severity:1}, // operating
-              'FSD':{name:'shutdown',severity:2} // operating_critical
+              'OL':{name:'online',severity:'idle'},
+              'OB':{name:'onbattery',severity:'operating'},
+              'LB':{name:'lowbattery',severity:'operating_critical'},
+              'HB':{name:'highbattery',severity:'operating_critical'},
+              'RB':{name:'replacebattery',severity:'action_needed'},
+              'CHRG':{name:'charging',severity:'idle'},
+              'DISCHRG':{name:'discharging',severity:'operating'},
+              'BYPASS':{name:'bypass',severity:'action_needed'},
+              'CAL':{name:'calibration',severity:'operating'},
+              'OFF':{name:'offline',severity:'action_needed'},
+              'OVER':{name:'overload',severity:'action_needed'},
+              'TRIM':{name:'trimming',severity:'operating'},
+              'BOOST':{name:'boosting',severity:'operating'},
+              'FSD':{name:'shutdown',severity:'operating_critical'}
             };
     var severity = {
-              0:false,
-              1:false,
-              2:false,
-              3:false
+              'idle':false,
+              'operating':false,
+              'operating_critical':false,
+              'action_needed':false
             };
     var checker=' '+varlist['ups.status']+' ';
     for (var idx in statusMap) {
@@ -201,10 +201,10 @@ NOCOMM
         }
       }
     }
-    if (severity['operating_critical']) severityVal='operating_critical';
-      else if (severity['action_needed']) severityVal='action_needed';
-      else if (severity['operating']) severityVal='operating';
-      else if (severity['idle']) severityVal='idle';
+    if (severity['operating_critical']) severityVal=2;
+      else if (severity['action_needed']) severityVal=3;
+      else if (severity['operating']) severityVal=1
+      else if (severity['idle']) severityVal=0;
   }
   adapter.log.debug('Set State status.severity = '+severityVal);
   adapter.setState('status.severity', {ack: true, val: severityVal});
