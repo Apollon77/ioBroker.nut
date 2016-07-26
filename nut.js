@@ -126,7 +126,7 @@ NOCOMM
 
     The UPS can’t be contacted for monitoring.
 */
-  adapter.setObjectNotExists(stateName, {
+  adapter.setObjectNotExists('upsmon_event', {
       type: 'state',
       common: {
         name: 'upsmon_event',
@@ -140,13 +140,13 @@ NOCOMM
   adapter.subscribeStates('upsmon_event');
 
   adapter.log.debug('Create Channel status');
-  adapter.setObjectNotExists(current, {
+  adapter.setObjectNotExists('status', {
       type: 'channel',
       common: {name: 'status'},
       native: {}
   });
   var severityVal = 4;
-  adapter.setObjectNotExists(stateName, {
+  adapter.setObjectNotExists('status.severity', {
       type: 'state',
       common: {
         name: 'status.severity',
