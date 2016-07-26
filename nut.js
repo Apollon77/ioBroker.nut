@@ -157,7 +157,7 @@ NOCOMM
         def:4,
         states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
       },
-      native: {id: stateName}
+      native: {id: 'status.severity'}
   });
   if (varlist['ups.status']) {
     var statusMap = {
