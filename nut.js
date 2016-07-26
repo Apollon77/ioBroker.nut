@@ -42,6 +42,15 @@ var adapter = utils.adapter({
   }
 });
 
+adapter.on('stateChange', function (id, state) {
+    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+
+    // you can use the ack flag to detect if state is command(false) or status(true)
+    if (!state.ack) {
+        adapter.log.info('ack is not set!');
+    }
+});
+
 function storeNutData(varlist) {
   var last='';
   var current='';
@@ -62,30 +71,95 @@ function storeNutData(varlist) {
       adapter.log.debug('Create Channel '+current);
       adapter.setObjectNotExists(current, {
           type: 'channel',
-          role: 'info',
           common: {name: current},
           native: {}
       });
     }
     stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
     adapter.log.debug('Create State '+stateName);
-    adapter.setObjectNotExists(stateName, {
-        type: 'state',
-        common: {name: stateName, type: 'string', read: true, write: false},
-        native: {id: stateName}
-    });
+    if (stateName=='battery.charge') {
+      adapter.setObjectNotExists(stateName, {
+          type: 'state',
+          common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
+          native: {id: stateName}
+      });
+    }
+    else {
+      adapter.setObjectNotExists(stateName, {
+          type: 'state',
+          common: {name: stateName, type: 'string', read: true, write: false},
+          native: {id: stateName}
+      });
+    }
     adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
     adapter.setState(stateName, {ack: true, val: varlist[key]});
     last=current;
   }
+
+  // Command Datapoint to be used with "NOIFY EVENTS" and upsmon
+  /*
+ONLINE
+
+    The UPS is back on line.
+ONBATT
+
+    The UPS is on battery.
+LOWBATT
+
+    The UPS battery is low (as determined by the driver).
+FSD
+
+    The UPS has been commanded into the "forced shutdown" mode.
+COMMOK
+
+    Communication with the UPS has been established.
+COMMBAD
+
+    Communication with the UPS was just lost.
+SHUTDOWN
+
+    The local system is being shut down.
+REPLBATT
+
+    The UPS needs to have its battery replaced.
+NOCOMM
+
+    The UPS can’t be contacted for monitoring.
+*/
+  adapter.setObjectNotExists(stateName, {
+      type: 'state',
+      common: {
+        name: 'upsmon_event',
+        type: 'string',
+        read: true,
+        write: true,
+        def:""
+      },
+      native: {id: stateName}
+  });
+  adapter.subscribeStates('upsmon_event');
+
+  adapter.log.debug('Create Channel status');
+  adapter.setObjectNotExists(current, {
+      type: 'channel',
+      common: {name: 'status'},
+      native: {}
+  });
+  var severityVal = 'unknown';
+  adapter.setObjectNotExists(stateName, {
+      type: 'state',
+      common: {
+        name: 'status.severity',
+        role: 'indicator',
+        type: 'number',
+        read: true,
+        write: false,
+        def:4,
+        states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
+      },
+      native: {id: stateName}
+  });
   if (varlist['ups.status']) {
-    adapter.log.debug('Create Channel status');
-    adapter.setObjectNotExists(current, {
-        type: 'channel',
-        role: 'info',
-        common: {name: 'status'},
-        native: {}
-    });
     var statusMap = {
               'OL':{name:'online',severity:'idle'},
               'OB':{name:'onbattery',severity:'operating'},
@@ -127,7 +201,13 @@ function storeNutData(varlist) {
         }
       }
     }
+    if (severity['operating_critical']) severityVal='operating_critical';
+      else if (severity['action_needed']) severityVal='action_needed';
+      else if (severity['operating']) severityVal='operating';
+      else if (severity['idle']) severityVal='idle';
   }
+  adapter.log.debug('Set State status.severity = '+severityVal);
+  adapter.setState('status.severity', {ack: true, val: severityVal});
 
   adapter.log.info('All Nut values set');
 }
