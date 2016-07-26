@@ -135,7 +135,7 @@ NOCOMM
         write: true,
         def:""
       },
-      native: {id: stateName}
+      native: {id: 'upsmon_event'}
   });
   adapter.subscribeStates('upsmon_event');
 
