@@ -11,35 +11,16 @@
 var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 var Nut   = require('node-nut');
 
-var adapter = utils.adapter({
-  name: 'nut',
-  ready: function () {
-    //oNut = new Nut(3493, 'localhost');
-    var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
+var nutTimeout;
 
-    oNut.on('error', function(err) {
-      adapter.log.error('Error happend: ' + err);
-    });
+var adapter = utils.adapter('nut');
 
-    oNut.on('close', function() {
-      adapter.log.debug('NUT Connection closed. Done.');
-      setTimeout(function () {
-        adapter.stop();
-      }, 2000);
-    });
+adapter.on('ready', function (obj) {
+    main();
+});
 
-    oNut.on('ready', function() {
-      adapter.log.debug('NUT Connection ready');
-      var self = this;
-      this.GetUPSVars(adapter.config.ups_name,function(varlist) {
-        adapter.log.debug('Got values, start setting them');
-        storeNutData(varlist);
-        self.close();
-      });
-    });
-
-    oNut.start();
-  }
+adapter.on('message', function (msg) {
+    processMessage(msg);
 });
 
 adapter.on('stateChange', function (id, state) {
@@ -50,6 +31,57 @@ adapter.on('stateChange', function (id, state) {
         adapter.log.info('ack is not set!');
     }
 });
+
+adapter.on('unload', function (callback) {
+    if (nutTimeout) clearTimeout(nutTimeout);
+});
+
+process.on('SIGINT', function () {
+    if (nutTimeout) clearTimeout(nutTimeout);
+});
+
+function main() {
+    updateNutData();
+}
+
+function processMessage(message) {
+    if (!message) return;
+
+    adapter.log.info('Message received = ' + JSON.stringify(message));
+
+    if (nutTimeout) clearTimeout(nutTimeout);
+
+    updateNutData();
+}
+
+function updateNutData() {
+    adapter.log.info('Start NUT update');
+
+    var update_interval = parseInt(adapter.config.update_interval,10) || 60;
+    var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
+
+    oNut.on('error', function(err) {
+      adapter.log.error('Error happend: ' + err);
+    });
+
+    oNut.on('close', function() {
+      adapter.log.debug('NUT Connection closed. Done.');
+    });
+
+    oNut.on('ready', function() {
+      adapter.log.debug('NUT Connection ready');
+      var self = this;
+      this.GetUPSVars(adapter.config.ups_name, function(varlist) {
+        adapter.log.debug('Got values, start setting them');
+        storeNutData(varlist);
+        self.close();
+      });
+    });
+
+    oNut.start();
+
+    nutTimeout = setTimeout(update_interval*1000);
+}
 
 function storeNutData(varlist) {
   var last='';
@@ -126,19 +158,6 @@ NOCOMM
 
     The UPS can’t be contacted for monitoring.
 */
-  adapter.setObjectNotExists('upsmon_event', {
-      type: 'state',
-      common: {
-        name: 'upsmon_event',
-        type: 'string',
-        read: true,
-        write: true,
-        def:""
-      },
-      native: {id: 'upsmon_event'}
-  });
-  adapter.subscribeStates('upsmon_event');
-
   adapter.log.debug('Create Channel status');
   adapter.setObjectNotExists('status', {
       type: 'channel',

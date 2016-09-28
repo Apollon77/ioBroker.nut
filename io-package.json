@@ -12,8 +12,9 @@
         "title":                    "Network UPS Adapter",
         "desc":                     "Read all data from your UPS/USV via nut protocol",
         "platform":                 "Javascript/Node.js",
-        "mode":                     "schedule",
-        "schedule":                 "*/5 * * * *",
+        "mode":                     "deamon",
+        "messagebox":               true,
+        "subscribe":                "messagebox",
         "icon":                     "nut.png",
         "extIcon":                  "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
         "readme":                   "https://github.com/Apollon77/ioBroker.nut",
@@ -25,9 +26,10 @@
         "enabled":                  false
     },
     "native": {
-        "host_ip": "127.0.0.1",
-        "host_port": "3493",
-        "ups_name": "nutName"
+        "host_ip":         "127.0.0.1",
+        "host_port":       "3493",
+        "ups_name":        "nutName",
+        "update_interval": 300
     },
     "objects": [],
     "instanceObjects": []
