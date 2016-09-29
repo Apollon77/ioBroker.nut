@@ -80,7 +80,7 @@ function updateNutData() {
 
     oNut.start();
 
-    nutTimeout = setTimeout(updateNutData, update_interval*1000;
+    nutTimeout = setTimeout(updateNutData, update_interval*1000);
 }
 
 function storeNutData(varlist) {
