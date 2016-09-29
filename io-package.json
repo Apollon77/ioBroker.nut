@@ -12,7 +12,7 @@
         "title":                    "Network UPS Adapter",
         "desc":                     "Read all data from your UPS/USV via nut protocol",
         "platform":                 "Javascript/Node.js",
-        "mode":                     "deamon",
+        "mode":                     "daemon",
         "messagebox":               true,
         "subscribe":                "messagebox",
         "icon":                     "nut.png",
