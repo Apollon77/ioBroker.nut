@@ -6,7 +6,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.nut.png?downloads=true)](https://nodei.co/npm/iobroker.nut/)
 
-This adapter for iobroker connects to a defined NUT server to provide the status and details of a connected UPS/USV as ioBroker states, so that it can be used there.
+This adapter for ioBroker connects to a defined NUT server to provide the status and details of a connected UPS/USV as ioBroker states, so that it can be used there.
 
 ## Description of parameters
 ### host_ip
@@ -21,7 +21,37 @@ Port of NUT. The default port is <b>3493</b>
 Name of the UPS as defined in the NUT configuration of the NUT server.</p>
 Hint: If you want to connect to an UPS connected to a Synology diskstation the name is simply "ups".
 
-### Troubleshooting
+### update_interval
+Interval in Seconds to update the data. Default is 300s
+
+## UPS-Monitor Notifies
+Included is a small linux shell-script at scripts/nut-notify.sh which can be configured in upsmon.
+
+The script needs execute rights (chmod +x nut-notify.sh).
+
+It should be added to /etc/nut/upsmon.conf like:
+
+```
+NOTIFYCMD "cd /opt/iobroker/;./nut-notify.sh"
+```
+
+Additionally configure all relevant notify messages like:
+
+```
+NOTIFYFLAG ONLINE       SYSLOG+WALL+EXEC
+NOTIFYFLAG ONBATT       SYSLOG+WALL+EXEC
+NOTIFYFLAG LOWBATT      SYSLOG+WALL+EXEC
+NOTIFYFLAG FSD  SYSLOG+WALL+EXEC
+NOTIFYFLAG COMMOK       SYSLOG+WALL+EXEC
+NOTIFYFLAG COMMBAD      SYSLOG+WALL+EXEC
+NOTIFYFLAG SHUTDOWN     SYSLOG+WALL+EXEC
+NOTIFYFLAG REPLBATT     SYSLOG+WALL+EXEC
+NOTIFYFLAG NOCOMM       SYSLOG+WALL+EXEC
+NOTIFYFLAG NOPARENT     SYSLOG+WALL+EXEC
+```
+Important is the added "EXEC" flag.
+
+## Troubleshooting
 If you have problems and the adapter do not deliver the data you can use the two scripts in directory "test"
 of the adapter installation (so normally in node_modules/iobroker.nut/test relative to your iobroker installation
 directory) to try it out on the commandline. Call the scripts using "node filename.js" to see the awaited parameters.</p>
@@ -30,14 +60,18 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 
 # changelog
+## 1.0.0
+* change mode from schedule to deamon
+* implement message support to receive messages from upsmon
+
 ## 0.3.0
-add better usable status states under "status" channel
+* add better usable status states under "status" channel
 
 ## 0.2.1
-finalizied initial version
+* finalizied initial version
 
 ## 0.1.0
-initial release for testing
+* initial release for testing
 
 # Todo
 * publish to npm and make available officially
