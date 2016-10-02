@@ -63,6 +63,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 ## 1.0.0
 * change mode from schedule to deamon
 * implement message support to receive messages from upsmon
+* add status.severity to get one status about the USV with values idle, operating, operating_critical, action_needed, unknown
 
 ## 0.3.0
 * add better usable status states under "status" channel
