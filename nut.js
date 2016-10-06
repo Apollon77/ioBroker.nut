@@ -36,6 +36,13 @@ process.on('SIGINT', function () {
 });
 
 function main() {
+    adapter.getForeignObject('system.adapter.' + adapter.namespace, function (err, obj) {
+       if (obj.common.mode !== 'daemon') {
+            obj.common.mode = 'daemon';
+            if (obj.common.schedule) delete(obj.common.schedule);
+            adapter.setForeignObject(obj._id, obj);
+       }
+    });
     updateNutData();
 }
 
