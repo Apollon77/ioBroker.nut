@@ -71,6 +71,7 @@ function processMessage(message) {
         if (ownName === message.message.upsname) {
             updateNut = true;
             adapter.setState('status.last_notify', {ack: true, val: message.message.notifytype});
+            if (message.message.notifytype==='COMMBAD' && message.message.notifytype==='NOCOMM') parseAndSetSeverity("OFF");
         }
     }
     else updateNut = true;
@@ -94,6 +95,7 @@ function updateNutData() {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
             }
         });
+        parseAndSetSeverity("");
     });
 
     oNut.on('close', function() {
@@ -116,12 +118,12 @@ function updateNutData() {
 }
 
 function storeNutData(varlist) {
-  var last='';
-  var current='';
-  var index=0;
-  var stateName='';
+    var last='';
+    var current='';
+    var index=0;
+    var stateName='';
 
-  for (var key in varlist) {
+    for (var key in varlist) {
       index=key.indexOf('.');
       if (index > 0) {
         current=key.substring(0,index);
@@ -158,39 +160,46 @@ function storeNutData(varlist) {
       adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
       adapter.setState(stateName, {ack: true, val: varlist[key]});
       last=current;
-  }
+    }
 
-  adapter.log.debug('Create Channel status');
-  adapter.setObjectNotExists('status', {
-      type: 'channel',
-      common: {name: 'status'},
-      native: {}
-  });
-  var severityVal = 4;
-  adapter.setObjectNotExists('status.severity', {
-      type: 'state',
-      common: {
-          name: 'status.severity',
-          role: 'indicator',
-          type: 'number',
-          read: true,
-          write: false,
-          def:4,
-          states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
-      },
-      native: {id: 'status.severity'}
-  });
-  adapter.setObjectNotExists('status.last_notify', {
-      type: 'state',
-      common: {
-          name: 'status.last_notify',
-          type: 'string',
-          read: true,
-          write: false,
-      },
-      native: {id: 'status.last_notify'}
-  });
-  if (varlist['ups.status']) {
+    adapter.log.debug('Create Channel status');
+    adapter.setObjectNotExists('status', {
+        type: 'channel',
+        common: {name: 'status'},
+        native: {}
+    });
+    adapter.setObjectNotExists('status.severity', {
+        type: 'state',
+        common: {
+            name: 'status.severity',
+            role: 'indicator',
+            type: 'number',
+            read: true,
+            write: false,
+            def:4,
+            states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
+        },
+        native: {id: 'status.severity'}
+    });
+    adapter.setObjectNotExists('status.last_notify', {
+        type: 'state',
+        common: {
+            name: 'status.last_notify',
+            type: 'string',
+            read: true,
+            write: false,
+        },
+        native: {id: 'status.last_notify'}
+    });
+    if (varlist['ups.status']) {
+        parseAndSetSeverity(varlist['ups.status']);
+    }
+    else parseAndSetSeverity("");
+
+    adapter.log.info('All Nut values set');
+}
+
+function parseAndSetSeverity(ups_status) {
     var statusMap = {
               'OL':{name:'online',severity:'idle'},
               'OB':{name:'onbattery',severity:'operating'},
@@ -213,7 +222,8 @@ function storeNutData(varlist) {
               'operating_critical':false,
               'action_needed':false
             };
-    var checker=' '+varlist['ups.status']+' ';
+    var checker=' '+ups_status+' ';
+    var stateName="";
     for (var idx in statusMap) {
         if (statusMap.hasOwnProperty(idx)) {
             var found=(checker.indexOf(idx)>-1);
@@ -232,13 +242,12 @@ function storeNutData(varlist) {
             }
         }
     }
+    var severityVal = 4;
     if (severity['operating_critical']) severityVal=2;
         else if (severity['action_needed']) severityVal=3;
         else if (severity['operating']) severityVal=1
         else if (severity['idle']) severityVal=0;
-  }
-  adapter.log.debug('Set State status.severity = '+severityVal);
-  adapter.setState('status.severity', {ack: true, val: severityVal});
 
-  adapter.log.info('All Nut values set');
+    adapter.log.debug('Set State status.severity = '+severityVal);
+    adapter.setState('status.severity', {ack: true, val: severityVal});
 }
