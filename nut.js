@@ -72,7 +72,7 @@ function processMessage(message) {
         if (ownName === message.message.upsname) {
             updateNut = true;
             adapter.setState('status.last_notify', {ack: true, val: message.message.notifytype});
-            if (message.message.notifytype==='COMMBAD' && message.message.notifytype==='NOCOMM') parseAndSetSeverity("OFF");
+            if (message.message.notifytype==='COMMBAD' || message.message.notifytype==='NOCOMM') parseAndSetSeverity("OFF");
         }
     }
     else updateNut = true;
