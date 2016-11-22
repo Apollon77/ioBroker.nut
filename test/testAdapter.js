@@ -99,7 +99,7 @@ describe('Test NUT adapter', function() {
         checkConnectionOfAdapter(function (res) {
             if (res) console.log(res);
             if (res === 'Cannot check connection') {
-                
+
             }
             objects.setObject('system.adapter.test.0', {
                     common: {
@@ -178,7 +178,6 @@ describe('Test NUT adapter', function() {
                     expect(state.val).to.be.equal(4);
                     done();
                 });
-                done();
             });
         }, 2000);
     });
