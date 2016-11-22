@@ -269,6 +269,8 @@ function installJsController(cb) {
                         var config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
                         config.objects.port = 19001;
                         config.states.port  = 19000;
+                        // disable file logging (we use console anyway) to work around winston-daily-rotate-file problem
+                        config.log.transport.file1.enabled=false;
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
                         console.log('Setup finished.');
 
