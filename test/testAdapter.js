@@ -118,15 +118,17 @@ describe('Test NUT adapter', function() {
         setTimeout(function() {
             states.getState('nut.0.status.last_notify', function (err, state) {
                 if (err) console.error(err);
+                expect(state.).to.exist;
                 if (!state) {
                     console.error('state "status.last_notify" not set');
                 }
                 else {
                     console.log('check status.last_notify ... ' + state.val);
+                    expect(state.val).to.be.equal('ERROR');
                 }
-                expect(state.val).to.be.equal('ERROR');
                 states.getState('nut.0.status.severity', function (err, state) {
                     if (err) console.error(err);
+                    expect(state.).to.exist;
                     if (!state) {
                         console.error('state "status.severity" not set');
                     }
@@ -137,7 +139,7 @@ describe('Test NUT adapter', function() {
                     done();
                 });
             });
-        }, 5000);
+        }, 10000);
     });
 
     after('Test NUT adapter: send notify Message and receive answer', function (done) {
