@@ -5,8 +5,9 @@
  * Adapter loading NUT data from an UPS
  *
  */
-
-"use strict";
+ /* jshint -W097 */// jshint strict:false
+ /*jslint node: true */
+'use strict';
 
 var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 var Nut   = require('node-nut');
@@ -91,7 +92,7 @@ function updateNutData() {
     oNut.on('error', function(err) {
         adapter.log.error('Error happend: ' + err);
         adapter.getState('status.last_notify', function (err, state) {
-            if (state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM') {
+            if (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM') {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
             }
         });
