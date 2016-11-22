@@ -10,7 +10,7 @@ var sendToID = 1;
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
     console.log('Try check #' + counter);
-    if (counter > 20) {
+    if (counter > 30) {
         cb && cb('Cannot check connection');
         return;
     }
@@ -98,6 +98,9 @@ describe('Test NUT adapter', function() {
         this.timeout(60000);
         checkConnectionOfAdapter(function (res) {
             if (res) console.log(res);
+            if (res === 'Cannot check connection') {
+                
+            }
             objects.setObject('system.adapter.test.0', {
                     common: {
 
@@ -154,6 +157,7 @@ describe('Test NUT adapter', function() {
         setTimeout(function() {
             states.getState('nut.0.status.last_notify', function (err, state) {
                 if (err) console.error(err);
+                expect(state).to.exist;
                 if (!state) {
                     console.error('state "status.last_notify" not set');
                 }
