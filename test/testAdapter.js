@@ -1,3 +1,5 @@
+/* jshint -W097 */// jshint strict:false
+/*jslint node: true */
 var expect = require('chai').expect;
 var setup  = require(__dirname + '/lib/setup');
 
@@ -11,14 +13,14 @@ function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
     console.log('Try check #' + counter);
     if (counter > 30) {
-        cb && cb('Cannot check connection');
+        if (cb) cb('Cannot check connection');
         return;
     }
 
     states.getState('system.adapter.nut.0.alive', function (err, state) {
         if (err) console.error(err);
         if (state && state.val) {
-            cb && cb();
+            if (cb) cb();
         } else {
             setTimeout(function () {
                 checkConnectionOfAdapter(cb, counter + 1);
@@ -30,17 +32,17 @@ function checkConnectionOfAdapter(cb, counter) {
 function checkValueOfState(id, value, cb, counter) {
     counter = counter || 0;
     if (counter > 20) {
-        cb && cb('Cannot check value Of State ' + id);
+        if (cb) cb('Cannot check value Of State ' + id);
         return;
     }
 
     states.getState(id, function (err, state) {
         if (err) console.error(err);
         if (value === null && !state) {
-            cb && cb();
+            if (cb) cb();
         } else
         if (state && (value === undefined || state.val === value)) {
-            cb && cb();
+            if (cb) cb();
         } else {
             setTimeout(function () {
                 checkValueOfState(id, value, cb, counter + 1);

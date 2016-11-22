@@ -1,10 +1,12 @@
+/* jshint -W097 */// jshint strict:false
+/*jslint node: true */
 // check if tmp directory exists
 var fs            = require('fs');
 var path          = require('path');
 var child_process = require('child_process');
 var rootDir       = path.normalize(__dirname + '/../../');
 var pkg           = require(rootDir + 'package.json');
-var debug         = true; //typeof v8debug === 'object';
+var debug         = typeof v8debug === 'object';
 
 var adapterName = path.normalize(rootDir).replace(/\\/g, '/').split('/');
 adapterName = adapterName[adapterName.length - 2];
@@ -111,7 +113,7 @@ function checkIsAdapterInstalled(cb, counter) {
         if (objects['system.adapter.' + pkg.name.split('.').pop() + '.0']) {
             console.log('checkIsAdapterInstalled: ready!');
             setTimeout(function () {
-                cb && cb();
+                if (cb) cb();
             }, 100);
             return;
         } else {
@@ -123,7 +125,7 @@ function checkIsAdapterInstalled(cb, counter) {
 
     if (counter > 20) {
         console.error('checkIsAdapterInstalled: Cannot install!');
-        cb && cb('Cannot install');
+        if (cb) cb('Cannot install');
     } else {
         console.log('checkIsAdapterInstalled: wait...');
         setTimeout(function() {
@@ -143,7 +145,7 @@ function checkIsControllerInstalled(cb, counter) {
         if (objects['system.adapter.admin.0']) {
             console.log('checkIsControllerInstalled: installed!');
             setTimeout(function () {
-                cb && cb();
+                if (cb) cb();
             }, 100);
             return;
         }
@@ -153,7 +155,7 @@ function checkIsControllerInstalled(cb, counter) {
 
     if (counter > 20) {
         console.log('checkIsControllerInstalled: Cannot install!');
-        cb && cb('Cannot install');
+        if (cb) cb('Cannot install');
     } else {
         console.log('checkIsControllerInstalled: wait...');
         setTimeout(function() {
@@ -174,7 +176,7 @@ function installAdapter(cb) {
         checkIsAdapterInstalled(function (error) {
             if (error) console.error(error);
             console.log('Adapter installed.');
-            cb && cb();
+            if (cb) cb();
         });
     } else {
         // add controller
@@ -187,7 +189,7 @@ function installAdapter(cb) {
             checkIsAdapterInstalled(function (error) {
                 if (error) console.error(error);
                 console.log('Adapter installed.');
-                cb && cb();
+                if (cb) cb();
             });
         });
     }
@@ -433,13 +435,13 @@ function startAdapter(objects, states, callback) {
         try {
             if (debug) {
                 // start controller
-                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console debug', {
+                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console debug --logs', {
                     cwd: rootDir + 'tmp',
                     stdio: [0, 1, 2]
                 });
             } else {
                 // start controller
-                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'debug'], {
+                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'debug', '--logs'], {
                     cwd:   rootDir + 'tmp',
                     stdio: [0, 1, 2]
                 });
@@ -503,7 +505,7 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
                     if (isStartAdapter) {
                         startAdapter(objects, states, callback);
                     } else {
-                        callback && callback(objects, states);
+                        if (callback) callback(objects, states);
                     }
                 }
             },
@@ -558,14 +560,14 @@ function stopAdapter(cb) {
         pid.on('exit', function (code, signal) {
             if (pid) {
                 console.log('child process terminated due to receipt of signal ' + signal);
-                cb && cb();
+                if (cb) cb();
                 pid = null;
             }
         });
 
         pid.on('close', function (code, signal) {
             if (pid) {
-                cb && cb();
+                if (cb) cb();
                 pid = null;
             }
         });
