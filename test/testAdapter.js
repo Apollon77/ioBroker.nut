@@ -114,16 +114,21 @@ describe('Test NUT adapter', function() {
         this.timeout(25000);
         var now = new Date().getTime();
 
-        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: '127.0.0.1'}, function (result) {
-            setTimeout(function() {
-                states.getState('nut.0.status.offline', function (err, state) {
-                    if (err) console.error(err);
-                    if (!state) console.error('state "status.offline" not set');
-                    expect(state.val).to.be.equal(true);
-                    done();
-                });
-            }, 2000);
-        });
+        console.log('send notify with "COMMBAD" to adapter ...');
+        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: '127.0.0.1'});
+        setTimeout(function() {
+            states.getState('nut.0.status.offline', function (err, state) {
+                if (err) console.error(err);
+                if (!state) {
+                    console.error('state "status.offline" not set');
+                }
+                else {
+                    console.log('check status.offline ... ' + state.val);
+                }
+                expect(state.val).to.be.equal(true);
+                done();
+            });
+        }, 2000);
     });
 
     after('Test NUT adapter: Stop js-controller', function (done) {
