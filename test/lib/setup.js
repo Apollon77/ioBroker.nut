@@ -182,7 +182,7 @@ function installAdapter(cb) {
         // add controller
         var _pid = child_process.fork(startFile, ['add', pkg.name.split('.').pop(), '--enabled', 'false'], {
             cwd:   rootDir + 'tmp',
-            stdio: [0, 1, 2]
+            stdio: [0, 1, 2, 'ipc']
         });
 
         waitForEnd(_pid, function () {
@@ -235,7 +235,7 @@ function installJsController(cb) {
             } else {
                 _pid = child_process.fork(appName + '.js', ['stop'], {
                     cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
-                    stdio: [0, 1, 2]
+                    stdio: [0, 1, 2, 'ipc']
                 });
             }
 
@@ -260,7 +260,7 @@ function installJsController(cb) {
                 } else {
                     __pid = child_process.fork(appName + '.js', ['setup', 'first', '--console', '--logs'], {
                         cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                        stdio: [0, 1, 2]
+                        stdio: [0, 1, 2, 'ipc']
                     });
                 }
                 waitForEnd(__pid, function () {
@@ -310,7 +310,7 @@ function installJsController(cb) {
                     } else {
                         child_process.fork(appName + '.js', ['setup', 'first'], {
                             cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
-                            stdio: [0, 1, 2]
+                            stdio: [0, 1, 2, 'ipc']
                         });
                     }
                 }
@@ -322,7 +322,7 @@ function installJsController(cb) {
                     if (fs.existsSync(rootDir + 'node_modules/' + appName + '.js-controller/' + appName + '.js')) {
                         _pid = child_process.fork(appName + '.js', ['stop'], {
                             cwd:   rootDir + 'node_modules/' + appName + '.js-controller',
-                            stdio: [0, 1, 2]
+                            stdio: [0, 1, 2, 'ipc']
                         });
                     }
 
@@ -443,7 +443,7 @@ function startAdapter(objects, states, callback) {
                 // start controller
                 pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'debug', '--logs'], {
                     cwd:   rootDir + 'tmp',
-                    stdio: [0, 1, 2]
+                    stdio: [0, 1, 2, 'ipc']
                 });
             }
         } catch (error) {

@@ -4,6 +4,8 @@ node_js:
   - "0.11"
   - "0.12"
   - "4"
+  - "6.3"
+  - "6.4"
   - "6"
 before_script:
   - npm install https://github.com/ioBroker/ioBroker.js-controller/tarball/master --production

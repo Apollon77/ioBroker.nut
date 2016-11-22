@@ -107,11 +107,11 @@ function updateNutData() {
     oNut.on('error', function(err) {
         adapter.log.error('Error happend: ' + err);
         adapter.getState('status.last_notify', function (err, state) {
-            if (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM') {
+            if (state || (state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM')) {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
             }
+            parseAndSetSeverity("");
         });
-        parseAndSetSeverity("");
     });
 
     oNut.on('close', function() {
