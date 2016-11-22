@@ -118,7 +118,7 @@ describe('Test NUT adapter', function() {
         setTimeout(function() {
             states.getState('nut.0.status.last_notify', function (err, state) {
                 if (err) console.error(err);
-                expect(state.).to.exist;
+                expect(state).to.exist;
                 if (!state) {
                     console.error('state "status.last_notify" not set');
                 }
@@ -128,7 +128,7 @@ describe('Test NUT adapter', function() {
                 }
                 states.getState('nut.0.status.severity', function (err, state) {
                     if (err) console.error(err);
-                    expect(state.).to.exist;
+                    expect(state).to.exist;
                     if (!state) {
                         console.error('state "status.severity" not set');
                     }
