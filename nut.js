@@ -44,6 +44,16 @@ function main() {
             adapter.setForeignObject(obj._id, obj);
        }
     });
+    adapter.setObjectNotExists('status.last_notify', {
+        type: 'state',
+        common: {
+            name: 'status.last_notify',
+            type: 'string',
+            read: true,
+            write: false,
+        },
+        native: {id: 'status.last_notify'}
+    });
     updateNutData();
 }
 
@@ -134,7 +144,7 @@ function storeNutData(varlist) {
           last='';
           index=-1;
       }
-      if (((last=='') || (last!=current)) && (current!='')) {
+      if (((last==='') || (last!==current)) && (current!=='')) {
           adapter.log.debug('Create Channel '+current);
           adapter.setObjectNotExists(current, {
               type: 'channel',
@@ -182,16 +192,6 @@ function storeNutData(varlist) {
         },
         native: {id: 'status.severity'}
     });
-    adapter.setObjectNotExists('status.last_notify', {
-        type: 'state',
-        common: {
-            name: 'status.last_notify',
-            type: 'string',
-            read: true,
-            write: false,
-        },
-        native: {id: 'status.last_notify'}
-    });
     if (varlist['ups.status']) {
         parseAndSetSeverity(varlist['ups.status']);
     }
@@ -228,7 +228,7 @@ function parseAndSetSeverity(ups_status) {
     for (var idx in statusMap) {
         if (statusMap.hasOwnProperty(idx)) {
             var found=(checker.indexOf(idx)>-1);
-            stateName='status.'+statusMap[idx]['name'];
+            stateName='status.'+statusMap[idx].name;
             adapter.log.debug('Create State '+stateName);
             adapter.setObjectNotExists(stateName, {
                 type: 'state',
@@ -238,16 +238,16 @@ function parseAndSetSeverity(ups_status) {
             adapter.log.debug('Set State '+stateName+' = '+found);
             adapter.setState(stateName, {ack: true, val: found});
             if (found) {
-                severity[statusMap[idx]['severity']]=true;
-                adapter.log.debug('Severity Flag '+statusMap[idx]['severity']+'=true');
+                severity[statusMap[idx].severity]=true;
+                adapter.log.debug('Severity Flag '+statusMap[idx].severity+'=true');
             }
         }
     }
     var severityVal = 4;
-    if (severity['operating_critical']) severityVal=2;
-        else if (severity['action_needed']) severityVal=3;
-        else if (severity['operating']) severityVal=1
-        else if (severity['idle']) severityVal=0;
+    if (severity.operating_critical) severityVal=2;
+        else if (severity.action_needed) severityVal=3;
+        else if (severity.operating) severityVal=1;
+        else if (severity.idle) severityVal=0;
 
     adapter.log.debug('Set State status.severity = '+severityVal);
     adapter.setState('status.severity', {ack: true, val: severityVal});
