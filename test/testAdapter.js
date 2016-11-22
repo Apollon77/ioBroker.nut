@@ -94,7 +94,7 @@ describe('Test NUT adapter', function() {
     });
 
     it('Test NUT adapter: Check if adapter started', function (done) {
-        this.timeout(5000);
+        this.timeout(15000);
         checkConnectionOfAdapter(function () {
             objects.setObject('system.adapter.test.0', {
                     common: {
@@ -147,8 +147,8 @@ describe('Test NUT adapter', function() {
         });
     });*/
 
-    after('Test SQLite: Stop js-controller', function (done) {
-        this.timeout(6000);
+    after('Test NUT adapter: Stop js-controller', function (done) {
+        this.timeout(10000);
 
         setup.stopController(function (normalTerminated) {
             console.log('Adapter normal terminated: ' + normalTerminated);
