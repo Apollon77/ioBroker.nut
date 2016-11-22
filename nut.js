@@ -54,7 +54,12 @@ function main() {
         },
         native: {id: 'status.last_notify'}
     });
-    updateNutData();
+    adapter.getState('status.last_notify', function (err, state) {
+        if (!state) {
+            adapter.setState('status.last_notify', {ack: true, val: ''});
+        }
+        updateNutData();
+    });
 }
 
 /*
