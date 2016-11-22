@@ -115,7 +115,7 @@ describe('Test NUT adapter', function() {
         var now = new Date().getTime();
 
         console.log('send notify with "COMMBAD" to adapter ...');
-        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: '127.0.0.1'});
+        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'});
         setTimeout(function() {
             states.getState('nut.0.status.offline', function (err, state) {
                 if (err) console.error(err);
