@@ -9,6 +9,7 @@ var sendToID = 1;
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
+    console.log('Try check #' + counter)
     if (counter > 20) {
         cb && cb('Cannot check connection');
         return;
@@ -94,8 +95,9 @@ describe('Test NUT adapter', function() {
     });
 
     it('Test NUT adapter: Check if adapter started', function (done) {
-        this.timeout(15000);
-        checkConnectionOfAdapter(function () {
+        this.timeout(60000);
+        checkConnectionOfAdapter(function (res) {
+            if (res) console.log(res);
             objects.setObject('system.adapter.test.0', {
                     common: {
 
