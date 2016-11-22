@@ -124,6 +124,7 @@ describe('Test NUT adapter', function() {
                 }
                 else {
                     console.log('check status.last_notify ... ' + state.val);
+                    expect(state.val).to.exist;
                     expect(state.val).to.be.equal('ERROR');
                 }
                 states.getState('nut.0.status.severity', function (err, state) {
@@ -135,6 +136,7 @@ describe('Test NUT adapter', function() {
                     else {
                         console.log('check status.severity ... ' + state.val);
                     }
+                    expect(state.val).to.exist;
                     expect(state.val).to.be.equal(4);
                     done();
                 });
@@ -143,7 +145,7 @@ describe('Test NUT adapter', function() {
     });
 */
 
-    after('Test NUT adapter: send notify Message and receive answer', function (done) {
+    it('Test NUT adapter: send notify Message and receive answer', function (done) {
         this.timeout(25000);
         var now = new Date().getTime();
 
@@ -159,6 +161,19 @@ describe('Test NUT adapter', function() {
                     console.log('check status.last_notify ... ' + state.val);
                 }
                 expect(state.val).to.be.equal('COMMBAD');
+                states.getState('nut.0.status.severity', function (err, state) {
+                    if (err) console.error(err);
+                    expect(state).to.exist;
+                    if (!state) {
+                        console.error('state "status.severity" not set');
+                    }
+                    else {
+                        console.log('check status.severity ... ' + state.val);
+                    }
+                    expect(state.val).to.exist;
+                    expect(state.val).to.be.equal(4);
+                    done();
+                });
                 done();
             });
         }, 2000);
