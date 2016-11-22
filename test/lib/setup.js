@@ -253,12 +253,12 @@ function installJsController(cb) {
                 var __pid;
                 if (debug) {
                     // start controller
-                    _pid = child_process.exec('node ' + appName + '.js setup first --console --logs', {
+                    _pid = child_process.exec('node ' + appName + '.js setup first --console', {
                         cwd: rootDir + 'tmp/node_modules/' + appName + '.js-controller',
                         stdio: [0, 1, 2]
                     });
                 } else {
-                    __pid = child_process.fork(appName + '.js', ['setup', 'first', '--console', '--logs'], {
+                    __pid = child_process.fork(appName + '.js', ['setup', 'first', '--console'], {
                         cwd:   rootDir + 'tmp/node_modules/' + appName + '.js-controller',
                         stdio: [0, 1, 2, 'ipc']
                     });
@@ -435,13 +435,13 @@ function startAdapter(objects, states, callback) {
         try {
             if (debug) {
                 // start controller
-                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console debug --logs', {
+                pid = child_process.exec('node node_modules/' + pkg.name + '/' + pkg.main + ' --console debug', {
                     cwd: rootDir + 'tmp',
                     stdio: [0, 1, 2]
                 });
             } else {
                 // start controller
-                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'debug', '--logs'], {
+                pid = child_process.fork('node_modules/' + pkg.name + '/' + pkg.main, ['--console', 'debug'], {
                     cwd:   rootDir + 'tmp',
                     stdio: [0, 1, 2, 'ipc']
                 });

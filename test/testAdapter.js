@@ -115,7 +115,7 @@ describe('Test NUT adapter', function() {
     });
 
     // We expect ERROR as last Notify necause no nut is running there
-    after('Test NUT adapter: test initial state as ERROR', function (done) {
+    it('Test NUT adapter: test initial state as ERROR', function (done) {
         this.timeout(25000);
 
         setTimeout(function() {
