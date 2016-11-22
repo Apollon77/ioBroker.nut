@@ -98,9 +98,7 @@ describe('Test NUT adapter', function() {
         this.timeout(60000);
         checkConnectionOfAdapter(function (res) {
             if (res) console.log(res);
-            if (res === 'Cannot check connection') {
-
-            }
+            expect(res).not.to.be.equal('Cannot check connection');
             objects.setObject('system.adapter.test.0', {
                     common: {
 
