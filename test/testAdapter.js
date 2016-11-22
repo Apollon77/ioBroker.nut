@@ -106,7 +106,6 @@ describe('Test NUT adapter', function() {
                     states.subscribeMessage('system.adapter.test.0');
                     done();
                 });
-            });
         });
     });
 /*    after('Test SQLite: Write values into DB', function (done) {
