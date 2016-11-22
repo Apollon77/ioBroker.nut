@@ -110,6 +110,36 @@ describe('Test NUT adapter', function() {
                 });
         });
     });
+
+    // We expect ERROR as last Notify necause no nut is running there
+    after('Test NUT adapter: test initial state as ERROR', function (done) {
+        this.timeout(25000);
+
+        setTimeout(function() {
+            states.getState('nut.0.status.last_notify', function (err, state) {
+                if (err) console.error(err);
+                if (!state) {
+                    console.error('state "status.last_notify" not set');
+                }
+                else {
+                    console.log('check status.last_notify ... ' + state.val);
+                }
+                expect(state.val).to.be.equal('ERROR');
+                states.getState('nut.0.status.severity', function (err, state) {
+                    if (err) console.error(err);
+                    if (!state) {
+                        console.error('state "status.severity" not set');
+                    }
+                    else {
+                        console.log('check status.severity ... ' + state.val);
+                    }
+                    expect(state.val).to.be.equal(4);
+                    done();
+                });
+            });
+        }, 5000);
+    });
+
     after('Test NUT adapter: send notify Message and receive answer', function (done) {
         this.timeout(25000);
         var now = new Date().getTime();
@@ -120,12 +150,12 @@ describe('Test NUT adapter', function() {
             states.getState('nut.0.status.last_notify', function (err, state) {
                 if (err) console.error(err);
                 if (!state) {
-                    console.error('state "status.offline" not set');
+                    console.error('state "status.last_notify" not set');
                 }
                 else {
-                    console.log('check status.offline ... ' + state.val);
+                    console.log('check status.last_notify ... ' + state.val);
                 }
-                expect(state.val).to.be.equal(true);
+                expect(state.val).to.be.equal('COMMBAD');
                 done();
             });
         }, 2000);
