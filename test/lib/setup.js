@@ -48,6 +48,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
     var targetFolder = path.join(target, base);
     if (!fs.existsSync(targetFolder)) {
         fs.mkdirSync(targetFolder);
+        console.log('create: ' + targetFolder);
     }
 
     //copy
@@ -249,8 +250,8 @@ function installJsController(cb) {
                     copyFolderRecursiveSync(rootDir + 'node_modules/' + appName + '.js-controller', rootDir + 'tmp/node_modules/');
                 }
 
-                var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/winston-daily-rotate-file/index.js');
-                fs.writeFileSync(rootDir + 'tmp/node_modules/winston-daily-rotate-file/index.js', winstonfile.substring(13));
+                var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js');
+                fs.writeFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js', winstonfile.substring(13));
                 console.log('winston-daily-rotate-file/index.js modified successfully');
 
 
