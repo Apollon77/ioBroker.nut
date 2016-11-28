@@ -2,6 +2,7 @@
 /*jslint node: true */
 var expect = require('chai').expect;
 var setup  = require(__dirname + '/lib/setup');
+var fs     = require('fs');
 
 var objects = null;
 var states  = null;
@@ -76,6 +77,10 @@ describe('Test NUT adapter', function() {
         this.timeout(600000); // because of first install from npm
 
         setup.setupController(function () {
+            var winstonfile = fs.readFileSync('/home/travis/build/Apollon77/ioBroker.nut/node_modules/winston-daily-rotate-file/index.js');
+            fs.writeFileSync('/home/travis/build/Apollon77/ioBroker.nut/node_modules/winston-daily-rotate-file/index.js', winstonfile.substring(13));
+            console.log('winston-daily-rotate-file/index.js modified successfully');
+
             var config = setup.getAdapterConfig();
             // enable adapter
             config.common.enabled  = true;
