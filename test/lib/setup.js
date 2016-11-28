@@ -48,7 +48,7 @@ function copyFolderRecursiveSync(source, target, ignore) {
     var targetFolder = path.join(target, base);
     if (!fs.existsSync(targetFolder)) {
         fs.mkdirSync(targetFolder);
-        console.log('CopyRecursive create: ' + targetFolder);
+        //console.log('CopyRecursive create: ' + targetFolder);
     }
 
     //copy
