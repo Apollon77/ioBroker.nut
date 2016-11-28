@@ -250,7 +250,7 @@ function installJsController(cb) {
                     copyFolderRecursiveSync(rootDir + 'node_modules/' + appName + '.js-controller', rootDir + 'tmp/node_modules/');
                 }
 
-                var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js');
+                var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js','utf8');
                 console.log('winstonfile: ' + (typeof winstonfile) + ', ' + winstonfile.length);
                 var winstonfileres = winstonfile.substring(13);
                 fs.writeFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js', winstonfileres);
