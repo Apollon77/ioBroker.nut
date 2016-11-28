@@ -48,7 +48,6 @@ function copyFolderRecursiveSync(source, target, ignore) {
     var targetFolder = path.join(target, base);
     if (!fs.existsSync(targetFolder)) {
         fs.mkdirSync(targetFolder);
-        //console.log('CopyRecursive create: ' + targetFolder);
     }
 
     //copy
@@ -250,13 +249,6 @@ function installJsController(cb) {
                     copyFolderRecursiveSync(rootDir + 'node_modules/' + appName + '.js-controller', rootDir + 'tmp/node_modules/');
                 }
 
-                /*var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js','utf8');
-                console.log('winstonfile: ' + (typeof winstonfile) + ', ' + winstonfile.length);
-                var winstonfileres = winstonfile.substring(13);
-                fs.writeFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js', winstonfileres);
-                console.log('winston-daily-rotate-file/index.js modified successfully');*/
-
-
                 console.log('Setup js-controller...');
                 var __pid;
                 if (debug) {
@@ -277,8 +269,6 @@ function installJsController(cb) {
                         var config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
                         config.objects.port = 19001;
                         config.states.port  = 19000;
-                        // disable file logging (we use console anyway) to work around winston-daily-rotate-file problem
-                        config.log.transport=[];
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
                         console.log('Setup finished.');
 
@@ -341,8 +331,6 @@ function installJsController(cb) {
                         var config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
                         config.objects.port = 19001;
                         config.states.port  = 19000;
-                        // disable file logging (we use console anyway) to work around winston-daily-rotate-file problem
-                        config.log.transport=[];
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
 
                         copyAdapterToController();
