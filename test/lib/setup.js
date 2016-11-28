@@ -251,10 +251,10 @@ function installJsController(cb) {
                 }
 
                 var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js','utf8');
-                console.log('winstonfile: ' + (typeof winstonfile) + ', ' + winstonfile.length);
+                /*console.log('winstonfile: ' + (typeof winstonfile) + ', ' + winstonfile.length);
                 var winstonfileres = winstonfile.substring(13);
                 fs.writeFileSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller/node_modules/winston-daily-rotate-file/index.js', winstonfileres);
-                console.log('winston-daily-rotate-file/index.js modified successfully');
+                console.log('winston-daily-rotate-file/index.js modified successfully');*/
 
 
                 console.log('Setup js-controller...');
