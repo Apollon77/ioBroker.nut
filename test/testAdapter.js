@@ -9,6 +9,8 @@ var onStateChanged = null;
 var onObjectChanged = null;
 var sendToID = 1;
 
+var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
+
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
     console.log('Try check #' + counter);
@@ -17,7 +19,7 @@ function checkConnectionOfAdapter(cb, counter) {
         return;
     }
 
-    states.getState('system.adapter.nut.0.alive', function (err, state) {
+    states.getState('system.adapter.' + adapterShortName + '.0.alive', function (err, state) {
         if (err) console.error(err);
         if (state && state.val) {
             if (cb) cb();
@@ -71,8 +73,8 @@ function sendTo(target, command, message, callback) {
     });
 }
 
-describe('Test NUT adapter', function() {
-    before('Test NUT adapter: Start js-controller', function (_done) {
+describe('Test ' + adapterShortName + ' adapter', function() {
+    before('Test ' + adapterShortName + ' adapter: Start js-controller', function (_done) {
         this.timeout(600000); // because of first install from npm
 
         setup.setupController(function () {
@@ -96,7 +98,7 @@ describe('Test NUT adapter', function() {
         });
     });
 
-    it('Test NUT adapter: Check if adapter started', function (done) {
+    it('Test ' + adapterShortName + ' adapter: Check if adapter started', function (done) {
         this.timeout(60000);
         checkConnectionOfAdapter(function (res) {
             if (res) console.log(res);
@@ -115,7 +117,7 @@ describe('Test NUT adapter', function() {
     });
 
     // We expect ERROR as last Notify necause no nut is running there
-    it('Test NUT adapter: test initial state as ERROR', function (done) {
+    it('Test ' + adapterShortName + ' adapter: test initial state as ERROR', function (done) {
         this.timeout(25000);
 
         setTimeout(function() {
@@ -147,7 +149,7 @@ describe('Test NUT adapter', function() {
         }, 10000);
     });
 
-    it('Test NUT adapter: send notify Message and receive answer', function (done) {
+    it('Test ' + adapterShortName + ' adapter: send notify Message and receive answer', function (done) {
         this.timeout(25000);
         var now = new Date().getTime();
 
@@ -181,7 +183,7 @@ describe('Test NUT adapter', function() {
         }, 2000);
     });
 
-    after('Test NUT adapter: Stop js-controller', function (done) {
+    after('Test ' + adapterShortName + ' adapter: Stop js-controller', function (done) {
         this.timeout(10000);
 
         setup.stopController(function (normalTerminated) {
