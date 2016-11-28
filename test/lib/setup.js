@@ -249,6 +249,11 @@ function installJsController(cb) {
                     copyFolderRecursiveSync(rootDir + 'node_modules/' + appName + '.js-controller', rootDir + 'tmp/node_modules/');
                 }
 
+                var winstonfile = fs.readFileSync(rootDir + 'tmp/node_modules/winston-daily-rotate-file/index.js');
+                fs.writeFileSync(rootDir + 'tmp/node_modules/winston-daily-rotate-file/index.js', winstonfile.substring(13));
+                console.log('winston-daily-rotate-file/index.js modified successfully');
+
+
                 console.log('Setup js-controller...');
                 var __pid;
                 if (debug) {
