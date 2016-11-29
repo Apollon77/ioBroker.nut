@@ -3,7 +3,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
-[![Build Status](http://img.shields.io/travis/Apollon77/ioBroker.nut/master.svg)](https://travis-ci.org/Apollon77/ioBroker.nut)
+[![Tests](http://img.shields.io/travis/Apollon77/ioBroker.nut/master.svg)](https://travis-ci.org/Apollon77/ioBroker.nut)
 
 [![NPM](https://nodei.co/npm/iobroker.nut.png?downloads=true)](https://nodei.co/npm/iobroker.nut/)
 
