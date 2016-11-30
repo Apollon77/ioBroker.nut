@@ -9,9 +9,9 @@
                   "ru": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity"
               },
               "0.3.0": {
-                  "en": "add better usable status states under 'status channel",
+                  "en": "add better usable status states under 'status' channel",
                   "de": "Besser nutzbare Stati States unter 'status' eingefügt",
-                  "ru": "add better usable status states under 'status channel"
+                  "ru": "add better usable status states under 'status' channel"
               }
         },
         "title":                    "Network UPS Adapter",
