@@ -42,7 +42,7 @@ Additionally configure all relevant notify messages like:
 NOTIFYFLAG ONLINE       SYSLOG+WALL+EXEC
 NOTIFYFLAG ONBATT       SYSLOG+WALL+EXEC
 NOTIFYFLAG LOWBATT      SYSLOG+WALL+EXEC
-NOTIFYFLAG FSD  SYSLOG+WALL+EXEC
+NOTIFYFLAG FSD          SYSLOG+WALL+EXEC
 NOTIFYFLAG COMMOK       SYSLOG+WALL+EXEC
 NOTIFYFLAG COMMBAD      SYSLOG+WALL+EXEC
 NOTIFYFLAG SHUTDOWN     SYSLOG+WALL+EXEC
@@ -51,6 +51,17 @@ NOTIFYFLAG NOCOMM       SYSLOG+WALL+EXEC
 NOTIFYFLAG NOPARENT     SYSLOG+WALL+EXEC
 ```
 Important is the added "EXEC" flag.
+
+One simple example for a nut-notify.sh script is:
+```
+#! /bin/sh
+# NUT adapter notify script.
+
+logger -t nut-notify "Notify iobroker $UPSNAME -> $NOTIFYTYPE"
+/opt/iobroker/iobroker message nut notify "{\"upsname\":\"$UPSNAME\",\"notifytype\":\"$NOTIFYTYPE\"}"
+
+```
+
 
 ## Troubleshooting
 If you have problems and the adapter do not deliver the data you can use the two scripts in directory "test"
