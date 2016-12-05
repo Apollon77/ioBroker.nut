@@ -3,11 +3,11 @@ version: '1.0.0-{build}'
 # Test against this version of Node.js
 environment:
   matrix:
-    - nodejs_version: "0.10"
-    - nodejs_version: "0.11"
-    - nodejs_version: "0.12"
+#    - nodejs_version: "0.10"
+#    - nodejs_version: "0.11"
+#    - nodejs_version: "0.12"
     - nodejs_version: "4"
-    - nodejs_version: "6"
+#    - nodejs_version: "6"
 
 platform:
   - x86
@@ -17,6 +17,8 @@ platform:
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version $env:platform
+  # go into correct directory
+  - cd %APPVEYOR_BUILD_FOLDER%
   # install modules
   - npm install
   - npm install winston@2.3.0
