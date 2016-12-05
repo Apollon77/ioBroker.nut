@@ -1,19 +1,19 @@
-version: '1.0.0-{build}'
+version: %APPVEYOR_REPO_BRANCH%
 
 # Test against this version of Node.js
 environment:
   matrix:
-#    - nodejs_version: "0.10"
-#    - nodejs_version: "0.11"
-#    - nodejs_version: "0.12"
+    - nodejs_version: "0.10"
+    - nodejs_version: "0.11"
+    - nodejs_version: "0.12"
     - nodejs_version: "4"
-#    - nodejs_version: "6"
+    - nodejs_version: "6"
 
 platform:
   - x86
   - x64
 
-clone_folder: c:\projects\iobroker.nut
+clone_folder: c:\projects\%APPVEYOR_PROJECT_NAME%
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
