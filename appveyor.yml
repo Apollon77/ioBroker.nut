@@ -13,12 +13,11 @@ platform:
   - x86
   - x64
 
+clone_folder: c:\projects\iobroker.nut
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version $env:platform
-  # go into correct directory
-  - cd %APPVEYOR_BUILD_FOLDER%
   # install modules
   - npm install
   - npm install winston@2.3.0
@@ -27,6 +26,7 @@ install:
 # Post-install test scripts.
 test_script:
   # Output useful info for debugging.
+  - echo %cd%
   - node --version
   - npm --version
   # run tests
