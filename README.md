@@ -3,8 +3,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
-
-*Tests:* Linux/Mac: [![Travis-CI](http://img.shields.io/travis/Apollon77/ioBroker.nut/master.svg)](https://travis-ci.org/Apollon77/ioBroker.nut)
+**Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/Apollon77/ioBroker.nut/master.svg)](https://travis-ci.org/Apollon77/ioBroker.nut)
 Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/Apollon77/ioBroker.nut?branch=master&svg=true)](https://ci.appveyor.com/project/Apollon77/ioBroker-nut/)
 
 
