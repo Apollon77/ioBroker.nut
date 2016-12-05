@@ -1,4 +1,4 @@
-version: %APPVEYOR_REPO_BRANCH%
+version: 'current'
 
 # Test against this version of Node.js
 environment:
