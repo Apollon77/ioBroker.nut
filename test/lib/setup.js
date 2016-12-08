@@ -90,6 +90,7 @@ function storeOriginalFiles() {
     fs.writeFileSync(dataDir + 'objects.json.original', JSON.stringify(objects));
     f = fs.readFileSync(dataDir + 'states.json');
     fs.writeFileSync(dataDir + 'states.json.original', f);
+    console.log('STATES: ' + f);
 }
 
 function restoreOriginalFiles() {
