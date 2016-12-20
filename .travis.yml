@@ -17,5 +17,4 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-#    - g++-4.8
-    - build-essential
+    - g++-4.8
