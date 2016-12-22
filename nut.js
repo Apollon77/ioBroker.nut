@@ -8,8 +8,8 @@
  /* jshint -W097 */// jshint strict:false
  /*jslint node: true */
 'use strict';
-
-var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+var path = require('path');
+var utils = require(path.join(__dirname,'lib','utils')); // Get common adapter utils
 var Nut   = require('node-nut');
 
 var nutTimeout;
@@ -55,7 +55,7 @@ function main() {
         native: {id: 'status.last_notify'}
     });
     adapter.getState('status.last_notify', function (err, state) {
-        if (!erro && !state) {
+        if (!err && !state) {
             adapter.setState('status.last_notify', {ack: true, val: ''});
         }
         if (!err) updateNutData();
