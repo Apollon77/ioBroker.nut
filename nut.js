@@ -38,7 +38,7 @@ process.on('SIGINT', function () {
 
 function main() {
     adapter.getForeignObject('system.adapter.' + adapter.namespace, function (err, obj) {
-       if (obj.common.mode !== 'daemon') {
+       if (!err && obj && (obj.common.mode !== 'daemon')) {
             obj.common.mode = 'daemon';
             if (obj.common.schedule) delete(obj.common.schedule);
             adapter.setForeignObject(obj._id, obj);
@@ -50,15 +50,15 @@ function main() {
             name: 'status.last_notify',
             type: 'string',
             read: true,
-            write: false,
+            write: false
         },
         native: {id: 'status.last_notify'}
     });
     adapter.getState('status.last_notify', function (err, state) {
-        if (!state) {
+        if (!erro && !state) {
             adapter.setState('status.last_notify', {ack: true, val: ''});
         }
-        updateNutData();
+        if (!err) updateNutData();
     });
 }
 
@@ -107,10 +107,10 @@ function updateNutData() {
     oNut.on('error', function(err) {
         adapter.log.error('Error happend: ' + err);
         adapter.getState('status.last_notify', function (err, state) {
-            if (!state || (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM')) {
+            if (!err && !state || (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM')) {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
             }
-            parseAndSetSeverity("");
+            if (!err) parseAndSetSeverity("");
         });
     });
 
@@ -140,6 +140,8 @@ function storeNutData(varlist) {
     var stateName='';
 
     for (var key in varlist) {
+      if (!varlist.hasOwnProperty(key)) continue;
+
       index=key.indexOf('.');
       if (index > 0) {
         current=key.substring(0,index);
