@@ -9,3 +9,6 @@ test/lib
 test/testAdapter.js
 .travis.yml
 appveyor.yml
+.codeclimate.yml
+.eslinkignore
+.eslintrc

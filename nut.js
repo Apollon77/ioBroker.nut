@@ -159,7 +159,7 @@ function storeNutData(varlist) {
       }
       stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
       adapter.log.debug('Create State '+stateName);
-      if (stateName=='battery.charge') {
+      if (stateName === 'battery.charge') {
           adapter.setObjectNotExists(stateName, {
               type: 'state',
               common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
