@@ -12,3 +12,4 @@ appveyor.yml
 .codeclimate.yml
 .eslinkignore
 .eslintrc
+.vscode
