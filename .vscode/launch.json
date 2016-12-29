@@ -18,7 +18,7 @@
             "type": "node",
             "request": "attach",
             "name": "An den Prozess anfügen",
-            "port": 5858,
+            "port": 58585,
             "address": "cubietruck4",
             "restart": false,
             "sourceMaps": false,
