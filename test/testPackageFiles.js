@@ -2,16 +2,27 @@
 /*jslint node: true */
 var expect = require('chai').expect;
 
-var fileContentIOPackage = fs.readFileSync(__dirname + '/../io-package.json');
-var ioPackage = JSON.parse(fileContentIOPackage);
 
-var fileContentNPMPackage = fs.readFileSync(__dirname + '/../package.json');
-var npmPackage = JSON.parse(fileContentNPMPackage);
+describe('Test package.json and io-package.json', function() {
+    it('Test package files', function (done) {
+        var fileContentIOPackage = fs.readFileSync(__dirname + '/../io-package.json');
+        var ioPackage = JSON.parse(fileContentIOPackage);
 
-expect(ioPackage).to.be.an('object');
-expect(npmPackage).to.be.an('object');
+        var fileContentNPMPackage = fs.readFileSync(__dirname + '/../package.json');
+        var npmPackage = JSON.parse(fileContentNPMPackage);
 
-expect(ioPackage.version).to.exist;
-expect(npmPackage.version).to.exist;
+        expect(ioPackage).to.be.an('object');
+        expect(npmPackage).to.be.an('object');
 
-expect(ioPackage.version).to.be.equal(npmPackage.version);
+        expect(ioPackage.common.version).to.exist;
+        expect(npmPackage.version).to.exist;
+
+        if (!expect(ioPackage.common.version).to.be.equal(npmPackage.version)) {
+            console.log('ERROR: Version numbers in package.json and io-package.json differ!!')
+        }
+
+        if (!ioPackage.common.news[ioPackage.common.version]) {
+            console.log('WARNING: No news entry for current version exists in io-package.json, no rollback in Admin possible!');
+        }
+    }
+}
