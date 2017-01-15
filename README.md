@@ -90,10 +90,6 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 ## 0.1.0
 * initial release for testing
 
-# Todo
-* publish to npm and make available officially
-
-
 # License
 
 The MIT License (MIT)
