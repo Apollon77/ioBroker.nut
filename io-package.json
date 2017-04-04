@@ -20,6 +20,7 @@
         "mode":                     "daemon",
         "messagebox":               true,
         "subscribe":                "messagebox",
+        "stopBeforeUpdate":         true,
         "icon":                     "nut.png",
         "extIcon":                  "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
         "readme":                   "https://github.com/Apollon77/ioBroker.nut",
@@ -29,6 +30,7 @@
         "keywords":                 ["iobroker", "nut", "ups", "usv"],
         "loglevel":                 "info",
         "enabled":                  false
+
     },
     "native": {
         "host_ip":         "127.0.0.1",

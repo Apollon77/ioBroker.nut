@@ -74,6 +74,8 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 * **test_upslist.js**: Connects to the NUT server and returns a list of available UPS names
 * **test_upsvars.js**: Connects to the NUT server for a defined UPS and returns a list of available UPS variables
 
+## Todo
+* docs for webpage
 
 # changelog
 ## 1.0.0
