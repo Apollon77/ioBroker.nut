@@ -28,9 +28,11 @@ adapter.on('message', function (msg) {
 
 adapter.on('stateChange', function (id, state) {
     adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-    if (!state || state.ack || id.indexOf('commands.') !== 0) return;
+    var realNamespace = adapter.namespace + '.commands.';
+    var stateId = id.substring(realNamespace.length);
+    if (!state || state.ack || id.indexOf(realNamespace) !== 0) return;
 
-    var command = id.substring(9).replace(/-/g,'.');
+    var command = stateId.replace(/-/g,'.');
     initNutConnection(function(oNut) {
         adapter.log.info('send command ' + command);
         oNut.RunUPSCommand(adapter.config.ups_name, command);
