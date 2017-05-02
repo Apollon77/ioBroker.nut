@@ -35,7 +35,11 @@ adapter.on('stateChange', function (id, state) {
     var command = stateId.replace(/-/g,'.');
     initNutConnection(function(oNut) {
         adapter.log.info('send command ' + command);
-        oNut.RunUPSCommand(adapter.config.ups_name, command);
+        oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
+            if (err) {
+                adapter.log.error('Err while sending command ' + command + ': '+ err);
+            }
+        });
 
         adapter.setState(id, {ack: true, val: false});
 
