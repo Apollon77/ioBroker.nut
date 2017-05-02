@@ -37,6 +37,8 @@ adapter.on('stateChange', function (id, state) {
         adapter.log.info('send command ' + command);
         oNut.RunUPSCommand(adapter.config.ups_name, command);
 
+        adapter.setState('commands.' + command, {ack: true, val: false});
+
         setTimeout(function() {
             getCurrentNutValues(oNut, true);
         }, 1000);
