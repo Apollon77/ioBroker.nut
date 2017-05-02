@@ -37,7 +37,7 @@ adapter.on('stateChange', function (id, state) {
         adapter.log.info('send command ' + command);
         oNut.RunUPSCommand(adapter.config.ups_name, command);
 
-        adapter.setState('commands.' + command, {ack: true, val: false});
+        adapter.setState(id, {ack: true, val: false});
 
         setTimeout(function() {
             getCurrentNutValues(oNut, true);
@@ -113,6 +113,7 @@ function initNutCommands(cmdlist) {
             },
             native: {id: 'commands.' + cmdName}
         });
+        adapter.setState('commands.' + cmdName, {ack: true, val: false});
     }
     adapter.subscribeStates('commands.*');
 }
