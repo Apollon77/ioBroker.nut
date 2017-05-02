@@ -39,13 +39,10 @@ adapter.on('stateChange', function (id, state) {
             if (err) {
                 adapter.log.error('Err while sending command ' + command + ': '+ err);
             }
+            getCurrentNutValues(oNut, true);
         });
 
         adapter.setState(id, {ack: true, val: false});
-
-        setTimeout(function() {
-            getCurrentNutValues(oNut, true);
-        }, 1000);
     });
 });
 
