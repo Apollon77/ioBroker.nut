@@ -14,6 +14,8 @@ var Nut   = require('node-nut');
 
 var nutTimeout;
 
+var nutCommands = null;
+
 var adapter = utils.adapter('nut');
 
 adapter.on('ready', function (obj) {
@@ -26,6 +28,16 @@ adapter.on('message', function (msg) {
 
 adapter.on('stateChange', function (id, state) {
     adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+    if (!state || state.ack || id.indexOf('commands.') !== 0) return;
+
+    var command = id.substring(9).replace(/-/g,'.');
+    initNutConnection(function(oNut) {
+        oNut.RunUPSCommand(adapter.config.ups_name, command);
+
+        setTimeout(function() {
+            getCurrentNutValues(oNut, true);
+        }, 1000);
+    });
 });
 
 adapter.on('unload', function (callback) {
@@ -58,8 +70,58 @@ function main() {
         if (!err && !state) {
             adapter.setState('status.last_notify', {ack: true, val: ''});
         }
-        if (!err) updateNutData();
+        initNutConnection(function(oNut) {
+            oNut.GetUPSCommands(adapter.config.ups_name, function(cmdlist) {
+                adapter.log.debug('Got commands, create and subscribe command states');
+                initNutCommands(cmdlist);
+
+                getCurrentNutValues(oNut, true);
+
+                var update_interval = parseInt(adapter.config.update_interval,10) || 60;
+                nutTimeout = setTimeout(updateNutData, update_interval*1000);
+            });
+        });
     });
+}
+
+function initNutCommands(cmdlist) {
+    adapter.log.debug('Create Channel commands');
+    adapter.setObjectNotExists('commands', {
+        type: 'channel',
+        common: {name: 'commands'},
+        native: {}
+    });
+    adapter.setObjectNotExists('commands.lastResult', {
+        type: 'state',
+        common: {
+            name: 'commands.lastResult',
+            role: 'value',
+            type: 'string',
+            read: true,
+            write: false,
+            def:   ''
+        },
+        native: {id: 'commands.lastResult'}
+    });
+
+    nutCommands = cmdlist;
+    for (var i = 0; i < cmdlist; i++) {
+        var cmdName = cmdlist[i].replace(/\./g,'-');
+        adapter.log.debug('Create State ' + cmdName);
+        adapter.setObjectNotExists('commands.' + cmdName, {
+            type: 'state',
+            common: {
+                name: 'commands.' + cmdName,
+                role: 'button',
+                type: 'boolean',
+                read: true,
+                write: true,
+                def:   false
+            },
+            native: {id: 'commands.' + cmdName}
+        });
+    }
+    adapter.subscribeStates('commands.*');
 }
 
 /*
@@ -98,10 +160,7 @@ function processMessage(message) {
     }
 }
 
-function updateNutData() {
-    adapter.log.info('Start NUT update');
-
-    var update_interval = parseInt(adapter.config.update_interval,10) || 60;
+function initNutConnection(callback) {
     var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
 
     oNut.on('error', function(err) {
@@ -120,17 +179,29 @@ function updateNutData() {
 
     oNut.on('ready', function() {
         adapter.log.debug('NUT Connection ready');
-        var self = this;
-        this.GetUPSVars(adapter.config.ups_name, function(varlist) {
-            adapter.log.debug('Got values, start setting them');
-            storeNutData(varlist);
-            self.close();
-        });
+        callback(oNut);
     });
 
     oNut.start();
+}
 
+function updateNutData() {
+    adapter.log.info('Start NUT update');
+
+    initNutConnection(function(oNut) {
+        getCurrentNutValues(oNut, true);
+    });
+
+    var update_interval = parseInt(adapter.config.update_interval,10) || 60;
     nutTimeout = setTimeout(updateNutData, update_interval*1000);
+}
+
+function getCurrentNutValues(oNut, closeConnection) {
+    oNut.GetUPSVars(adapter.config.ups_name, function(varlist) {
+        adapter.log.debug('Got values, start setting them');
+        storeNutData(varlist);
+        if (closeConnection) oNut.close();
+    });
 }
 
 function storeNutData(varlist) {
@@ -140,44 +211,44 @@ function storeNutData(varlist) {
     var stateName='';
 
     for (var key in varlist) {
-      if (!varlist.hasOwnProperty(key)) continue;
+        if (!varlist.hasOwnProperty(key)) continue;
 
-      index=key.indexOf('.');
-      if (index > 0) {
-        current=key.substring(0,index);
-      }
-      else {
-          current='';
-          last='';
-          index=-1;
-      }
-      if (((last==='') || (last!==current)) && (current!=='')) {
-          adapter.log.debug('Create Channel '+current);
-          adapter.setObjectNotExists(current, {
-              type: 'channel',
-              common: {name: current},
-              native: {}
-          });
-      }
-      stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
-      adapter.log.debug('Create State '+stateName);
-      if (stateName === 'battery.charge') {
-          adapter.setObjectNotExists(stateName, {
-              type: 'state',
-              common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
-              native: {id: stateName}
-          });
-      }
-      else {
-          adapter.setObjectNotExists(stateName, {
-              type: 'state',
-              common: {name: stateName, type: 'string', read: true, write: false},
-              native: {id: stateName}
-          });
-      }
-      adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
-      adapter.setState(stateName, {ack: true, val: varlist[key]});
-      last=current;
+        index=key.indexOf('.');
+        if (index > 0) {
+            current=key.substring(0,index);
+        }
+        else {
+            current='';
+            last='';
+            index=-1;
+        }
+        if (((last==='') || (last!==current)) && (current!=='')) {
+            adapter.log.debug('Create Channel '+current);
+            adapter.setObjectNotExists(current, {
+                type: 'channel',
+                common: {name: current},
+                native: {}
+            });
+        }
+        stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
+        adapter.log.debug('Create State '+stateName);
+        if (stateName === 'battery.charge') {
+            adapter.setObjectNotExists(stateName, {
+                type: 'state',
+                common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
+                native: {id: stateName}
+            });
+        }
+        else {
+            adapter.setObjectNotExists(stateName, {
+                type: 'state',
+                common: {name: stateName, type: 'string', read: true, write: false},
+                native: {id: stateName}
+            });
+        }
+        adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
+        adapter.setState(stateName, {ack: true, val: varlist[key]});
+        last=current;
     }
 
     adapter.log.debug('Create Channel status');
@@ -230,6 +301,9 @@ function parseAndSetSeverity(ups_status) {
               'operating_critical':false,
               'action_needed':false
             };
+    if (ups_status.indexOf('FSD') !== -1) {
+        ups_status += ' OB LB';
+    }
     var checker=' '+ups_status+' ';
     var stateName="";
     for (var idx in statusMap) {
