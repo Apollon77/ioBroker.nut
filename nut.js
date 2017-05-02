@@ -32,6 +32,7 @@ adapter.on('stateChange', function (id, state) {
 
     var command = id.substring(9).replace(/-/g,'.');
     initNutConnection(function(oNut) {
+        adapter.log.info('send command ' + command);
         oNut.RunUPSCommand(adapter.config.ups_name, command);
 
         setTimeout(function() {
@@ -91,23 +92,11 @@ function initNutCommands(cmdlist) {
         common: {name: 'commands'},
         native: {}
     });
-    adapter.setObjectNotExists('commands.lastResult', {
-        type: 'state',
-        common: {
-            name: 'commands.lastResult',
-            role: 'value',
-            type: 'string',
-            read: true,
-            write: false,
-            def:   ''
-        },
-        native: {id: 'commands.lastResult'}
-    });
 
     nutCommands = cmdlist;
-    for (var i = 0; i < cmdlist; i++) {
+    for (var i = 0; i < cmdlist.length; i++) {
         var cmdName = cmdlist[i].replace(/\./g,'-');
-        adapter.log.debug('Create State ' + cmdName);
+        adapter.log.debug('Create State commands.' + cmdName);
         adapter.setObjectNotExists('commands.' + cmdName, {
             type: 'state',
             common: {
