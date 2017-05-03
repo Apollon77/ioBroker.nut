@@ -60,7 +60,7 @@ adapter.on('stateChange', function (id, state) {
             });
         }
         else {
-            adapter.log.info('send command ' + command);
+            adapter.log.info('send command ' + command + ' without username and password');
             oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
                 if (err) {
                     adapter.log.error('Err while sending command ' + command + ': '+ err);
