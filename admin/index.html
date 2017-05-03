@@ -21,6 +21,8 @@
             "host_ip":   {"en": "NUT Server IP",       "de": "IP des NUT Servers",    "ru": "IP NUT сервера"},
             "host_port": {"en": "NUT Server port",     "de": "Port des NUT Servers",  "ru": "Порт NUT сервера"},
             "ups_name":  {"en": "NUT Name of the UPS", "de": "NUT Name der UPS",     "ru": "NUT имя UPS"},
+            "username":  {"en": "Username of the UPS", "de": "Username der UPS",     "ru": "Username of the UPS"},
+            "password":  {"en": "Password of the UPS", "de": "Passwort der UPS",     "ru": "Password of the UPS"},
             "update_interval":  {"en": "Update Interval", "de": "Aktualisierungsintervall",     "ru": "Update Interval"},
             "ip_info": {
               "en":"IP address of the NUT server. NUT needs to run in server mode and needs to be accessible by the computer the iobroker NUT adapter runs on. So check firewall settings if you have problems and allow the access. If the UPS is connected locally you can also use 127.0.0.1 or localhost.",
@@ -53,10 +55,12 @@
         $('#host_port').val(settings['host_port']);
         $('#ups_name').val(settings['ups_name']);
         $('#update_interval').val(settings['update_interval']);
+        $('#username').val(settings['username']);
+        $('#password').val(settings['password']);
     }
 
     function save(callback) {
-        callback({host_ip: $('#host_ip').val().trim(), host_port: $('#host_port').val().trim(), ups_name: $('#ups_name').val().trim(), update_interval: $('#update_interval').val().trim()});
+        callback({host_ip: $('#host_ip').val().trim(), host_port: $('#host_port').val().trim(), ups_name: $('#ups_name').val().trim(), update_interval: $('#update_interval').val().trim(), username: $('#username').val().trim(), password: $('#password').val().trim()});
     }
 </script>
 
@@ -72,6 +76,8 @@
         <label for="host_port" class="translate">host_port</label> <input class="value" type="text" id="host_port" size="6"/><br/>
         <label for="ups_name" class="translate">ups_name</label> <input class="value" type="text" id="ups_name" size="20"/><br/>
         <label for="update_interval" class="translate">update_interval</label> <input class="value" type="text" id="update_interval" size="20"/>s<br/>
+        <label for="username" class="translate">username</label> <input class="value" type="text" id="username" size="20"/>s<br/>
+        <label for="password" class="translate">password</label> <input class="value" type="password" id="password" size="20"/>s<br/>
     </p>
     <h3 class="translate">host_ip</h3>
     <p class="translate">ip_info</p>

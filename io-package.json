@@ -36,7 +36,9 @@
         "host_ip":         "127.0.0.1",
         "host_port":       "3493",
         "ups_name":        "nutName",
-        "update_interval": 300
+        "update_interval": 300,
+        "username":        "",
+        "password":        ""
     },
     "objects": [],
     "instanceObjects": []

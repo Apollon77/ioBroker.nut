@@ -34,13 +34,40 @@ adapter.on('stateChange', function (id, state) {
 
     var command = stateId.replace(/-/g,'.');
     initNutConnection(function(oNut) {
-        adapter.log.info('send command ' + command);
-        oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
-            if (err) {
-                adapter.log.error('Err while sending command ' + command + ': '+ err);
-            }
-            getCurrentNutValues(oNut, true);
-        });
+        if (adapter.config.username && adapter.config.password) {
+            adapter.log.info('send username for command ' + command);
+            oNut.SetUsername(adapter.config.username, function (err) {
+                if (err) {
+                    adapter.log.error('Err while sending username: '+ err);
+                }
+                else {
+                    adapter.log.info('send password for command ' + command);
+                    oNut.SetPassword(adapter.config.password, function (err) {
+                        if (err) {
+                            adapter.log.error('Err while sending password: '+ err);
+                        }
+                        else {
+                            adapter.log.info('send command ' + command);
+                            oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
+                                if (err) {
+                                    adapter.log.error('Err while sending command ' + command + ': '+ err);
+                                }
+                                getCurrentNutValues(oNut, true);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            adapter.log.info('send command ' + command);
+            oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
+                if (err) {
+                    adapter.log.error('Err while sending command ' + command + ': '+ err);
+                }
+                getCurrentNutValues(oNut, true);
+            });
+        }
 
         adapter.setState(id, {ack: true, val: false});
     });
