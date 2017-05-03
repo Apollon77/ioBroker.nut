@@ -77,7 +77,10 @@ function main() {
             adapter.setState('status.last_notify', {ack: true, val: ''});
         }
         initNutConnection(function(oNut) {
-            oNut.GetUPSCommands(adapter.config.ups_name, function(cmdlist) {
+            oNut.GetUPSCommands(adapter.config.ups_name, function(cmdlist, err) {
+                if (err) {
+                    adapter.log.error('Err while sending getting all commands: '+ err);
+                }
                 adapter.log.debug('Got commands, create and subscribe command states');
                 initNutCommands(cmdlist);
 
@@ -192,7 +195,10 @@ function updateNutData() {
 }
 
 function getCurrentNutValues(oNut, closeConnection) {
-    oNut.GetUPSVars(adapter.config.ups_name, function(varlist) {
+    oNut.GetUPSVars(adapter.config.ups_name, function(varlist, err) {
+        if (err) {
+            adapter.log.error('Err while getting NUL values: '+ err);
+        }
         adapter.log.debug('Got values, start setting them');
         storeNutData(varlist);
         if (closeConnection) oNut.close();
