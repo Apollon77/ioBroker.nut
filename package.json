@@ -17,7 +17,7 @@
     "url": "https://github.com/Apollon77/ioBroker.nut"
   },
   "dependencies": {
-    "node-nut": "Apollon77/node-nut"
+    "node-nut": "^1.0.0"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
