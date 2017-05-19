@@ -106,10 +106,12 @@ function main() {
         initNutConnection(function(oNut) {
             oNut.GetUPSCommands(adapter.config.ups_name, function(cmdlist, err) {
                 if (err) {
-                    adapter.log.error('Err while sending getting all commands: '+ err);
+                    adapter.log.error('Err while getting all commands: '+ err);
                 }
-                adapter.log.debug('Got commands, create and subscribe command states');
-                initNutCommands(cmdlist);
+                else {
+                    adapter.log.debug('Got commands, create and subscribe command states');
+                    initNutCommands(cmdlist);
+                }
 
                 getCurrentNutValues(oNut, true);
 
@@ -128,6 +130,7 @@ function initNutCommands(cmdlist) {
         native: {}
     });
 
+    if (! cmdlist) return;
     nutCommands = cmdlist;
     for (var i = 0; i < cmdlist.length; i++) {
         var cmdName = cmdlist[i].replace(/\./g,'-');
@@ -224,10 +227,12 @@ function updateNutData() {
 function getCurrentNutValues(oNut, closeConnection) {
     oNut.GetUPSVars(adapter.config.ups_name, function(varlist, err) {
         if (err) {
-            adapter.log.error('Err while getting NUL values: '+ err);
+            adapter.log.error('Err while getting NUT values: '+ err);
         }
-        adapter.log.debug('Got values, start setting them');
-        storeNutData(varlist);
+        else {
+            adapter.log.debug('Got values, start setting them');
+            storeNutData(varlist);
+        }
         if (closeConnection) oNut.close();
     });
 }

@@ -78,6 +78,12 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 * docs for webpage
 
 # changelog
+## 1.1.1
+* Enhance error handling
+
+## 1.1.0
+* Add possibility to call commands on the UPS
+
 ## 1.0.0
 * change mode from schedule to deamon
 * implement message support to receive messages from upsmon
