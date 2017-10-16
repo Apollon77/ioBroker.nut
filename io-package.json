@@ -24,6 +24,9 @@
               "ru": "add better usable status states under 'status' channel"
             }
         },
+        "authors": [
+            "Apollon77 <ingo@fischer-ka.de>"
+        ],
         "title":                    "Network UPS Adapter",
         "desc":                     "Read all data from your UPS/USV via nut protocol",
         "platform":                 "Javascript/Node.js",
