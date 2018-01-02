@@ -16,7 +16,7 @@ var nutTimeout;
 
 var nutCommands = null;
 
-var adapter = utils.adapter('nut');
+var adapter = utils.Adapter('nut');
 
 adapter.on('ready', function (obj) {
     main();
