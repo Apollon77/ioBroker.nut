@@ -81,6 +81,13 @@ process.on('SIGINT', function () {
     if (nutTimeout) clearTimeout(nutTimeout);
 });
 
+process.on('uncaughtException', function (err) {
+    if (adapter && adapter.log) {
+        adapter.log.warn('Exception: ' + err);
+    }
+    if (nutTimeout) clearTimeout(nutTimeout);
+});
+
 function main() {
     adapter.getForeignObject('system.adapter.' + adapter.namespace, function (err, obj) {
        if (!err && obj && (obj.common.mode !== 'daemon')) {
