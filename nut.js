@@ -5,9 +5,12 @@
  * Adapter loading NUT data from an UPS
  *
  */
- /* jshint -W097 */// jshint strict:false
+ /* jshint -W097 */
+ // jshint strict:true
  /*jslint node: true */
+ /*jslint esversion: 6 */
 'use strict';
+
 var path = require('path');
 var utils = require(path.join(__dirname,'lib','utils')); // Get common adapter utils
 var Nut   = require('node-nut');
