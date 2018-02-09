@@ -1,6 +1,8 @@
 ![Logo](admin/nut.png)
 # ioBroker.nut
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Apollon77/ioBroker.nut.svg)](https://greenkeeper.io/)
+
 [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Dependency Status](https://gemnasium.com/badges/github.com/Apollon77/ioBroker.nut.svg)](https://gemnasium.com/github.com/Apollon77/ioBroker.nut)
