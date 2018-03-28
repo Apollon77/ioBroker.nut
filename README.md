@@ -80,6 +80,9 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 * docs for webpage
 
 # changelog
+## 1.1.2 (2018-03-28)
+* Fix status parsing
+
 ## 1.1.1
 * Enhance error handling
 

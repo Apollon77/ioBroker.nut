@@ -351,7 +351,7 @@ function parseAndSetSeverity(ups_status) {
     var stateName="";
     for (var idx in statusMap) {
         if (statusMap.hasOwnProperty(idx)) {
-            var found=(checker.indexOf(idx)>-1);
+            var found=(checker.indexOf(' ' + idx)>-1);
             stateName='status.'+statusMap[idx].name;
             adapter.log.debug('Create State '+stateName);
             adapter.setObjectNotExists(stateName, {
