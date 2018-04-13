@@ -1,8 +1,19 @@
 {
     "common": {
         "name":                     "nut",
-        "version":                  "1.1.2",
+        "version":                  "1.1.3",
 		"news": {
+            "1.1.3": {
+                "en": "Fix Admin",
+                "de": "Fixe Admin",
+                "ru": "Fix Admin",
+                "pt": "Corrigir Admin",
+                "nl": "Admin oplossen",
+                "fr": "Fix Admin",
+                "it": "Correggi Admin",
+                "es": "Fix Admin",
+                "pl": "Napraw administratora"
+            },
             "1.1.2": {
                 "en": "fix status parsing",
                 "de": "Statuserkennung verbessert",
@@ -41,7 +52,7 @@
         "stopBeforeUpdate":         true,
         "icon":                     "nut.png",
         "extIcon":                  "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
-        "readme":                   "https://github.com/Apollon77/ioBroker.nut",
+        "readme":                   "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
         "license":                  "MIT",
         "npmLibs": [],
         "type":                     "hardware",

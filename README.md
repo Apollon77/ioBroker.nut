@@ -79,35 +79,35 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 ## Todo
 * docs for webpage
 
-# changelog
-## 1.1.2 (2018-03-28)
+## Changelog
+### 1.1.2 (2018-03-28)
 * Fix status parsing
 
-## 1.1.1
+### 1.1.1
 * Enhance error handling
 
-## 1.1.0
+### 1.1.0
 * Add possibility to call commands on the UPS
 
-## 1.0.0
+### 1.0.0
 * change mode from schedule to deamon
 * implement message support to receive messages from upsmon
 * add status.severity to get one status about the USV with values idle, operating, operating_critical, action_needed, unknown
 
-## 0.3.0
+### 0.3.0
 * add better usable status states under "status" channel
 
-## 0.2.1
+### 0.2.1
 * finalizied initial version
 
-## 0.1.0
+### 0.1.0
 * initial release for testing
 
-# License
+## License
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2017 Apollon77 <ingo@fischer-ka.de>
+Copyright (c) 2016-2018 Apollon77 <ingo@fischer-ka.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
