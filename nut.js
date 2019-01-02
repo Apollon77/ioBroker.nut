@@ -224,7 +224,7 @@ function initNutConnection(callback) {
 }
 
 function updateNutData() {
-    adapter.log.info('Start NUT update');
+    adapter.log.debug('Start NUT update');
 
     initNutConnection(function(oNut) {
         getCurrentNutValues(oNut, true);
@@ -318,7 +318,7 @@ function storeNutData(varlist) {
     }
     else parseAndSetSeverity("");
 
-    adapter.log.info('All Nut values set');
+    adapter.log.debug('All Nut values set');
 }
 
 function parseAndSetSeverity(ups_status) {
