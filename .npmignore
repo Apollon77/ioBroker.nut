@@ -7,9 +7,11 @@ node_modules
 .DS_Store
 test/lib
 test/testAdapter.js
+test/testPackageFiles.js
 .travis.yml
 appveyor.yml
 .codeclimate.yml
 .eslinkignore
 .eslintrc
 .vscode
+package-lock.json

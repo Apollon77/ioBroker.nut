@@ -32,9 +32,11 @@
     "test": "nyc --reporter=lcov node_modules/mocha/bin/mocha test/testAdapter.js --exit  && node node_modules/mocha/bin/mocha test/testPackageFiles.js"
   },
   "nyc": {
-    "exclude": ["!**/node_modules/"],
+    "exclude": [
+      "!**/node_modules/"
+    ],
     "include": [
-        "**/tmp/node_modules/iobroker.nut/*.js"
+      "**/tmp/node_modules/iobroker.nut/*.js"
     ],
     "produce-source-map": true
   }

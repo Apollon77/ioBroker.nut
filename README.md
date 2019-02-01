@@ -5,7 +5,6 @@
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
-[![Dependency Status](https://gemnasium.com/badges/github.com/Apollon77/ioBroker.nut.svg)](https://gemnasium.com/github.com/Apollon77/ioBroker.nut)
 [![Code Climate](https://codeclimate.com/github/Apollon77/ioBroker.nut/badges/gpa.svg)](https://codeclimate.com/github/Apollon77/ioBroker.nut)
 
 **Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/Apollon77/ioBroker.nut/master.svg)](https://travis-ci.org/Apollon77/ioBroker.nut)

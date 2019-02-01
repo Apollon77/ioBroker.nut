@@ -108,6 +108,10 @@ function main() {
             write: false
         },
         native: {id: 'status.last_notify'}
+    }, function(err, obj) {
+        if (err) {
+            adapter.log.error('Error creating State: ' + err);
+        }
     });
     adapter.getState('status.last_notify', function (err, state) {
         if (!err && !state) {
@@ -138,6 +142,10 @@ function initNutCommands(cmdlist) {
         type: 'channel',
         common: {name: 'commands'},
         native: {}
+    }, function(err, obj) {
+        if (err) {
+            adapter.log.error('Error creating Channel: ' + err);
+        }
     });
 
     if (! cmdlist) return;
@@ -156,6 +164,10 @@ function initNutCommands(cmdlist) {
                 def:   false
             },
             native: {id: 'commands.' + cmdName}
+        }, function(err, obj) {
+            if (err) {
+                adapter.log.error('Error creating State: ' + err);
+            }
         });
         adapter.setState('commands.' + cmdName, {ack: true, val: false});
     }
@@ -271,6 +283,10 @@ function storeNutData(varlist) {
                 type: 'channel',
                 common: {name: current},
                 native: {}
+            }, function(err, obj) {
+                if (err) {
+                    adapter.log.error('Error creating Channel: ' + err);
+                }
             });
         }
         stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
@@ -280,6 +296,10 @@ function storeNutData(varlist) {
                 type: 'state',
                 common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
                 native: {id: stateName}
+            }, function(err, obj) {
+                if (err) {
+                    adapter.log.error('Error creating State: ' + err);
+                }
             });
         }
         else {
@@ -287,6 +307,10 @@ function storeNutData(varlist) {
                 type: 'state',
                 common: {name: stateName, type: 'string', read: true, write: false},
                 native: {id: stateName}
+            }, function(err, obj) {
+                if (err) {
+                    adapter.log.error('Error creating State: ' + err);
+                }
             });
         }
         adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
@@ -299,6 +323,10 @@ function storeNutData(varlist) {
         type: 'channel',
         common: {name: 'status'},
         native: {}
+    }, function(err, obj) {
+        if (err) {
+            adapter.log.error('Error creating Channel: ' + err);
+        }
     });
     adapter.setObjectNotExists('status.severity', {
         type: 'state',
@@ -312,6 +340,10 @@ function storeNutData(varlist) {
             states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
         },
         native: {id: 'status.severity'}
+    }, function(err, obj) {
+        if (err) {
+            adapter.log.error('Error creating State: ' + err);
+        }
     });
     if (varlist['ups.status']) {
         parseAndSetSeverity(varlist['ups.status']);
@@ -358,6 +390,10 @@ function parseAndSetSeverity(ups_status) {
                 type: 'state',
                 common: {name: stateName, type: 'boolean', read: true, write: false},
                 native: {id: stateName}
+            }, function(err, obj) {
+                if (err) {
+                    adapter.log.error('Error creating State: ' + err);
+                }
             });
             adapter.log.debug('Set State '+stateName+' = '+found);
             adapter.setState(stateName, {ack: true, val: found});
