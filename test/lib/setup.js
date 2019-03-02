@@ -244,6 +244,10 @@ function waitForEnd(_pid, cb) {
 function installJsController(cb) {
     console.log('installJsController...');
     console.log('check ' + rootDir + 'tmp/node_modules/' + appName + '.js-controller');
+    console.log(fs.existsSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller'));
+    console.log(fs.existsSync(rootDir + 'tmp/' + appName + '-data'));
+    console.log(rootDir + 'node_modules/' + appName + '.js-controller');
+    console.log(fs.existsSync(rootDir + 'node_modules/' + appName + '.js-controller'));
     if (!fs.existsSync(rootDir + 'tmp/node_modules/' + appName + '.js-controller') ||
         !fs.existsSync(rootDir + 'tmp/' + appName + '-data')) {
         // try to detect appName.js-controller in node_modules/appName.js-controller
