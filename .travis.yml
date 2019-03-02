@@ -21,10 +21,10 @@ after_success:
   - sed -i "s|tmp/node_modules/iobroker.nut/||" ./coverage/lcov.info
   - 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -r 3623f3070bd9cae772a6757bdb0bcac4f8c2ebfbdebbe8e577bea9275810950d; fi'
 env:
-  - CXX=g++-4.8
+  - CXX=g++-4.9
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+      - g++-4.9
