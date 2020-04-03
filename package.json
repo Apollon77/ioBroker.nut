@@ -23,7 +23,7 @@
   "devDependencies": {
     "mocha": "^6.0.2",
     "chai": "^4.1.2",
-    "nyc": "*"
+    "nyc": ">=15.0.1"
   },
   "bugs": {
     "url": "https://github.com/Apollon77/ioBroker.nut/issues"
