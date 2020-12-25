@@ -147,7 +147,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                     done();
                 });
             });
-        }, 11000);
+        }, 12000);
     });
 
     it('Test ' + adapterShortName + ' adapter: send notify Message and receive answer', function (done) {
@@ -155,7 +155,8 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         var now = new Date().getTime();
 
         console.log('send notify with "COMMBAD" to adapter ...');
-        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'}, () =>{
+        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'});
+        setTimeout(function() {
             states.getState('nut.0.status.last_notify', function (err, state) {
                 if (err) console.error(err);
                 expect(state).to.exist;
@@ -180,7 +181,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                     done();
                 });
             });
-        });
+        }, 2000);
     });
 
     after('Test ' + adapterShortName + ' adapter: Stop js-controller', function (done) {
