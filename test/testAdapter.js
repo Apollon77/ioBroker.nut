@@ -163,7 +163,6 @@ describe('Test ' + adapterShortName + ' adapter', function() {
             if (id === 'nut.0.status.last_notify') {
                 i++;
                 states.unsubscribe('nut.0.status.last_notify');
-                onStateChanged = null;
                 expect(state).to.exist;
                 if (!state) {
                     console.error('state "status.last_notify" not set');
@@ -171,7 +170,6 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                     console.log('check status.last_notify ... ' + state.val);
                 }
                 expect(state.val).to.be.equal('COMMBAD');
-                i === 2 && done();
             }
             if (id === 'nut.0.status.severity') {
                 i++;
@@ -184,7 +182,10 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 }
                 expect(state.val).to.exist;
                 expect(state.val).to.be.equal(4);
-                i === 2 && done();
+            }
+            if (i === 2) {
+                onStateChanged = null;
+                done();
             }
         };
 

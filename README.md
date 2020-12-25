@@ -14,6 +14,8 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/Apollon
 
 This adapter for ioBroker connects to a defined NUT server to provide the status and details of a connected UPS/USV as ioBroker states, so that it can be used there.
 
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+
 ## Description of parameters
 ### host_ip
 IP address of the NUT server. NUT needs to run in server mode and needs to be accessible by the computer the
