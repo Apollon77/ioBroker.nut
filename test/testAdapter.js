@@ -182,7 +182,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                     console.log('check status.severity ... ' + state.val);
                 }
                 expect(state.val).to.exist;
-                expect(state.val).to.be.equal(4);
+                expect(state.val).to.be.equal(3);
             }
             if (notifyChecked && severityChecked) {
                 onStateChanged = null;
