@@ -157,8 +157,11 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         var now = new Date().getTime();
 
         states.subscribe('nut.0.status.last_notify');
+        states.subscribe('nut.0.status.severity');
+        let i = 0;
         onStateChanged = (id, state) => {
             if (id === 'nut.0.status.last_notify') {
+                i++;
                 states.unsubscribe('nut.0.status.last_notify');
                 onStateChanged = null;
                 expect(state).to.exist;
@@ -168,18 +171,20 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                     console.log('check status.last_notify ... ' + state.val);
                 }
                 expect(state.val).to.be.equal('COMMBAD');
-                states.getState('nut.0.status.severity', function (err, state) {
-                    if (err) console.error(err);
-                    expect(state).to.exist;
-                    if (!state) {
-                        console.error('state "status.severity" not set');
-                    } else {
-                        console.log('check status.severity ... ' + state.val);
-                    }
-                    expect(state.val).to.exist;
-                    expect(state.val).to.be.equal(4);
-                    done();
-                });
+                i === 2 && done();
+            }
+            if (id === 'nut.0.status.severity') {
+                i++;
+                states.unsubscribe('nut.0.status.severity');
+                expect(state).to.exist;
+                if (!state) {
+                    console.error('state "status.severity" not set');
+                } else {
+                    console.log('check status.severity ... ' + state.val);
+                }
+                expect(state.val).to.exist;
+                expect(state.val).to.be.equal(4);
+                i === 2 && done();
             }
         };
 
