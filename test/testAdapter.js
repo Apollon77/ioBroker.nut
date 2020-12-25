@@ -154,34 +154,33 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         this.timeout(25000);
         var now = new Date().getTime();
 
-        console.log('send notify with "COMMBAD" to adapter ...');
-        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'});
-        setTimeout(function() {
-            states.getState('nut.0.status.last_notify', function (err, state) {
+        states.subscribe('nut.0.status.last_notify', (state) => {
+            states.unsubscribe('nut.0.status.last_notify');
+            expect(state).to.exist;
+            if (!state) {
+                console.error('state "status.last_notify" not set');
+            }
+            else {
+                console.log('check status.last_notify ... ' + state.val);
+            }
+            expect(state.val).to.be.equal('COMMBAD');
+            states.getState('nut.0.status.severity', function (err, state) {
                 if (err) console.error(err);
                 expect(state).to.exist;
                 if (!state) {
-                    console.error('state "status.last_notify" not set');
+                    console.error('state "status.severity" not set');
                 }
                 else {
-                    console.log('check status.last_notify ... ' + state.val);
+                    console.log('check status.severity ... ' + state.val);
                 }
-                expect(state.val).to.be.equal('COMMBAD');
-                states.getState('nut.0.status.severity', function (err, state) {
-                    if (err) console.error(err);
-                    expect(state).to.exist;
-                    if (!state) {
-                        console.error('state "status.severity" not set');
-                    }
-                    else {
-                        console.log('check status.severity ... ' + state.val);
-                    }
-                    expect(state.val).to.exist;
-                    expect(state.val).to.be.equal(4);
-                    done();
-                });
+                expect(state.val).to.exist;
+                expect(state.val).to.be.equal(4);
+                done();
             });
-        }, 2000);
+        })
+
+        console.log('send notify with "COMMBAD" to adapter ...');
+        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'});
     });
 
     after('Test ' + adapterShortName + ' adapter: Stop js-controller', function (done) {
