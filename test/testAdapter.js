@@ -158,10 +158,11 @@ describe('Test ' + adapterShortName + ' adapter', function() {
 
         states.subscribe('nut.0.status.last_notify');
         states.subscribe('nut.0.status.severity');
-        let i = 0;
+        let severityChecked = false;
+        let notifyChecked = false;
         onStateChanged = (id, state) => {
-            if (id === 'nut.0.status.last_notify') {
-                i++;
+            if (!notifyChecked && id === 'nut.0.status.last_notify') {
+                notifyChecked = true;
                 states.unsubscribe('nut.0.status.last_notify');
                 expect(state).to.exist;
                 if (!state) {
@@ -171,8 +172,8 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 }
                 expect(state.val).to.be.equal('COMMBAD');
             }
-            if (id === 'nut.0.status.severity') {
-                i++;
+            if (!severityChecked && id === 'nut.0.status.severity') {
+                severityChecked = true;
                 states.unsubscribe('nut.0.status.severity');
                 expect(state).to.exist;
                 if (!state) {
@@ -183,7 +184,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 expect(state.val).to.exist;
                 expect(state.val).to.be.equal(4);
             }
-            if (i === 2) {
+            if (notifyChecked && severityChecked) {
                 onStateChanged = null;
                 done();
             }
