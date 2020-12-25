@@ -55,11 +55,13 @@ function checkValueOfState(id, value, cb, counter) {
 }
 
 function sendTo(target, command, message, callback) {
-    onStateChanged = function (id, state) {
-        if (id === 'messagebox.system.adapter.test.0') {
-            callback(state.message);
-        }
-    };
+    if (callback) {
+        onStateChanged = function (id, state) {
+            if (id === 'messagebox.system.adapter.test.0') {
+                callback(state.message);
+            }
+        };
+    }
 
     states.pushMessage('system.adapter.' + target, {
         command:    command,
