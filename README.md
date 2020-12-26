@@ -1,8 +1,6 @@
 ![Logo](admin/nut.png)
 # ioBroker.nut
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/Apollon77/ioBroker.nut.svg)](https://greenkeeper.io/)
-
 ![Number of Installations](http://iobroker.live/badges/nut-installed.svg) ![Number of Installations](http://iobroker.live/badges/nut-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.nut.svg)](https://www.npmjs.com/package/iobroker.nut)
 [![Code Climate](https://codeclimate.com/github/Apollon77/ioBroker.nut/badges/gpa.svg)](https://codeclimate.com/github/Apollon77/ioBroker.nut)
@@ -81,6 +79,10 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 * docs for webpage
 
 ## Changelog
+
+### __WORK IN PROGRES__
+* (Apollon77) update dependencies
+* (Apollon77) Add Sentry error reporting
 
 ### 1.1.3 (2018-04-13)
 * Fix Admin

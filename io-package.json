@@ -64,8 +64,12 @@
                 "dsn": "https://63484d47ef2e49f5b0194808454cafb1@sentry.iobroker.net/111",
                 "errorBlacklist": ["SyntaxError"]
             }
-        }
-
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=1.4.2"
+            }
+        ]
     },
     "native": {
         "host_ip":         "127.0.0.1",
