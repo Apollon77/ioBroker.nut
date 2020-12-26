@@ -1,8 +1,20 @@
 {
     "common": {
-        "name":                     "nut",
-        "version":                  "1.1.3",
-		"news": {
+        "name": "nut",
+        "version": "1.2.0",
+        "news": {
+            "1.2.0": {
+                "en": "update dependencies\nAdd Sentry error reporting",
+                "de": "Abhängigkeiten aktualisieren\nSentry-Fehlerberichterstattung hinzufügen",
+                "ru": "обновить зависимости\nДобавить отчет об ошибках Sentry",
+                "pt": "atualizar dependências\nAdicionar relatório de erro de Sentry",
+                "nl": "update afhankelijkheden\nVoeg Sentry-foutrapportage toe",
+                "fr": "mettre à jour les dépendances\nAjouter un rapport d'erreur Sentry",
+                "it": "aggiornare le dipendenze\nAggiungi la segnalazione degli errori di Sentry",
+                "es": "actualizar dependencias\nAgregar informe de errores de Sentry",
+                "pl": "zależności aktualizacji\nDodaj raportowanie błędów Sentry",
+                "zh-cn": "更新依赖\n添加Sentry错误报告"
+            },
             "1.1.3": {
                 "en": "Fix Admin",
                 "de": "Fixe Admin",
@@ -35,34 +47,41 @@
                 "ru": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity"
             },
             "0.3.1": {
-              "en": "add better usable status states under 'status' channel",
-              "de": "Besser nutzbare Stati States unter 'status' eingefügt",
-              "ru": "add better usable status states under 'status' channel"
+                "en": "add better usable status states under 'status' channel",
+                "de": "Besser nutzbare Stati States unter 'status' eingefügt",
+                "ru": "add better usable status states under 'status' channel"
             }
         },
         "authors": [
             "Apollon77 <ingo@fischer-ka.de>"
         ],
-        "title":                    "Network UPS Adapter",
-        "desc":                     "Read all data from your UPS/USV via nut protocol",
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "messagebox":               true,
-        "subscribe":                "messagebox",
-        "stopBeforeUpdate":         true,
-        "icon":                     "nut.png",
-        "extIcon":                  "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
-        "readme":                   "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
-        "license":                  "MIT",
+        "title": "Network UPS Adapter",
+        "desc": "Read all data from your UPS/USV via nut protocol",
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "messagebox": true,
+        "subscribe": "messagebox",
+        "stopBeforeUpdate": true,
+        "icon": "nut.png",
+        "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
+        "readme": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
+        "license": "MIT",
         "npmLibs": [],
-        "type":                     "hardware",
-        "keywords":                 ["iobroker", "nut", "ups", "usv"],
-        "loglevel":                 "info",
-        "enabled":                  false,
+        "type": "hardware",
+        "keywords": [
+            "iobroker",
+            "nut",
+            "ups",
+            "usv"
+        ],
+        "loglevel": "info",
+        "enabled": false,
         "plugins": {
             "sentry": {
                 "dsn": "https://63484d47ef2e49f5b0194808454cafb1@sentry.iobroker.net/111",
-                "errorBlacklist": ["SyntaxError"]
+                "errorBlacklist": [
+                    "SyntaxError"
+                ]
             }
         },
         "dependencies": [
@@ -72,12 +91,12 @@
         ]
     },
     "native": {
-        "host_ip":         "127.0.0.1",
-        "host_port":       "3493",
-        "ups_name":        "nutName",
+        "host_ip": "127.0.0.1",
+        "host_port": "3493",
+        "ups_name": "nutName",
         "update_interval": 300,
-        "username":        "",
-        "password":        ""
+        "username": "",
+        "password": ""
     },
     "objects": [],
     "instanceObjects": []
