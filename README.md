@@ -80,7 +80,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 ## Changelog
 
-### __WORK IN PROGRES__
+### __WORK IN PROGRESS__
 * (Apollon77) update dependencies
 * (Apollon77) Add Sentry error reporting
 
