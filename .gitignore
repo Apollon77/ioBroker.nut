@@ -2,3 +2,5 @@
 .vscode/ftp-sync.json
 .vscode/launch.json
 .remote-sync.json
+node_modules
+.ideas
