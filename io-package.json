@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "nut",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "news": {
+            "1.3.0": {
+                "en": "adjust connection close handling\nadd compact mode",
+                "de": "Anpassen der Verbindungsabschlussbehandlung\nKompaktmodus hinzufügen",
+                "ru": "настроить закрытие соединения\nдобавить компактный режим",
+                "pt": "ajustar conexão perto manuseio\nadicionar modo compacto",
+                "nl": "pas verbinding sluiten afhandeling aan\nvoeg compacte modus toe",
+                "fr": "ajuster la connexion fermer la manipulation\najouter le mode compact",
+                "it": "regolare la chiusura della connessione\naggiungi la modalità compatta",
+                "es": "ajustar la conexión estrecha manipulación\nagregar modo compacto",
+                "pl": "dostosować połączenie blisko obsługi\ndodaj tryb kompaktowy",
+                "zh-cn": "调整连接关闭处理\n添加紧凑模式"
+            },
             "1.2.0": {
                 "en": "update dependencies\nAdd Sentry error reporting",
                 "de": "Abhängigkeiten aktualisieren\nSentry-Fehlerberichterstattung hinzufügen",
