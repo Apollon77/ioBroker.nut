@@ -11,74 +11,89 @@
  /*jslint esversion: 6 */
 'use strict';
 
-var path = require('path');
 var utils = require('@iobroker/adapter-core'); // Get common adapter utils
+var adapter;
+
 var Nut   = require('node-nut');
 
 var nutTimeout;
 
 var nutCommands = null;
 
-var adapter = utils.Adapter('nut');
-
-adapter.on('ready', function (obj) {
-    main();
-});
-
-adapter.on('message', function (msg) {
-    processMessage(msg);
-});
-
-adapter.on('stateChange', function (id, state) {
-    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-    var realNamespace = adapter.namespace + '.commands.';
-    var stateId = id.substring(realNamespace.length);
-    if (!state || state.ack || id.indexOf(realNamespace) !== 0) return;
-
-    var command = stateId.replace(/-/g,'.');
-    initNutConnection(function(oNut) {
-        if (adapter.config.username && adapter.config.password) {
-            adapter.log.info('send username for command ' + command);
-            oNut.SetUsername(adapter.config.username, function (err) {
-                if (err) {
-                    adapter.log.error('Err while sending username: '+ err);
-                }
-                else {
-                    adapter.log.info('send password for command ' + command);
-                    oNut.SetPassword(adapter.config.password, function (err) {
-                        if (err) {
-                            adapter.log.error('Err while sending password: '+ err);
-                        }
-                        else {
-                            adapter.log.info('send command ' + command);
-                            oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
-                                if (err) {
-                                    adapter.log.error('Err while sending command ' + command + ': '+ err);
-                                }
-                                getCurrentNutValues(oNut, true);
-                            });
-                        }
-                    });
-                }
-            });
-        }
-        else {
-            adapter.log.info('send command ' + command + ' without username and password');
-            oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
-                if (err) {
-                    adapter.log.error('Err while sending command ' + command + ': '+ err);
-                }
-                getCurrentNutValues(oNut, true);
-            });
-        }
-
-        adapter.setState(id, {ack: true, val: false});
+function startAdapter(options) {
+    options = options || {};
+    Object.assign(options, {
+        name: 'nut'
     });
-});
+    adapter = new utils.Adapter(options);
 
-adapter.on('unload', function (callback) {
-    if (nutTimeout) clearTimeout(nutTimeout);
-});
+
+    adapter.on('ready', function () {
+        main();
+    });
+
+    adapter.on('message', function (msg) {
+        processMessage(msg);
+    });
+
+    adapter.on('stateChange', function (id, state) {
+        adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+        var realNamespace = adapter.namespace + '.commands.';
+        var stateId = id.substring(realNamespace.length);
+        if (!state || state.ack || id.indexOf(realNamespace) !== 0) return;
+
+        var command = stateId.replace(/-/g,'.');
+        initNutConnection(function(oNut) {
+            if (adapter.config.username && adapter.config.password) {
+                adapter.log.info('send username for command ' + command);
+                oNut.SetUsername(adapter.config.username, function (err) {
+                    if (err) {
+                        adapter.log.error('Err while sending username: '+ err);
+                        oNut.close();
+                    }
+                    else {
+                        adapter.log.info('send password for command ' + command);
+                        oNut.SetPassword(adapter.config.password, function (err) {
+                            if (err) {
+                                adapter.log.error('Err while sending password: '+ err);
+                                oNut.close();
+                            }
+                            else {
+                                adapter.log.info('send command ' + command);
+                                oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
+                                    if (err) {
+                                        adapter.log.error('Err while sending command ' + command + ': '+ err);
+                                        oNut.close();
+                                    }
+                                    getCurrentNutValues(oNut, true);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                adapter.log.info('send command ' + command + ' without username and password');
+                oNut.RunUPSCommand(adapter.config.ups_name, command, function (err) {
+                    if (err) {
+                        adapter.log.error('Err while sending command ' + command + ': '+ err);
+                    }
+                    getCurrentNutValues(oNut, true);
+                });
+            }
+
+            adapter.setState(id, {ack: true, val: false});
+        });
+    });
+
+    adapter.on('unload', function (callback) {
+        if (nutTimeout) clearTimeout(nutTimeout);
+        nutTimeout = null;
+        if (callback) callback();
+    });
+
+    return adapter;
+}
 
 process.on('SIGINT', function () {
     if (nutTimeout) clearTimeout(nutTimeout);
@@ -130,7 +145,7 @@ function main() {
                 getCurrentNutValues(oNut, true);
 
                 var update_interval = parseInt(adapter.config.update_interval,10) || 60;
-                nutTimeout = setTimeout(updateNutData, update_interval*1000);
+                nutTimeout = setTimeout(updateNutData, update_interval * 1000);
             });
         });
     });
@@ -243,7 +258,7 @@ function updateNutData() {
     });
 
     var update_interval = parseInt(adapter.config.update_interval,10) || 60;
-    nutTimeout = setTimeout(updateNutData, update_interval*1000);
+    nutTimeout = setTimeout(updateNutData, update_interval * 1000);
 }
 
 function getCurrentNutValues(oNut, closeConnection) {
@@ -411,4 +426,12 @@ function parseAndSetSeverity(ups_status) {
 
     adapter.log.debug('Set State status.severity = '+severityVal);
     adapter.setState('status.severity', {ack: true, val: severityVal});
+}
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
 }

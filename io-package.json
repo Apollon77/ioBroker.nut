@@ -61,6 +61,7 @@
         "mode": "daemon",
         "messagebox": true,
         "subscribe": "messagebox",
+        "compact": true,
         "stopBeforeUpdate": true,
         "icon": "nut.png",
         "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",

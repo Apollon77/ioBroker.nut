@@ -80,6 +80,10 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 ## Changelog
 
+### __WORK IN PROGRESS__
+* (Apollon77) adjust connection close handling
+* (Apollon77) add compact mode
+
 ### 1.2.0 (2020-12-26)
 * (Apollon77) update dependencies
 * (Apollon77) Add Sentry error reporting
