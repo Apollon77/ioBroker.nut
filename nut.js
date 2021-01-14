@@ -106,7 +106,7 @@ process.on('uncaughtException', function (err) {
     if (nutTimeout) clearTimeout(nutTimeout);
 });
 
-function main() {
+async function main() {
     adapter.getForeignObject('system.adapter.' + adapter.namespace, function (err, obj) {
        if (!err && obj && (obj.common.mode !== 'daemon')) {
             obj.common.mode = 'daemon';
@@ -114,23 +114,23 @@ function main() {
             adapter.setForeignObject(obj._id, obj);
        }
     });
-    adapter.setObjectNotExists('status.last_notify', {
-        type: 'state',
-        common: {
-            name: 'status.last_notify',
-            type: 'string',
-            read: true,
-            write: false
-        },
-        native: {id: 'status.last_notify'}
-    }, function(err, obj) {
-        if (err) {
-            adapter.log.error('Error creating State: ' + err);
-        }
-    });
-    adapter.getState('status.last_notify', function (err, state) {
+    try {
+        await adapter.setObjectNotExistsAsync('status.last_notify', {
+            type: 'state',
+            common: {
+                name: 'status.last_notify',
+                type: 'string',
+                read: true,
+                write: false
+            },
+            native: {id: 'status.last_notify'}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating State: ' + err);
+    }
+    adapter.getState('status.last_notify', async function (err, state) {
         if (!err && !state) {
-            adapter.setState('status.last_notify', {ack: true, val: ''});
+            await adapter.setStateAsync('status.last_notify', {ack: true, val: ''});
         }
         initNutConnection(function(oNut) {
             oNut.GetUPSCommands(adapter.config.ups_name, function(cmdlist, err) {
@@ -151,40 +151,40 @@ function main() {
     });
 }
 
-function initNutCommands(cmdlist) {
+async function initNutCommands(cmdlist) {
     adapter.log.debug('Create Channel commands');
-    adapter.setObjectNotExists('commands', {
-        type: 'channel',
-        common: {name: 'commands'},
-        native: {}
-    }, function(err, obj) {
-        if (err) {
-            adapter.log.error('Error creating Channel: ' + err);
-        }
-    });
+    try {
+        await adapter.setObjectNotExistsAsync('commands', {
+            type: 'channel',
+            common: {name: 'commands'},
+            native: {}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating Channel: ' + err);
+    }
 
     if (! cmdlist) return;
     nutCommands = cmdlist;
     for (var i = 0; i < cmdlist.length; i++) {
         var cmdName = cmdlist[i].replace(/\./g,'-');
         adapter.log.debug('Create State commands.' + cmdName);
-        adapter.setObjectNotExists('commands.' + cmdName, {
-            type: 'state',
-            common: {
-                name: 'commands.' + cmdName,
-                role: 'button',
-                type: 'boolean',
-                read: true,
-                write: true,
-                def:   false
-            },
-            native: {id: 'commands.' + cmdName}
-        }, function(err, obj) {
-            if (err) {
-                adapter.log.error('Error creating State: ' + err);
-            }
-        });
-        adapter.setState('commands.' + cmdName, {ack: true, val: false});
+        try {
+            await adapter.setObjectNotExistsAsync('commands.' + cmdName, {
+                type: 'state',
+                common: {
+                    name: 'commands.' + cmdName,
+                    role: 'button',
+                    type: 'boolean',
+                    read: true,
+                    write: true,
+                    def: false
+                },
+                native: {id: 'commands.' + cmdName}
+            });
+        } catch (err) {
+            adapter.log.error('Error creating State: ' + err);
+        }
+        await adapter.setStateAsync('commands.' + cmdName, {ack: true, val: false});
     }
     adapter.subscribeStates('commands.*');
 }
@@ -274,7 +274,7 @@ function getCurrentNutValues(oNut, closeConnection) {
     });
 }
 
-function storeNutData(varlist) {
+async function storeNutData(varlist) {
     var last='';
     var current='';
     var index=0;
@@ -294,72 +294,72 @@ function storeNutData(varlist) {
         }
         if (((last==='') || (last!==current)) && (current!=='')) {
             adapter.log.debug('Create Channel '+current);
-            adapter.setObjectNotExists(current, {
-                type: 'channel',
-                common: {name: current},
-                native: {}
-            }, function(err, obj) {
-                if (err) {
-                    adapter.log.error('Error creating Channel: ' + err);
-                }
-            });
+            try {
+                await adapter.setObjectNotExistsAsync(current, {
+                    type: 'channel',
+                    common: {name: current},
+                    native: {}
+                });
+            } catch (err) {
+                adapter.log.error('Error creating Channel: ' + err);
+            }
         }
         stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
         adapter.log.debug('Create State '+stateName);
         if (stateName === 'battery.charge') {
-            adapter.setObjectNotExists(stateName, {
-                type: 'state',
-                common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
-                native: {id: stateName}
-            }, function(err, obj) {
-                if (err) {
-                    adapter.log.error('Error creating State: ' + err);
-                }
-            });
+            try {
+                await adapter.setObjectNotExistsAsync(stateName, {
+                    type: 'state',
+                    common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
+                    native: {id: stateName}
+                });
+            } catch (err) {
+                adapter.log.error('Error creating State: ' + err);
+            }
         }
         else {
-            adapter.setObjectNotExists(stateName, {
-                type: 'state',
-                common: {name: stateName, type: 'string', read: true, write: false},
-                native: {id: stateName}
-            }, function(err, obj) {
-                if (err) {
-                    adapter.log.error('Error creating State: ' + err);
-                }
-            });
+            try {
+                await adapter.setObjectNotExistsAsync(stateName, {
+                    type: 'state',
+                    common: {name: stateName, type: 'string', read: true, write: false},
+                    native: {id: stateName}
+                });
+            } catch (err) {
+                adapter.log.error('Error creating State: ' + err);
+            }
         }
         adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
-        adapter.setState(stateName, {ack: true, val: varlist[key]});
+        await adapter.setStateAsync(stateName, {ack: true, val: varlist[key]});
         last=current;
     }
 
     adapter.log.debug('Create Channel status');
-    adapter.setObjectNotExists('status', {
-        type: 'channel',
-        common: {name: 'status'},
-        native: {}
-    }, function(err, obj) {
-        if (err) {
-            adapter.log.error('Error creating Channel: ' + err);
-        }
-    });
-    adapter.setObjectNotExists('status.severity', {
-        type: 'state',
-        common: {
-            name: 'status.severity',
-            role: 'indicator',
-            type: 'number',
-            read: true,
-            write: false,
-            def:4,
-            states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
-        },
-        native: {id: 'status.severity'}
-    }, function(err, obj) {
-        if (err) {
-            adapter.log.error('Error creating State: ' + err);
-        }
-    });
+    try {
+        await adapter.setObjectNotExistsAsync('status', {
+            type: 'channel',
+            common: {name: 'status'},
+            native: {}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating Channel: ' + err);
+    }
+    try {
+        await adapter.setObjectNotExistsAsync('status.severity', {
+            type: 'state',
+            common: {
+                name: 'status.severity',
+                role: 'indicator',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 4,
+                states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
+            },
+            native: {id: 'status.severity'}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating State: ' + err);
+    }
     if (varlist['ups.status']) {
         parseAndSetSeverity(varlist['ups.status']);
     }
@@ -368,7 +368,7 @@ function storeNutData(varlist) {
     adapter.log.debug('All Nut values set');
 }
 
-function parseAndSetSeverity(ups_status) {
+async function parseAndSetSeverity(ups_status) {
     var statusMap = {
               'OL':{name:'online',severity:'idle'},
               'OB':{name:'onbattery',severity:'operating'},
@@ -401,17 +401,17 @@ function parseAndSetSeverity(ups_status) {
             var found=(checker.indexOf(' ' + idx)>-1);
             stateName='status.'+statusMap[idx].name;
             adapter.log.debug('Create State '+stateName);
-            adapter.setObjectNotExists(stateName, {
-                type: 'state',
-                common: {name: stateName, type: 'boolean', read: true, write: false},
-                native: {id: stateName}
-            }, function(err, obj) {
-                if (err) {
-                    adapter.log.error('Error creating State: ' + err);
-                }
-            });
+            try {
+                await adapter.setObjectNotExistsAsync(stateName, {
+                    type: 'state',
+                    common: {name: stateName, type: 'boolean', read: true, write: false},
+                    native: {id: stateName}
+                });
+            } catch (err) {
+                adapter.log.error('Error creating State: ' + err);
+            }
             adapter.log.debug('Set State '+stateName+' = '+found);
-            adapter.setState(stateName, {ack: true, val: found});
+            await adapter.setStateAsync(stateName, {ack: true, val: found});
             if (found) {
                 severity[statusMap[idx].severity]=true;
                 adapter.log.debug('Severity Flag '+statusMap[idx].severity+'=true');
@@ -425,7 +425,7 @@ function parseAndSetSeverity(ups_status) {
         else if (severity.idle) severityVal=0;
 
     adapter.log.debug('Set State status.severity = '+severityVal);
-    adapter.setState('status.severity', {ack: true, val: severityVal});
+    await adapter.setStateAsync('status.severity', {ack: true, val: severityVal});
 }
 
 // If started as allInOne/compact mode => return function to create instance
