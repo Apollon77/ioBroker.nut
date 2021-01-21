@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "nut",
-        "version": "1.4.0",
+        "version": "1.4.1",
         "news": {
+            "1.4.1": {
+                "en": "Optimize stop handling (Sentry IOBROKER-NUT-1)",
+                "de": "Optimieren Sie die Stop-Handhabung (Sentry IOBROKER-NUT-1)",
+                "ru": "Оптимизация обработки останова (Sentry IOBROKER-NUT-1)",
+                "pt": "Otimize o manuseio de parada (Sentry IOBROKER-NUT-1)",
+                "nl": "Optimaliseer het afhandelen van stops (Sentry IOBROKER-NUT-1)",
+                "fr": "Optimiser la gestion des arrêts (Sentry IOBROKER-NUT-1)",
+                "it": "Ottimizza la gestione delle fermate (Sentry IOBROKER-NUT-1)",
+                "es": "Optimizar el manejo de paradas (Sentry IOBROKER-NUT-1)",
+                "pl": "Zoptymalizuj obsługę zatrzymania (Sentry IOBROKER-NUT-1)",
+                "zh-cn": "优化停止处理（Sentry IOBROKER-NUT-1）"
+            },
             "1.4.0": {
                 "en": "Prevent warnings in js-controller 3.2\nRequire at least js-controller 2.0",
                 "de": "Verhindern Sie Warnungen in js-controller 3.2\nBenötigen Sie mindestens js-controller 2.0",

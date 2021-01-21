@@ -82,7 +82,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.4.1 (2021-01-21)
 * (Apollon77) Optimize stop handling (Sentry IOBROKER-NUT-1)
 
 ### 1.4.0 (2021-01-14)
