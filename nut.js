@@ -17,6 +17,7 @@ var adapter;
 var Nut   = require('node-nut');
 
 var nutTimeout;
+var stopTinProgress;
 
 var nutCommands = null;
 
@@ -44,6 +45,7 @@ function startAdapter(options) {
 
         var command = stateId.replace(/-/g,'.');
         initNutConnection(function(oNut) {
+            if (stopTinProgress) return; // adapter already unloaded
             if (adapter.config.username && adapter.config.password) {
                 adapter.log.info('send username for command ' + command);
                 oNut.SetUsername(adapter.config.username, function (err) {
@@ -87,6 +89,7 @@ function startAdapter(options) {
     });
 
     adapter.on('unload', function (callback) {
+        stopTinProgress = true;
         if (nutTimeout) clearTimeout(nutTimeout);
         nutTimeout = null;
         if (callback) callback();
@@ -230,6 +233,7 @@ function initNutConnection(callback) {
 
     oNut.on('error', function(err) {
         adapter.log.error('Error happend: ' + err);
+        if (stopTinProgress) return; // adapter already unloaded
         adapter.getState('status.last_notify', function (err, state) {
             if (!err && !state || (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM')) {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
