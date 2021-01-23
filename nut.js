@@ -229,6 +229,13 @@ function processMessage(message) {
 }
 
 function initNutConnection(callback) {
+    adapter.config.host_port = parseInt(adapter.config.host_port);
+    if (adapter.config.host_port < 0 || adapter.config.host_port > 65535) {
+        adapter.log.error('Configured Port invalid: ' + adapter.config.host_port);
+        adapter.terminate ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION) : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+        return;
+    }
+
     var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
 
     oNut.on('error', function(err) {
