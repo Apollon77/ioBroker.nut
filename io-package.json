@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "nut",
-        "version": "1.4.1",
+        "version": "1.4.2",
         "news": {
+            "1.4.2": {
+                "en": "Check configured port before using it (Sentry IOBROKER-NUT-3)",
+                "de": "Überprüfen Sie den konfigurierten Port, bevor Sie ihn verwenden (Sentry IOBROKER-NUT-3).",
+                "ru": "Перед использованием проверьте настроенный порт (Sentry IOBROKER-NUT-3)",
+                "pt": "Verifique a porta configurada antes de usá-la (Sentry IOBROKER-NUT-3)",
+                "nl": "Controleer de geconfigureerde poort voordat u deze gebruikt (Sentry IOBROKER-NUT-3)",
+                "fr": "Vérifiez le port configuré avant de l'utiliser (Sentry IOBROKER-NUT-3)",
+                "it": "Controllare la porta configurata prima di utilizzarla (Sentry IOBROKER-NUT-3)",
+                "es": "Verifique el puerto configurado antes de usarlo (Sentry IOBROKER-NUT-3)",
+                "pl": "Sprawdź skonfigurowany port przed użyciem (Sentry IOBROKER-NUT-3)",
+                "zh-cn": "在使用之前检查配置的端口（Sentry IOBROKER-NUT-3）"
+            },
             "1.4.1": {
                 "en": "Optimize stop handling (Sentry IOBROKER-NUT-1)",
                 "de": "Optimieren Sie die Stop-Handhabung (Sentry IOBROKER-NUT-1)",
