@@ -82,7 +82,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 ## Changelog
 
-### __WORK IN PROGRESS__
+### 1.4.3 (2021-02-04)
 * (Apollon77) Enhance the port check
 
 ### 1.4.2 (2021-01-23)

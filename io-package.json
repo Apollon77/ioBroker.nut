@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "nut",
-        "version": "1.4.2",
+        "version": "1.4.3",
         "news": {
+            "1.4.3": {
+                "en": "Enhance the port check",
+                "de": "Erweitern Sie die Portprüfung",
+                "ru": "Улучшите проверку порта",
+                "pt": "Aprimore a verificação da porta",
+                "nl": "Verbeter de poortcontrole",
+                "fr": "Améliorer la vérification du port",
+                "it": "Migliora il controllo delle porte",
+                "es": "Mejora la verificación del puerto",
+                "pl": "Popraw sprawdzanie portu",
+                "zh-cn": "增强端口检查"
+            },
             "1.4.2": {
                 "en": "Check configured port before using it (Sentry IOBROKER-NUT-3)",
                 "de": "Überprüfen Sie den konfigurierten Port, bevor Sie ihn verwenden (Sentry IOBROKER-NUT-3).",
