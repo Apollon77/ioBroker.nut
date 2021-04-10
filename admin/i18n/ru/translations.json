@@ -1,0 +1,14 @@
+{
+    "host_ip": "IP NUT сервера",
+    "host_port": "Порт NUT сервера",
+    "ip_info": "IP address of the NUT server. NUT needs to run in server mode and needs to be accessible by the computer the iobroker NUT adapter runs on. So check firewall settings if you have problems and allow the access. If the UPS is connected locally you can also use 127.0.0.1 or localhost.",
+    "name_info": "Name of the UPS as defined in the NUT configuration of the NUT server.</p>Hint: If you want to connect to an UPS connected to a Synology diskstation the name is simply 'ups'.",
+    "page_title": "NUT Adapter Settings",
+    "password": "Password of the UPS",
+    "port_info": "Port of NUT. The default port is 3493.",
+    "trouble_info": "When you turn the adapter into debug then you can see all created states and their data in the logfile. If you have problems and the adapter do not deliver the data you can use the two scripts in directory 'test' of the adapter installation (so normally in node_modules/iobroker.nut/test relative to your iobroker installation directory) to try it out on the commandline. Call the scripts using 'node filename.js' to see the awaited parameters.</p><ul><li><b>test_upslist.js</b>: Connects to the NUT server and returns a list of available UPS names</li><li><b>test_upsvars.js</b>: Connects to the NUT server for a defined UPS and returns a list of available UPS variables</li></ul>",
+    "update_interval": "Update Interval",
+    "update_interval_info": "Interval in Seconds to update the data.",
+    "ups_name": "NUT имя UPS",
+    "username": "Username of the UPS"
+}
