@@ -1,14 +1,14 @@
 {
-    "host_ip": "",
-    "host_port": "",
-    "ip_info": "",
-    "name_info": "",
-    "page_title": "",
-    "password": "",
-    "port_info": "",
-    "trouble_info": "",
-    "update_interval": "",
-    "update_interval_info": "",
-    "ups_name": "",
-    "username": ""
+    "host_ip": "NUT服务器IP",
+    "host_port": "NUT服务器端口",
+    "ip_info": "NUT服务器的IP地址。 ",
+    "name_info": "在NUT服务器的NUT配置中定义的UPS的名称。",
+    "page_title": "NUT适配器设置",
+    "password": "UPS密码",
+    "port_info": "NUT的端口。",
+    "trouble_info": "将适配器转换为调试时，您可以在日志文件中看到所有创建的状态及其数据。",
+    "update_interval": "更新间隔",
+    "update_interval_info": "时间间隔以秒为单位来更新数据。",
+    "ups_name": "UPS的NUT名称",
+    "username": "UPS的用户名"
 }

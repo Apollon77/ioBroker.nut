@@ -1,14 +1,14 @@
 {
-    "host_ip": "",
-    "host_port": "",
-    "ip_info": "",
-    "name_info": "",
-    "page_title": "",
-    "password": "",
-    "port_info": "",
-    "trouble_info": "",
-    "update_interval": "",
-    "update_interval_info": "",
-    "ups_name": "",
-    "username": ""
+    "host_ip": "NUT Server IP",
+    "host_port": "NUT Server-poort",
+    "ip_info": "IP-adres van de NUT-server. ",
+    "name_info": "Naam van de UPS zoals gedefinieerd in de NUT-configuratie van de NUT-server. </p> Tip: als u verbinding wilt maken met een UPS die is aangesloten op een Synology-diskstation, is de naam gewoon 'ups'.",
+    "page_title": "NUT Adapter-instellingen",
+    "password": "Wachtwoord van de UPS",
+    "port_info": "Haven van NUT. ",
+    "trouble_info": "Wanneer u de adapter in debug verandert, kunt u alle aangemaakte toestanden en hun gegevens in het logbestand zien. ",
+    "update_interval": "Bijwerkingsonderbreking",
+    "update_interval_info": "Interval in seconden om de gegevens bij te werken.",
+    "ups_name": "NUT Naam van de UPS",
+    "username": "Gebruikersnaam van de UPS"
 }

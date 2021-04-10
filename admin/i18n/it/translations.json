@@ -1,14 +1,14 @@
 {
-    "host_ip": "",
-    "host_port": "",
-    "ip_info": "",
-    "name_info": "",
-    "page_title": "",
-    "password": "",
-    "port_info": "",
-    "trouble_info": "",
-    "update_interval": "",
-    "update_interval_info": "",
-    "ups_name": "",
-    "username": ""
+    "host_ip": "IP server NUT",
+    "host_port": "Porta del server NUT",
+    "ip_info": "Indirizzo IP del server NUT. ",
+    "name_info": "Nome dell'UPS come definito nella configurazione NUT del server NUT. </p> Suggerimento: se si desidera connettersi a un UPS connesso a una diskstation Synology, il nome è semplicemente \"ups\".",
+    "page_title": "Impostazioni adattatore NUT",
+    "password": "Password dell'UPS",
+    "port_info": "Porto di NUT. ",
+    "trouble_info": "Quando si trasforma l'adattatore in debug, è possibile visualizzare tutti gli stati creati e i relativi dati nel file di registro. ",
+    "update_interval": "Intervallo di aggiornamento",
+    "update_interval_info": "Intervallo in secondi per aggiornare i dati.",
+    "ups_name": "NUT Nome dell'UPS",
+    "username": "Nome utente dell'UPS"
 }

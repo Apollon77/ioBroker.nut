@@ -1,14 +1,14 @@
 {
-    "host_ip": "",
-    "host_port": "",
-    "ip_info": "",
-    "name_info": "",
-    "page_title": "",
-    "password": "",
-    "port_info": "",
-    "trouble_info": "",
-    "update_interval": "",
-    "update_interval_info": "",
-    "ups_name": "",
-    "username": ""
+    "host_ip": "Adres IP serwera NUT",
+    "host_port": "Port serwera NUT",
+    "ip_info": "Adres IP serwera NUT. ",
+    "name_info": "Nazwa zasilacza UPS zdefiniowana w konfiguracji NUT serwera NUT. </p> Wskazówka: Jeśli chcesz połączyć się z zasilaczem UPS podłączonym do stacji dyskowej Synology, nazwa to po prostu „ups”.",
+    "page_title": "Ustawienia adaptera NUT",
+    "password": "Hasło zasilacza UPS",
+    "port_info": "Port NUT. ",
+    "trouble_info": "Po włączeniu adaptera do debugowania można zobaczyć wszystkie utworzone stany i ich dane w pliku dziennika. ",
+    "update_interval": "Aktualizuj interwał",
+    "update_interval_info": "Interwał w sekundach, aby zaktualizować dane.",
+    "ups_name": "NUT Nazwa zasilacza UPS",
+    "username": "Nazwa użytkownika UPS"
 }

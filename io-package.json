@@ -84,32 +84,68 @@
                 "fr": "Fix Admin",
                 "it": "Correggi Admin",
                 "es": "Fix Admin",
-                "pl": "Napraw administratora"
+                "pl": "Napraw administratora",
+                "zh-cn": "修复管理员"
             },
             "1.1.2": {
                 "en": "fix status parsing",
                 "de": "Statuserkennung verbessert",
-                "ru": "fix status parsing"
+                "ru": "fix status parsing",
+                "pt": "corrigir análise de status",
+                "nl": "status parsing repareren",
+                "fr": "correction de l'analyse de l'état",
+                "it": "correggere l'analisi dello stato",
+                "es": "corregir el análisis de estado",
+                "pl": "naprawić parsowanie stanu",
+                "zh-cn": "修复状态解析"
             },
             "1.1.1": {
                 "en": "enhance error handling",
                 "de": "Fehlerbehandlung verbessert",
-                "ru": "enhance error handling"
+                "ru": "enhance error handling",
+                "pt": "melhorar o tratamento de erros",
+                "nl": "verbetering van foutafhandeling",
+                "fr": "améliorer la gestion des erreurs",
+                "it": "migliorare la gestione degli errori",
+                "es": "mejorar el manejo de errores",
+                "pl": "usprawnić obsługę błędów",
+                "zh-cn": "增强错误处理"
             },
             "1.1.0": {
                 "en": "Add possibility to call commands on the UPS",
                 "de": "Möglichkeit hinzugefügt Kommandos auf der USV auszuführen",
-                "ru": "Add possibility to call commands on the UPS"
+                "ru": "Add possibility to call commands on the UPS",
+                "pt": "Adicionar possibilidade de chamar comandos no UPS",
+                "nl": "Mogelijkheid toegevoegd om commando's op de UPS op te roepen",
+                "fr": "Ajout de la possibilité d'appeler des commandes sur l'onduleur",
+                "it": "Aggiunta la possibilità di chiamare i comandi sull'UPS",
+                "es": "Agregue la posibilidad de llamar a comandos en el UPS",
+                "pl": "Dodaj możliwość wywoływania poleceń na UPS",
+                "zh-cn": "增加在UPS上调用命令的可能性"
             },
             "1.0.0": {
                 "en": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity",
                 "de": "Adapter arbeitet nun als Deamon, Notify-Support per upsmon hinzugefügt, status.severity hinzugefügt",
-                "ru": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity"
+                "ru": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity",
+                "pt": "mude o modo de agendamento para deamon, implemente o suporte a mensagens para receber mensagens do upsmon, adicione status.severity",
+                "nl": "verander modus van schema naar deamon, implementeer berichtondersteuning om berichten van upsmon te ontvangen, voeg status.severity toe",
+                "fr": "changer de mode de planification à démon, implémenter la prise en charge des messages pour recevoir des messages d'upsmon, ajouter status.severity",
+                "it": "cambia la modalità da pianificazione a demone, implementa il supporto dei messaggi per ricevere messaggi da upsmon, aggiungi status.severity",
+                "es": "cambiar el modo de horario a demonio, implementar soporte de mensajes para recibir mensajes de upsmon, agregar estado.",
+                "pl": "zmień tryb z harmonogramu na demona, zaimplementuj obsługę wiadomości, aby otrzymywać wiadomości z upsmon, dodaj status.severity",
+                "zh-cn": "从计划更改为守护进程的模式，实现消息支持以接收来自upsmon的消息，添加状态。"
             },
             "0.3.1": {
                 "en": "add better usable status states under 'status' channel",
                 "de": "Besser nutzbare Stati States unter 'status' eingefügt",
-                "ru": "add better usable status states under 'status' channel"
+                "ru": "add better usable status states under 'status' channel",
+                "pt": "adicione melhores estados de status utilizáveis ​​no canal 'status'",
+                "nl": "voeg beter bruikbare statusstatussen toe onder 'status'-kanaal",
+                "fr": "ajouter de meilleurs états de statut utilisables sous le canal «statut»",
+                "it": "aggiungere stati di stato meglio utilizzabili nel canale \"stato\"",
+                "es": "agregue mejores estados de estado utilizables en el canal 'estado'",
+                "pl": "dodaj lepsze stany statusu użytkowego w kanale „status”",
+                "zh-cn": "在“状态”通道下添加更好的可用状态状态"
             }
         },
         "authors": [

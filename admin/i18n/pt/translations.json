@@ -1,14 +1,14 @@
 {
-    "host_ip": "",
-    "host_port": "",
-    "ip_info": "",
-    "name_info": "",
-    "page_title": "",
-    "password": "",
-    "port_info": "",
-    "trouble_info": "",
-    "update_interval": "",
-    "update_interval_info": "",
-    "ups_name": "",
-    "username": ""
+    "host_ip": "IP do servidor NUT",
+    "host_port": "Porta do servidor NUT",
+    "ip_info": "Endereço IP do servidor NUT. ",
+    "name_info": "Nome do UPS conforme definido na configuração NUT do servidor NUT. </p> Dica: Se você deseja se conectar a um UPS conectado a uma estação de disco Synology, o nome é simplesmente 'ups'.",
+    "page_title": "Configurações do adaptador NUT",
+    "password": "Senha do UPS",
+    "port_info": "Porto de NUT. ",
+    "trouble_info": "Quando você transforma o adaptador em depuração, pode ver todos os estados criados e seus dados no arquivo de log. ",
+    "update_interval": "Intervalo de atualização",
+    "update_interval_info": "Intervalo em segundos para atualizar os dados.",
+    "ups_name": "NUT Nome do UPS",
+    "username": "Nome de usuário da UPS"
 }
