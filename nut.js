@@ -312,16 +312,18 @@ async function storeNutData(varlist) {
                     native: {}
                 });
             } catch (err) {
-                adapter.log.error('Error creating Channel: ' + err);
+                adapter.log.error(`Error creating Channel: ${err}`);
             }
         }
         stateName=current+'.'+key.substring(index+1).replace(/\./g,'-');
-        adapter.log.debug('Create State '+stateName);
+        adapter.log.debug(`Create State ${stateName}`);
         if (stateName === 'battery.charge') {
             try {
+                // it has type string but should be an integer
+                varlist[key] = parseInt(varlist[key])
                 await adapter.setObjectNotExistsAsync(stateName, {
                     type: 'state',
-                    common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false},
+                    common: {name: stateName, type: 'number', role: 'value.battery', read: true, write: false, unit: '%'},
                     native: {id: stateName}
                 });
             } catch (err) {
@@ -339,7 +341,7 @@ async function storeNutData(varlist) {
                 adapter.log.error('Error creating State: ' + err);
             }
         }
-        adapter.log.debug('Set State '+stateName+' = '+varlist[key]);
+        adapter.log.debug(`Set State ${stateName} = ${varlist[key]}`);
         await adapter.setStateAsync(stateName, {ack: true, val: varlist[key]});
         last=current;
     }
