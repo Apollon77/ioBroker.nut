@@ -17,9 +17,10 @@ var adapter;
 var Nut   = require('node-nut');
 
 var nutTimeout;
-var stopTinProgress;
+var stopInProgress;
 
 var nutCommands = null;
+let connected = null;
 
 function startAdapter(options) {
     options = options || {};
@@ -45,7 +46,7 @@ function startAdapter(options) {
 
         var command = stateId.replace(/-/g,'.');
         initNutConnection(function(oNut) {
-            if (stopTinProgress) return; // adapter already unloaded
+            if (stopInProgress) return; // adapter already unloaded
             if (adapter.config.username && adapter.config.password) {
                 adapter.log.info('send username for command ' + command);
                 oNut.SetUsername(adapter.config.username, function (err) {
@@ -89,10 +90,14 @@ function startAdapter(options) {
     });
 
     adapter.on('unload', function (callback) {
-        stopTinProgress = true;
+        stopInProgress = true;
         if (nutTimeout) clearTimeout(nutTimeout);
         nutTimeout = null;
-        if (callback) callback();
+        try {
+            setConnected(false);
+        } finally {
+            if (typeof callback === 'function') callback();
+        }
     });
 
     return adapter;
@@ -109,7 +114,23 @@ process.on('uncaughtException', function (err) {
     if (nutTimeout) clearTimeout(nutTimeout);
 });
 
+function setConnected(isConnected) {
+    if (connected !== isConnected) {
+        connected = isConnected;
+        adapter && adapter.setState('info.connection', connected, true, (err) => {
+            // analyse if the state could be set (because of permissions)
+            if (err && adapter && adapter.log) {
+                adapter.log.error('Can not update connected state: ' + err);
+            }
+            else if (adapter && adapter.log) {
+                adapter.log.debug('connected set to ' + connected);
+            }
+        });
+    }
+}
+
 async function main() {
+    setConnected(false);
     adapter.getForeignObject('system.adapter.' + adapter.namespace, function (err, obj) {
        if (!err && obj && (obj.common.mode !== 'daemon')) {
             obj.common.mode = 'daemon';
@@ -239,8 +260,9 @@ function initNutConnection(callback) {
     var oNut = new Nut(adapter.config.host_port, adapter.config.host_ip);
 
     oNut.on('error', function(err) {
+        if (stopInProgress) return; // adapter already unloaded
         adapter.log.error('Error happend: ' + err);
-        if (stopTinProgress) return; // adapter already unloaded
+        setConnected(false);
         adapter.getState('status.last_notify', function (err, state) {
             if (!err && !state || (state && state.val!=='COMMBAD' && state.val!=='SHUTDOWN' && state.val!=='NOCOMM')) {
                 adapter.setState('status.last_notify', {ack: true, val: 'ERROR'});
@@ -255,6 +277,7 @@ function initNutConnection(callback) {
 
     oNut.on('ready', function() {
         adapter.log.debug('NUT Connection ready');
+        setConnected(true);
         callback(oNut);
     });
 
