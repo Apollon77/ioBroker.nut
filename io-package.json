@@ -151,8 +151,31 @@
         "authors": [
             "Apollon77 <ingo@fischer-ka.de>"
         ],
-        "title": "Network UPS Adapter",
-        "desc": "Read all data from your UPS/USV via nut protocol",
+        "title": "Network UPS",
+        "titleLang": {
+            "en": "Network UPS",
+            "de": "Netzwerk-USV",
+            "ru": "Сетевой ИБП",
+            "pt": "UPS de rede",
+            "nl": "Netwerk-UPS",
+            "fr": "Réseau UPS",
+            "it": "UPS di rete",
+            "es": "UPS de red",
+            "pl": "Sieciowy UPS",
+            "zh-cn": "网络不间断电源"
+        },
+        "desc": {
+            "en": "Read all data from your UPS/USV via nut protocol",
+            "de": "Lesen Sie alle Daten von Ihrer USV / USV über das Mutterprotokoll",
+            "ru": "Считайте все данные с вашего UPS / USV по протоколу Nut",
+            "pt": "Leia todos os dados do seu UPS / USV via protocolo nut",
+            "nl": "Lees alle gegevens van uw UPS / USV via een moer-protocol",
+            "fr": "Lisez toutes les données de votre UPS / USV via le protocole d'écrou",
+            "it": "Leggi tutti i dati dal tuo UPS / USV tramite protocollo dado",
+            "es": "Lea todos los datos de su UPS / USV a través del protocolo de tuerca",
+            "pl": "Odczytaj wszystkie dane z UPS / USV za pomocą protokołu NUT",
+            "zh-cn": "通过螺母协议从UPS / USV读取所有数据"
+        },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "messagebox": true,

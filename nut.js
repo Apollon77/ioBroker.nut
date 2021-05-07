@@ -138,6 +138,7 @@ async function main() {
             adapter.setForeignObject(obj._id, obj);
        }
     });
+    await parseAndSetSeverity("");
     try {
         await adapter.setObjectNotExistsAsync('status.last_notify', {
             type: 'state',

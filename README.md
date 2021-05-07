@@ -88,6 +88,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 ### __WORK IN PROGRESS__
 * (foxriver76) we fixed the state value type set to `battery.charge`
 * (Apollon77) Add connection states
+* (Apollon77) Optimize for js-controller 3.3
 
 ### 1.4.3 (2021-02-04)
 * (Apollon77) Enhance the port check
@@ -140,7 +141,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2020 Apollon77 <ingo@fischer-ka.de>
+Copyright (c) 2016-2021 Apollon77 <ingo@fischer-ka.de>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
