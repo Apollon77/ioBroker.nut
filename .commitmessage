@@ -1,0 +1,5 @@
+chore: release v1.5.0
+
+Add connection states
+Optimize for js-controller 3.3
+we fixed the state value type set to `battery.charge`

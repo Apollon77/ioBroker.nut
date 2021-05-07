@@ -85,7 +85,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 	### __WORK IN PROGRESS__
 -->
 
-### __WORK IN PROGRESS__
+### 1.5.0 (2021-05-08)
 * (Apollon77) Add connection states
 * (Apollon77) Optimize for js-controller 3.3
 * (foxriver76) we fixed the state value type set to `battery.charge`

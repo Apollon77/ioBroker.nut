@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "nut",
-        "version": "1.4.3",
+        "version": "1.5.0",
         "news": {
+            "1.5.0": {
+                "en": "Add connection states\nOptimize for js-controller 3.3\nwe fixed the state value type set to `battery.charge`",
+                "de": "Verbindungsstatus hinzufügen\nOptimieren für js-controller 3.3\nWir haben den Statuswerttyp auf \"Batterie.Ladung\" festgelegt",
+                "ru": "Добавить состояния подключения\nОптимизировать под js-controller 3.3\nмы исправили тип значения состояния, установленный на `battery.charge`",
+                "pt": "Adicionar estados de conexão\nOtimize para js-controller 3.3\ncorrigimos o tipo de valor de estado definido como `battery.charge`",
+                "nl": "Voeg verbindingsstatussen toe\nOptimaliseren voor js-controller 3.3\nwe hebben het statuswaardetype vastgesteld op `batterij.lading`",
+                "fr": "Ajouter des états de connexion\nOptimiser pour js-controller 3.3\nnous avons corrigé le type de valeur d'état défini sur `battery.charge`",
+                "it": "Aggiungi stati di connessione\nOttimizza per js-controller 3.3\nabbiamo corretto il tipo di valore dello stato impostato su `battery.charge`",
+                "es": "Agregar estados de conexión\nOptimizar para js-controller 3.3\narreglamos el tipo de valor de estado establecido en `battery.charge`",
+                "pl": "Dodaj stany połączeń\nOptymalizacja pod kątem kontrolera js 3.3\nnaprawiliśmy typ wartości stanu ustawiony na „battery.charge”",
+                "zh-cn": "添加连接状态\n针对js-controller 3.3进行优化\n我们将状态值类型固定为`battery.charge'"
+            },
             "1.4.3": {
                 "en": "Enhance the port check",
                 "de": "Erweitern Sie die Portprüfung",

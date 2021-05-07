@@ -1,6 +1,6 @@
 {
   "name": "iobroker.nut",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Network UPS Adapter",
   "author": "Ingo Fischer <ingo@fischer-ka.de>",
   "contributors": [],
