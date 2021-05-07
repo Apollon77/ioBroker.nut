@@ -138,7 +138,35 @@ async function main() {
             adapter.setForeignObject(obj._id, obj);
        }
     });
-    await parseAndSetSeverity("");
+
+    adapter.log.debug('Create Channel status');
+    try {
+        await adapter.setObjectNotExistsAsync('status', {
+            type: 'channel',
+            common: {name: 'status'},
+            native: {}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating Channel: ' + err);
+    }
+    try {
+        await adapter.setObjectNotExistsAsync('status.severity', {
+            type: 'state',
+            common: {
+                name: 'status.severity',
+                role: 'indicator',
+                type: 'number',
+                read: true,
+                write: false,
+                def: 4,
+                states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
+            },
+            native: {id: 'status.severity'}
+        });
+    } catch (err) {
+        adapter.log.error('Error creating State: ' + err);
+    }
+    await parseAndSetSeverity("", true);
     try {
         await adapter.setObjectNotExistsAsync('status.last_notify', {
             type: 'state',
@@ -370,33 +398,6 @@ async function storeNutData(varlist) {
         last=current;
     }
 
-    adapter.log.debug('Create Channel status');
-    try {
-        await adapter.setObjectNotExistsAsync('status', {
-            type: 'channel',
-            common: {name: 'status'},
-            native: {}
-        });
-    } catch (err) {
-        adapter.log.error('Error creating Channel: ' + err);
-    }
-    try {
-        await adapter.setObjectNotExistsAsync('status.severity', {
-            type: 'state',
-            common: {
-                name: 'status.severity',
-                role: 'indicator',
-                type: 'number',
-                read: true,
-                write: false,
-                def: 4,
-                states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
-            },
-            native: {id: 'status.severity'}
-        });
-    } catch (err) {
-        adapter.log.error('Error creating State: ' + err);
-    }
     if (varlist['ups.status']) {
         parseAndSetSeverity(varlist['ups.status']);
     }
@@ -405,7 +406,7 @@ async function storeNutData(varlist) {
     adapter.log.debug('All Nut values set');
 }
 
-async function parseAndSetSeverity(ups_status) {
+async function parseAndSetSeverity(ups_status, createObjects) {
     var statusMap = {
               'OL':{name:'online',severity:'idle'},
               'OB':{name:'onbattery',severity:'operating'},
@@ -439,7 +440,7 @@ async function parseAndSetSeverity(ups_status) {
             stateName='status.'+statusMap[idx].name;
             adapter.log.debug('Create State '+stateName);
             try {
-                await adapter.setObjectNotExistsAsync(stateName, {
+                createObjects && await adapter.setObjectNotExistsAsync(stateName, {
                     type: 'state',
                     common: {name: stateName, type: 'boolean', read: true, write: false},
                     native: {id: stateName}
