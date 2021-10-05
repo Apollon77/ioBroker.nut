@@ -1,13 +1,13 @@
 {
     "host_ip": "IP do servidor NUT",
     "host_port": "Porta do servidor NUT",
-    "ip_info": "Endereço IP do servidor NUT. ",
+    "ip_info": "Endereço IP do servidor NUT. NUT precisa ser executado no modo de servidor e deve ser acessível pelo host em que a instância do adaptador NUT é executada. Verifique as configurações do firewall e permita o acesso se tiver problemas. Se o servidor NUT for executado neste host, você também pode usar 127.0.0.1 ou localhost.",
     "name_info": "Nome do UPS conforme definido na configuração NUT do servidor NUT. </p> Dica: Se você deseja se conectar a um UPS conectado a uma estação de disco Synology, o nome é simplesmente 'ups'.",
     "page_title": "Configurações do adaptador NUT",
     "password": "Senha do UPS",
-    "port_info": "Porto de NUT. ",
-    "trouble_info": "Quando você transforma o adaptador em depuração, pode ver todos os estados criados e seus dados no arquivo de log. ",
-    "update_interval": "Intervalo de atualização",
+    "port_info": "Porta do servidor NUT. A porta padrão é 3493.",
+    "trouble_info": "Se você definir o registro desta instância para debug, poderá ver todos os estados criados e seus dados no arquivo de registro. Se você tiver problemas e o adaptador não fornecer os dados esperados, você pode usar os dois scripts no diretório 'test' da instalação do adaptador (normalmente em node_modules/iobroker.nut/test relativo ao seu diretório de instalação ioBroker) para tentar na linha de comando. Chame os scripts usando 'node filename.js': </p> <ul> <li> <b> test_upslist.js </b>: conecta-se ao servidor NUT e retorna uma lista de nomes UPS disponíveis </li> < li> <b> test_upsvars.js </b>: Conecta ao servidor NUT para um UPS definido e retorna uma lista de variáveis UPS disponíveis </li> </ul>",
+    "update_interval": "Intervalo de solicitação de dados",
     "update_interval_info": "Intervalo em segundos para atualizar os dados.",
     "ups_name": "NUT Nome do UPS",
     "username": "Nome de usuário da UPS"
