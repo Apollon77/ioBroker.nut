@@ -58,71 +58,14 @@
             "type": "password",
             "label": "password"
         },
-        "_help1": {
+        "_helpLink": {
             "newLine": true,
-            "type": "header",
-            "text": "host_ip",
-            "size": 3
-        },
-        "_help2": {
-            "newLine": true,
-            "type": "staticText",
-            "text": "ip_info",
-            "sm": 12,
-            "md": 8,
-            "lg": 12
-        },
-        "_help3": {
-            "type": "header",
-            "text": "host_port",
-            "size": 3
-        },
-        "_help4": {
-            "newLine": true,
-            "type": "staticText",
-            "text": "port_info",
-            "sm": 12,
-            "md": 8,
-            "lg": 12
-        },
-        "_help5": {
-            "newLine": true,
-            "type": "header",
-            "text": "ups_name",
-            "size": 3
-        },
-        "_help6": {
-            "type": "staticText",
-            "text": "name_info",
-            "sm": 12,
-            "md": 8,
-            "lg": 12
-        },
-        "_help7": {
-            "newLine": true,
-            "type": "header",
-            "text": "update_interval",
-            "size": 3
-        },
-        "_help8": {
-            "newLine": true,
-            "type": "staticText",
-            "text": "update_interval_info",
-            "sm": 12,
-            "md": 8,
-            "lg": 12
-        },
-        "_help9": {
-            "type": "header",
-            "text": "Troubleshooting",
-            "size": 3
-        },
-        "_help10": {
-            "type": "staticText",
-            "text": "trouble_info",
-            "sm": 12,
-            "md": 8,
-            "lg": 12
+            "type": "staticLink",
+            "variant": "outlined",
+            "color": "primary",
+            "button": true,
+            "label": "Readme Settings and Troubleshooting",
+            "href": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md"
         }
     }
 }

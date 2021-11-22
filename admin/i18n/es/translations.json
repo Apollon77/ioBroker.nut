@@ -1,4 +1,5 @@
 {
+    "Readme Settings and Troubleshooting": "Configuración y resolución de problemas del archivo Léame",
     "host_ip": "IP del servidor NUT",
     "host_port": "Puerto del servidor NUT",
     "ip_info": "Dirección IP del servidor NUT. ",

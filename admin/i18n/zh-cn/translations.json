@@ -1,4 +1,5 @@
 {
+    "Readme Settings and Troubleshooting": "自述文件设置和故障排除",
     "host_ip": "NUT服务器IP",
     "host_port": "NUT服务器端口",
     "ip_info": "NUT服务器的IP地址。 ",

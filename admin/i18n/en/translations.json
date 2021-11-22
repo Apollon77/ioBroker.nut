@@ -1,4 +1,5 @@
 {
+    "Readme Settings and Troubleshooting": "Readme Settings and Troubleshooting",
     "host_ip": "NUT Server IP",
     "host_port": "NUT Server port",
     "ip_info": "IP address of the NUT server. NUT needs to run in server mode and needs to be accessible by the host the NUT adapter instance runs on. Please check firewall settings and allow access if you have problems. If the NUT server run on this host you can also use 127.0.0.1 or localhost.",

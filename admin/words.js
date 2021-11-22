@@ -14,4 +14,15 @@ systemDictionary = {
     "update_interval_info": {                        "en": "Interval in Seconds to update the data from the server.", "de": "Intervall in Sekunden in dem die Daten aktualisiert werden.", "ru": "Интервал в секундах для обновления данных с сервера.", "pt": "Intervalo em segundos para atualizar os dados.",  "nl": "Interval in seconden om de gegevens bij te werken.", "fr": "Intervalle en secondes pour mettre à jour les données.", "it": "Intervallo in secondi per aggiornare i dati.",    "es": "Intervalo en segundos para actualizar los datos.", "pl": "Interwał w sekundach, aby zaktualizować dane.",   "zh-cn": "时间间隔以秒为单位来更新数据。"},
     "ups_name": {                                    "en": "NUT Name of the UPS",                             "de": "NUT Name der UPS",                                "ru": "NUT имя ИБП",                                     "pt": "NUT Nome do UPS",                                 "nl": "NUT Naam van de UPS",                             "fr": "NUT Nom de l'onduleur",                           "it": "NUT Nome dell'UPS",                               "es": "NUT Nombre del SAI",                              "pl": "NUT Nazwa zasilacza UPS",                         "zh-cn": "UPS的NUT名称"},
     "username": {                                    "en": "Username of the UPS",                             "de": "Benutzername der UPS",                            "ru": "Логин ИБП",                                       "pt": "Nome de usuário da UPS",                          "nl": "Gebruikersnaam van de UPS",                       "fr": "Nom d'utilisateur de l'onduleur",                 "it": "Nome utente dell'UPS",                            "es": "Nombre de usuario del UPS",                       "pl": "Nazwa użytkownika UPS",                           "zh-cn": "UPS的用户名"},
+    "Readme Settings and Troubleshooting": {
+        "en": "Readme Settings and Troubleshooting",
+        "de": "Readme Einstellungen und Fehlerbehebung",
+        "ru": "Настройки Readme и устранение неполадок",
+        "pt": "Configurações e solução de problemas do Leiame",
+        "nl": "Leesmij-instellingen en probleemoplossing",
+        "fr": "Paramètres Lisez-moi et dépannage",
+        "it": "Impostazioni Leggimi e risoluzione dei problemi",
+        "es": "Configuración y resolución de problemas del archivo Léame",
+        "pl": "Ustawienia i rozwiązywanie problemów w pliku Readme",
+        "zh-cn": "自述文件设置和故障排除"},
 };
