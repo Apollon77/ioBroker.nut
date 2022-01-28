@@ -725,7 +725,7 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
 
             // rootDir + 'tmp/node_modules
             const objPath = require.resolve(`@iobroker/db-objects-${config.objects.type}`, {
-                paths: [ rootDir + 'tmp/node_modules', rootDir, , rootDir + 'tmp/node_modules/' + appName + '.js-controller']
+                paths: [ rootDir + 'tmp/node_modules', rootDir, rootDir + 'tmp/node_modules/' + appName + '.js-controller']
             });
             console.log('Objects Path: ' + objPath);
             const Objects = require(objPath).Server;
