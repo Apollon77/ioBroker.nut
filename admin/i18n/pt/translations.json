@@ -1,4 +1,5 @@
 {
+    "Readme Settings and Troubleshooting": "Configurações e solução de problemas do Leiame",
     "host_ip": "IP do servidor NUT",
     "host_port": "Porta do servidor NUT",
     "ip_info": "Endereço IP do servidor NUT. NUT precisa ser executado no modo de servidor e deve ser acessível pelo host em que a instância do adaptador NUT é executada. Verifique as configurações do firewall e permita o acesso se tiver problemas. Se o servidor NUT for executado neste host, você também pode usar 127.0.0.1 ou localhost.",

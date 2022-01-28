@@ -4,3 +4,4 @@
 .remote-sync.json
 node_modules
 .idea
+.vscode/sftp.json
