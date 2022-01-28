@@ -27,8 +27,8 @@ function loadJSONLDB() {
         });
         console.log('JSONLDB path: ' + dbPath);
         try {
-            const { _JSONLDB } = require(dbPath);
-            JSONLDB = _JSONLDB;
+            const { JsonlDB } = require(dbPath);
+            JSONLDB = JsonlDB;
         } catch (err) {
             console.log('Jsonl require error: ' + err);
         }
