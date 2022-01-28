@@ -26,7 +26,11 @@ function loadJSONLDB() {
             paths: [rootDir + 'tmp/node_modules', rootDir, rootDir + 'tmp/node_modules/' + appName + '.js-controller']
         });
         console.log('JSONLDB path: ' + dbPath);
-        JSONLDB = require(dbPath);
+        try {
+            JSONLDB = require(dbPath);
+        } catch (err) {
+            console.log('Jsonl require error: ' + err);
+        }
     }
 }
 
@@ -570,45 +574,48 @@ function clearDB() {
 
 function setupController(cb) {
     installJsController(async function (isInited) {
-        clearControllerLog();
-        clearDB();
+        try {
+            clearControllerLog();
+            clearDB();
 
-        if (!isInited) {
-            restoreOriginalFiles();
-            copyAdapterToController();
-        }
-        // read system.config object
-        const dataDir = rootDir + 'tmp/' + appName + '-data/';
-
-        if (fs.existsSync(dataDir + 'objects.json')) {
-            let objs;
-            try {
-                objs = fs.readFileSync(dataDir + 'objects.json');
-                objs = JSON.parse(objs);
+            if (!isInited) {
+                restoreOriginalFiles();
+                copyAdapterToController();
             }
-            catch (e) {
-                console.log('ERROR reading/parsing system configuration. Ignore');
-                objs = {'system.config': {}};
+            // read system.config object
+            const dataDir = rootDir + 'tmp/' + appName + '-data/';
+
+            if (fs.existsSync(dataDir + 'objects.json')) {
+                let objs;
+                try {
+                    objs = fs.readFileSync(dataDir + 'objects.json');
+                    objs = JSON.parse(objs);
+                } catch (e) {
+                    console.log('ERROR reading/parsing system configuration. Ignore');
+                    objs = {'system.config': {}};
+                }
+                if (!objs || !objs['system.config']) {
+                    objs = {'system.config': {}};
+                }
+
+                systemConfig = objs['system.config'];
+                if (cb) cb(objs['system.config']);
+            } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
+                loadJSONLDB();
+                const db = new JSONLDB(dataDir + 'objects.jsonl');
+                await db.open();
+
+                let config = db.get('system.config');
+                systemConfig = config || {};
+
+                await db.close();
+
+                if (cb) cb(systemConfig);
+            } else {
+                console.error('read SystemConfig: No objects file found in datadir ' + dataDir);
             }
-            if (!objs || !objs['system.config']) {
-                objs = {'system.config': {}};
-            }
-
-            systemConfig = objs['system.config'];
-            if (cb) cb(objs['system.config']);
-        } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            loadJSONLDB();
-            const db = new JSONLDB(dataDir + 'objects.jsonl');
-            await db.open();
-
-            let config = db.get('system.config');
-            systemConfig = config || {};
-
-            await db.close();
-
-            if (cb) cb(systemConfig);
-        } else {
-            console.error('read SystemConfig: No objects file found in datadir ' + dataDir);
+        } catch (err) {
+            console.error('setupController: ' + err);
         }
     });
 }
