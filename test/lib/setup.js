@@ -231,7 +231,7 @@ async function checkIsAdapterInstalled(cb, counter, customName) {
         }
 
     } catch (err) {
-
+        console.log('checkIsAdapterInstalled: catch ' + err);
     }
 
     if (counter > 20) {
