@@ -703,7 +703,12 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
             let isObjectConnected;
             let isStatesConnected;
 
-            const Objects = require(`@iobroker/db-objects-${config.objects.type}`).Server;
+            // rootDir + 'tmp/node_modules
+            const objPath = require.resolve(`@iobroker/db-objects-${config.objects.type}`, {
+                paths: [ rootDir + 'tmp/node_modules']
+            });
+            console.log('Objects Path: ' + objPath);
+            const Objects = require(objPath).Server;
             objects = new Objects({
                 connection: {
                     'type': config.objects.type,
@@ -749,7 +754,11 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
             });
 
             // Just open in memory DB itself
-            const States = require(`@iobroker/db-states-${config.states.type}`).Server;
+            const statePath = require.resolve(`@iobroker/db-states-${config.states.type}`, {
+                paths: [ rootDir + 'tmp/node_modules']
+            });
+            console.log('States Path: ' + statePath);
+            const States = require(statePath).Server;
             states = new States({
                 connection: {
                     type: config.states.type,
