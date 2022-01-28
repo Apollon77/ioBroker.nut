@@ -101,12 +101,14 @@ async function storeOriginalFiles() {
         }
 
         fs.writeFileSync(dataDir + 'objects.json.original', JSON.stringify(objects));
+        console.log('Store original objects.json');
     }
 
     if (fs.existsSync(dataDir + 'states.json')) {
         try {
             const f = fs.readFileSync(dataDir + 'states.json');
             fs.writeFileSync(dataDir + 'states.json.original', f);
+            console.log('Store original states.json');
         } catch (err) {
             console.log('no states.json found - ignore');
         }
@@ -136,11 +138,13 @@ async function storeOriginalFiles() {
 
         const f = fs.readFileSync(dataDir + 'objects.jsonl');
         fs.writeFileSync(dataDir + 'objects.jsonl.original', f);
+        console.log('Store original objects.jsonl');
     }
 
     if (fs.existsSync(dataDir + 'states.jsonl')) {
         const f = fs.readFileSync(dataDir + 'states.jsonl');
         fs.writeFileSync(dataDir + 'states.jsonl.original', f);
+        console.log('Store original states.jsonl');
     }
 }
 
@@ -210,6 +214,8 @@ async function checkIsAdapterInstalled(cb, counter, customName) {
             } else {
                 console.warn('checkIsAdapterInstalled: still not ready');
             }
+        } else {
+            console.error('checkIsAdapterInstalled: No objects file found in datadir ' + dataDir);
         }
 
     } catch (err) {
@@ -266,6 +272,8 @@ async function checkIsControllerInstalled(cb, counter) {
                 return;
             }
 
+        } else {
+            console.error('checkIsControllerInstalled: No objects file found in datadir ' + dataDir);
         }
     } catch (err) {
 
@@ -588,7 +596,7 @@ function setupController(cb) {
 
             if (cb) cb(systemConfig);
         } else {
-            console.error('Objects file not existing in datadir ' + dataDir);
+            console.error('read SystemConfig: No objects file found in datadir ' + dataDir);
         }
     });
 }
@@ -625,6 +633,8 @@ async function getSecret() {
         await db.close();
 
         return config.native.secret;
+    } else {
+        console.error('read secret: No objects file found in datadir ' + dataDir);
     }
 
 }
@@ -867,14 +877,14 @@ function stopController(cb) {
 // Setup the adapter
 async function setAdapterConfig(common, native, instance) {
     const id = 'system.adapter.' + adapterName.split('.').pop() + '.' + (instance || 0);
-    if (fs.existsSync(dataDir + 'objects.json')) {
+    if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.json')) {
         const objects = JSON.parse(fs.readFileSync(rootDir + 'tmp/' + appName + '-data/objects.json').toString());
         if (common) objects[id].common = common;
         if (native) objects[id].native = native;
         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/objects.json', JSON.stringify(objects));
-    } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
+    } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
         const DB = require('@alcalzone/jsonl-db');
-        const db = new DB(dataDir + 'objects.jsonl');
+        const db = new DB(rootDir + 'tmp/' + appName + '-data/objects.jsonl');
         await db.open();
 
         let obj = db.get(id);
@@ -883,16 +893,18 @@ async function setAdapterConfig(common, native, instance) {
         db.set(id, obj);
 
         await db.close();
+    } else {
+        console.error('setAdapterConfig: No objects file found in datadir ' + rootDir + 'tmp/' + appName + '-data/');
     }
 }
 
 // Read config of the adapter
 async function getAdapterConfig(instance) {
     const id = 'system.adapter.' + adapterName.split('.').pop() + '.' + (instance || 0);
-    if (fs.existsSync(dataDir + 'objects.json')) {
+    if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.json')) {
         const objects = JSON.parse(fs.readFileSync(rootDir + 'tmp/' + appName + '-data/objects.json').toString());
         return objects[id];
-    } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
+    } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
         const DB = require('@alcalzone/jsonl-db');
         const db = new DB(dataDir + 'objects.jsonl');
         await db.open();
@@ -901,6 +913,8 @@ async function getAdapterConfig(instance) {
 
         await db.close();
         return obj;
+    } else {
+        console.error('getAdapterConfig: No objects file found in datadir ' + rootDir + 'tmp/' + appName + '-data/');
     }
 }
 
