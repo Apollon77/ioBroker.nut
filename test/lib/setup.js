@@ -9,6 +9,8 @@ const pkg           = require(rootDir + 'package.json');
 const debug         = typeof v8debug === 'object';
 pkg.main = pkg.main || 'main.js';
 
+let JSONLDB;
+
 let adapterName = path.normalize(rootDir).replace(/\\/g, '/').split('/');
 adapterName = adapterName[adapterName.length - 2];
 let adapterStarted = false;
@@ -16,6 +18,16 @@ let adapterStarted = false;
 function getAppName() {
     const parts = __dirname.replace(/\\/g, '/').split('/');
     return parts[parts.length - 3].split('.')[0];
+}
+
+function getJSONLDB() {
+    if (!JSONLDB) {
+        const dbPath = require.resolve('@alcalzone/jsonl-db', {
+            paths: [rootDir + 'tmp/node_modules']
+        });
+        JSONLDB = require(dbPath);
+    }
+    return JSONLDB;
 }
 
 const appName = getAppName().toLowerCase();
@@ -115,7 +127,7 @@ async function storeOriginalFiles() {
     }
 
     if (fs.existsSync(dataDir + 'objects.jsonl')) {
-        const DB = require('@alcalzone/jsonl-db');
+        const DB = getJSONLDB();
         const db = new DB(dataDir + 'objects.jsonl');
         await db.open();
 
@@ -191,7 +203,7 @@ async function checkIsAdapterInstalled(cb, counter, customName) {
                 console.warn('checkIsAdapterInstalled: still not ready');
             }
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = require('@alcalzone/jsonl-db');
+            const DB = getJSONLDB();
             const db = new DB(dataDir + 'objects.jsonl');
             try {
                 await db.open();
@@ -250,7 +262,7 @@ async function checkIsControllerInstalled(cb, counter) {
                 return;
             }
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = require('@alcalzone/jsonl-db');
+            const DB = getJSONLDB();
             const db = new DB(dataDir + 'objects.jsonl');
             try {
                 await db.open();
@@ -402,8 +414,8 @@ function installJsController(cb) {
                         config.states.port  = 19000;
 
                         // TEST WISE!
-                        //config.objects.type = 'jsonl';
-                        //config.states.type = 'jsonl';
+                        config.objects.type = 'jsonl';
+                        config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
                         console.log('Setup finished.');
 
@@ -469,8 +481,8 @@ function installJsController(cb) {
                         config.states.port  = 19000;
 
                         // TEST WISE!
-                        //config.objects.type = 'jsonl';
-                        //config.states.type = 'jsonl';
+                        config.objects.type = 'jsonl';
+                        config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
 
                         copyAdapterToController();
@@ -585,7 +597,7 @@ function setupController(cb) {
             systemConfig = objs['system.config'];
             if (cb) cb(objs['system.config']);
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = require('@alcalzone/jsonl-db');
+            const DB = getJSONLDB();
             const db = new DB(dataDir + 'objects.jsonl');
             await db.open();
 
@@ -623,7 +635,7 @@ async function getSecret() {
 
         return objs['system.config'].native.secre;
     } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-        const DB = require('@alcalzone/jsonl-db');
+        const DB = getJSONLDB();
         const db = new DB(dataDir + 'objects.jsonl');
         await db.open();
 
@@ -896,7 +908,7 @@ async function setAdapterConfig(common, native, instance) {
         if (native) objects[id].native = native;
         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/objects.json', JSON.stringify(objects));
     } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
-        const DB = require('@alcalzone/jsonl-db');
+        const DB = getJSONLDB();
         const db = new DB(rootDir + 'tmp/' + appName + '-data/objects.jsonl');
         await db.open();
 
@@ -918,7 +930,7 @@ async function getAdapterConfig(instance) {
         const objects = JSON.parse(fs.readFileSync(rootDir + 'tmp/' + appName + '-data/objects.json').toString());
         return objects[id];
     } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
-        const DB = require('@alcalzone/jsonl-db');
+        const DB = getJSONLDB();
         const db = new DB(dataDir + 'objects.jsonl');
         await db.open();
 
