@@ -20,7 +20,7 @@ function getAppName() {
     return parts[parts.length - 3].split('.')[0];
 }
 
-function getJSONLDB() {
+function loadJSONLDB() {
     if (!JSONLDB) {
         const dbPath = require.resolve('@alcalzone/jsonl-db', {
             paths: [rootDir + 'tmp/node_modules', rootDir, rootDir + 'tmp/node_modules/' + appName + '.js-controller']
@@ -28,7 +28,6 @@ function getJSONLDB() {
         console.log('JSONLDB path: ' + dbPath);
         JSONLDB = require(dbPath);
     }
-    return JSONLDB;
 }
 
 const appName = getAppName().toLowerCase();
@@ -128,8 +127,8 @@ async function storeOriginalFiles() {
     }
 
     if (fs.existsSync(dataDir + 'objects.jsonl')) {
-        const DB = getJSONLDB();
-        const db = new DB(dataDir + 'objects.jsonl');
+        loadJSONLDB();
+        const db = new JSONLDB(dataDir + 'objects.jsonl');
         await db.open();
 
         const admin0 = db.get('system.adapter.admin.0');
@@ -204,8 +203,8 @@ async function checkIsAdapterInstalled(cb, counter, customName) {
                 console.warn('checkIsAdapterInstalled: still not ready');
             }
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = getJSONLDB();
-            const db = new DB(dataDir + 'objects.jsonl');
+            loadJSONLDB();
+            const db = new JSONLDB(dataDir + 'objects.jsonl');
             try {
                 await db.open();
             } catch (err) {
@@ -263,8 +262,8 @@ async function checkIsControllerInstalled(cb, counter) {
                 return;
             }
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = getJSONLDB();
-            const db = new DB(dataDir + 'objects.jsonl');
+            loadJSONLDB();
+            const db = new JSONLDB(dataDir + 'objects.jsonl');
             try {
                 await db.open();
             } catch (err) {
@@ -598,8 +597,8 @@ function setupController(cb) {
             systemConfig = objs['system.config'];
             if (cb) cb(objs['system.config']);
         } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-            const DB = getJSONLDB();
-            const db = new DB(dataDir + 'objects.jsonl');
+            loadJSONLDB();
+            const db = new JSONLDB(dataDir + 'objects.jsonl');
             await db.open();
 
             let config = db.get('system.config');
@@ -636,8 +635,8 @@ async function getSecret() {
 
         return objs['system.config'].native.secre;
     } else if (fs.existsSync(dataDir + 'objects.jsonl')) {
-        const DB = getJSONLDB();
-        const db = new DB(dataDir + 'objects.jsonl');
+        loadJSONLDB();
+        const db = new JSONLDB(dataDir + 'objects.jsonl');
         await db.open();
 
         let config = db.get('system.config');
@@ -909,8 +908,8 @@ async function setAdapterConfig(common, native, instance) {
         if (native) objects[id].native = native;
         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/objects.json', JSON.stringify(objects));
     } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
-        const DB = getJSONLDB();
-        const db = new DB(rootDir + 'tmp/' + appName + '-data/objects.jsonl');
+        loadJSONLDB();
+        const db = new JSONLDB(rootDir + 'tmp/' + appName + '-data/objects.jsonl');
         await db.open();
 
         let obj = db.get(id);
@@ -931,8 +930,8 @@ async function getAdapterConfig(instance) {
         const objects = JSON.parse(fs.readFileSync(rootDir + 'tmp/' + appName + '-data/objects.json').toString());
         return objects[id];
     } else if (fs.existsSync(rootDir + 'tmp/' + appName + '-data/objects.jsonl')) {
-        const DB = getJSONLDB();
-        const db = new DB(dataDir + 'objects.jsonl');
+        loadJSONLDB();
+        const db = new JSONLDB(rootDir + 'tmp/' + appName + '-data/objects.jsonl');
         await db.open();
 
         let obj = db.get(id);
