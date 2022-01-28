@@ -392,6 +392,10 @@ function installJsController(cb) {
                         const config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
                         config.objects.port = 19001;
                         config.states.port  = 19000;
+
+                        // TEST WISE!
+                        config.objects.type = 'jsonl';
+                        config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
                         console.log('Setup finished.');
 
@@ -455,6 +459,10 @@ function installJsController(cb) {
                         const config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
                         config.objects.port = 19001;
                         config.states.port  = 19000;
+
+                        // TEST WISE!
+                        config.objects.type = 'jsonl';
+                        config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
 
                         copyAdapterToController();
