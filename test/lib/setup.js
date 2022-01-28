@@ -394,8 +394,8 @@ function installJsController(cb) {
                         config.states.port  = 19000;
 
                         // TEST WISE!
-                        config.objects.type = 'jsonl';
-                        config.states.type = 'jsonl';
+                        //config.objects.type = 'jsonl';
+                        //config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
                         console.log('Setup finished.');
 
@@ -461,8 +461,8 @@ function installJsController(cb) {
                         config.states.port  = 19000;
 
                         // TEST WISE!
-                        config.objects.type = 'jsonl';
-                        config.states.type = 'jsonl';
+                        //config.objects.type = 'jsonl';
+                        //config.states.type = 'jsonl';
                         fs.writeFileSync(rootDir + 'tmp/' + appName + '-data/' + appName + '.json', JSON.stringify(config, null, 2));
 
                         copyAdapterToController();
@@ -587,6 +587,8 @@ function setupController(cb) {
             await db.close();
 
             if (cb) cb(systemConfig);
+        } else {
+            console.error('Objects file not existing in datadir ' + dataDir);
         }
     });
 }
