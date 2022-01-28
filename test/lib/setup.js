@@ -696,102 +696,106 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
         console.error('Controller is already started!');
     } else {
         console.log('startController...');
-        const config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
+        try {
+            const config = require(rootDir + 'tmp/' + appName + '-data/' + appName + '.json');
 
-        adapterStarted = false;
-        let isObjectConnected;
-        let isStatesConnected;
+            adapterStarted = false;
+            let isObjectConnected;
+            let isStatesConnected;
 
-        const Objects = require(`@iobroker/db-objects-${config.objects.type}`).Server;
-        objects = new Objects({
-            connection: {
-                'type' : config.objects.type,
-                'host' : '127.0.0.1',
-                'port' : 19001,
-                'user' : '',
-                'pass' : '',
-                'noFileCache': false,
-                'connectTimeout': 2000
-            },
-            logger: {
-                silly: function (msg) {
-                    console.log(msg);
+            const Objects = require(`@iobroker/db-objects-${config.objects.type}`).Server;
+            objects = new Objects({
+                connection: {
+                    'type': config.objects.type,
+                    'host': '127.0.0.1',
+                    'port': 19001,
+                    'user': '',
+                    'pass': '',
+                    'noFileCache': false,
+                    'connectTimeout': 2000
                 },
-                debug: function (msg) {
-                    console.log(msg);
+                logger: {
+                    silly: function (msg) {
+                        console.log(msg);
+                    },
+                    debug: function (msg) {
+                        console.log(msg);
+                    },
+                    info: function (msg) {
+                        console.log(msg);
+                    },
+                    warn: function (msg) {
+                        console.warn(msg);
+                    },
+                    error: function (msg) {
+                        console.error(msg);
+                    }
                 },
-                info: function (msg) {
-                    console.log(msg);
-                },
-                warn: function (msg) {
-                    console.warn(msg);
-                },
-                error: function (msg) {
-                    console.error(msg);
-                }
-            },
-            connected: function () {
-                isObjectConnected = true;
-                if (isStatesConnected) {
-                    console.log('startController: started!');
-                    if (isStartAdapter) {
-                        startAdapter(objects, states, callback);
-                    } else {
-                        if (callback) {
-                            callback(objects, states);
-                            callback = null;
+                connected: function () {
+                    isObjectConnected = true;
+                    if (isStatesConnected) {
+                        console.log('startController: started!');
+                        if (isStartAdapter) {
+                            startAdapter(objects, states, callback);
+                        } else {
+                            if (callback) {
+                                callback(objects, states);
+                                callback = null;
+                            }
                         }
                     }
-                }
-            },
-            change: onObjectChange
-        });
+                },
+                change: onObjectChange
+            });
 
-        // Just open in memory DB itself
-        const States = require(`@iobroker/db-objects-${config.states.type}`).Server;
-        states = new States({
-            connection: {
-                type: config.states.type,
-                host: '127.0.0.1',
-                port: 19000,
-                options: {
-                    auth_pass: null,
-                    retry_max_delay: 15000
-                }
-            },
-            logger: {
-                silly: function (msg) {
-                    console.log(msg);
+            // Just open in memory DB itself
+            const States = require(`@iobroker/db-states-${config.states.type}`).Server;
+            states = new States({
+                connection: {
+                    type: config.states.type,
+                    host: '127.0.0.1',
+                    port: 19000,
+                    options: {
+                        auth_pass: null,
+                        retry_max_delay: 15000
+                    }
                 },
-                debug: function (msg) {
-                    console.log(msg);
+                logger: {
+                    silly: function (msg) {
+                        console.log(msg);
+                    },
+                    debug: function (msg) {
+                        console.log(msg);
+                    },
+                    info: function (msg) {
+                        console.log(msg);
+                    },
+                    warn: function (msg) {
+                        console.log(msg);
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
                 },
-                info: function (msg) {
-                    console.log(msg);
-                },
-                warn: function (msg) {
-                    console.log(msg);
-                },
-                error: function (msg) {
-                    console.log(msg);
-                }
-            },
-            connected: function () {
-                isStatesConnected = true;
-                if (isObjectConnected) {
-                    console.log('startController: started!!');
-                    if (isStartAdapter) {
-                        startAdapter(objects, states, callback);
-                    } else {
-                        if (callback) {
-                            callback(objects, states);
-                            callback = null;
+                connected: function () {
+                    isStatesConnected = true;
+                    if (isObjectConnected) {
+                        console.log('startController: started!!');
+                        if (isStartAdapter) {
+                            startAdapter(objects, states, callback);
+                        } else {
+                            if (callback) {
+                                callback(objects, states);
+                                callback = null;
+                            }
                         }
                     }
-                }
-            },
-            change: onStateChange
-        });
+                },
+                change: onStateChange
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 }
 
