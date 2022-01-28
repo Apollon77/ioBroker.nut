@@ -23,7 +23,7 @@ function getAppName() {
 function getJSONLDB() {
     if (!JSONLDB) {
         const dbPath = require.resolve('@alcalzone/jsonl-db', {
-            paths: [rootDir + 'tmp/node_modules']
+            paths: [rootDir + 'tmp/node_modules', rootDir]
         });
         JSONLDB = require(dbPath);
     }
@@ -717,7 +717,7 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
 
             // rootDir + 'tmp/node_modules
             const objPath = require.resolve(`@iobroker/db-objects-${config.objects.type}`, {
-                paths: [ rootDir + 'tmp/node_modules']
+                paths: [ rootDir + 'tmp/node_modules', rootDir]
             });
             console.log('Objects Path: ' + objPath);
             const Objects = require(objPath).Server;
@@ -767,7 +767,7 @@ function startController(isStartAdapter, onObjectChange, onStateChange, callback
 
             // Just open in memory DB itself
             const statePath = require.resolve(`@iobroker/db-states-${config.states.type}`, {
-                paths: [ rootDir + 'tmp/node_modules']
+                paths: [ rootDir + 'tmp/node_modules', rootDir]
             });
             console.log('States Path: ' + statePath);
             const States = require(statePath).Server;
