@@ -159,7 +159,7 @@ async function main() {
                 read: true,
                 write: false,
                 def: 4,
-                states: '0:idle;1:operating;2:operating_critical;3:action_needed;4:unknown'
+                states: {0: 'idle', 1: 'operating', 2: 'operating_critical', 3: 'action_needed', 4: 'unknown'}
             },
             native: {id: 'status.severity'}
         });
