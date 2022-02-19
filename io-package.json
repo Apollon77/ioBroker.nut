@@ -1,264 +1,192 @@
 {
-    "common": {
-        "name": "nut",
-        "version": "1.5.0",
-        "news": {
-            "1.5.0": {
-                "en": "Add connection states\nOptimize for js-controller 3.3\nwe fixed the state value type set to `battery.charge`",
-                "de": "Verbindungsstatus hinzufügen\nOptimieren für js-controller 3.3\nWir haben den Statuswerttyp auf \"Batterie.Ladung\" festgelegt",
-                "ru": "Добавить состояния подключения\nОптимизировать под js-controller 3.3\nмы исправили тип значения состояния, установленный на `battery.charge`",
-                "pt": "Adicionar estados de conexão\nOtimize para js-controller 3.3\ncorrigimos o tipo de valor de estado definido como `battery.charge`",
-                "nl": "Voeg verbindingsstatussen toe\nOptimaliseren voor js-controller 3.3\nwe hebben het statuswaardetype vastgesteld op `batterij.lading`",
-                "fr": "Ajouter des états de connexion\nOptimiser pour js-controller 3.3\nnous avons corrigé le type de valeur d'état défini sur `battery.charge`",
-                "it": "Aggiungi stati di connessione\nOttimizza per js-controller 3.3\nabbiamo corretto il tipo di valore dello stato impostato su `battery.charge`",
-                "es": "Agregar estados de conexión\nOptimizar para js-controller 3.3\narreglamos el tipo de valor de estado establecido en `battery.charge`",
-                "pl": "Dodaj stany połączeń\nOptymalizacja pod kątem kontrolera js 3.3\nnaprawiliśmy typ wartości stanu ustawiony na „battery.charge”",
-                "zh-cn": "添加连接状态\n针对js-controller 3.3进行优化\n我们将状态值类型固定为`battery.charge'"
-            },
-            "1.4.3": {
-                "en": "Enhance the port check",
-                "de": "Erweitern Sie die Portprüfung",
-                "ru": "Улучшите проверку порта",
-                "pt": "Aprimore a verificação da porta",
-                "nl": "Verbeter de poortcontrole",
-                "fr": "Améliorer la vérification du port",
-                "it": "Migliora il controllo delle porte",
-                "es": "Mejora la verificación del puerto",
-                "pl": "Popraw sprawdzanie portu",
-                "zh-cn": "增强端口检查"
-            },
-            "1.4.2": {
-                "en": "Check configured port before using it (Sentry IOBROKER-NUT-3)",
-                "de": "Überprüfen Sie den konfigurierten Port, bevor Sie ihn verwenden (Sentry IOBROKER-NUT-3).",
-                "ru": "Перед использованием проверьте настроенный порт (Sentry IOBROKER-NUT-3)",
-                "pt": "Verifique a porta configurada antes de usá-la (Sentry IOBROKER-NUT-3)",
-                "nl": "Controleer de geconfigureerde poort voordat u deze gebruikt (Sentry IOBROKER-NUT-3)",
-                "fr": "Vérifiez le port configuré avant de l'utiliser (Sentry IOBROKER-NUT-3)",
-                "it": "Controllare la porta configurata prima di utilizzarla (Sentry IOBROKER-NUT-3)",
-                "es": "Verifique el puerto configurado antes de usarlo (Sentry IOBROKER-NUT-3)",
-                "pl": "Sprawdź skonfigurowany port przed użyciem (Sentry IOBROKER-NUT-3)",
-                "zh-cn": "在使用之前检查配置的端口（Sentry IOBROKER-NUT-3）"
-            },
-            "1.4.1": {
-                "en": "Optimize stop handling (Sentry IOBROKER-NUT-1)",
-                "de": "Optimieren Sie die Stop-Handhabung (Sentry IOBROKER-NUT-1)",
-                "ru": "Оптимизация обработки останова (Sentry IOBROKER-NUT-1)",
-                "pt": "Otimize o manuseio de parada (Sentry IOBROKER-NUT-1)",
-                "nl": "Optimaliseer het afhandelen van stops (Sentry IOBROKER-NUT-1)",
-                "fr": "Optimiser la gestion des arrêts (Sentry IOBROKER-NUT-1)",
-                "it": "Ottimizza la gestione delle fermate (Sentry IOBROKER-NUT-1)",
-                "es": "Optimizar el manejo de paradas (Sentry IOBROKER-NUT-1)",
-                "pl": "Zoptymalizuj obsługę zatrzymania (Sentry IOBROKER-NUT-1)",
-                "zh-cn": "优化停止处理（Sentry IOBROKER-NUT-1）"
-            },
-            "1.4.0": {
-                "en": "Prevent warnings in js-controller 3.2\nRequire at least js-controller 2.0",
-                "de": "Verhindern Sie Warnungen in js-controller 3.2\nBenötigen Sie mindestens js-controller 2.0",
-                "ru": "Предотвращение предупреждений в js-controller 3.2\nТребуется как минимум js-controller 2.0",
-                "pt": "Evite avisos no js-controller 3.2\nRequer pelo menos js-controller 2.0",
-                "nl": "Voorkom waarschuwingen in js-controller 3.2\nVereist ten minste js-controller 2.0",
-                "fr": "Empêcher les avertissements dans js-controller 3.2\nNécessite au moins js-controller 2.0",
-                "it": "Prevenire gli avvisi in js-controller 3.2\nRichiede almeno js-controller 2.0",
-                "es": "Prevenir advertencias en js-controller 3.2\nRequiere al menos js-controller 2.0",
-                "pl": "Zapobiegaj ostrzeżeniom w js-controller 3.2\nWymagaj co najmniej js-controller 2.0",
-                "zh-cn": "在js-controller 3.2中防止警告\n至少需要js-controller 2.0"
-            },
-            "1.3.0": {
-                "en": "adjust connection close handling\nadd compact mode",
-                "de": "Anpassen der Verbindungsabschlussbehandlung\nKompaktmodus hinzufügen",
-                "ru": "настроить закрытие соединения\nдобавить компактный режим",
-                "pt": "ajustar conexão perto manuseio\nadicionar modo compacto",
-                "nl": "pas verbinding sluiten afhandeling aan\nvoeg compacte modus toe",
-                "fr": "ajuster la connexion fermer la manipulation\najouter le mode compact",
-                "it": "regolare la chiusura della connessione\naggiungi la modalità compatta",
-                "es": "ajustar la conexión estrecha manipulación\nagregar modo compacto",
-                "pl": "dostosować połączenie blisko obsługi\ndodaj tryb kompaktowy",
-                "zh-cn": "调整连接关闭处理\n添加紧凑模式"
-            },
-            "1.2.0": {
-                "en": "update dependencies\nAdd Sentry error reporting",
-                "de": "Abhängigkeiten aktualisieren\nSentry-Fehlerberichterstattung hinzufügen",
-                "ru": "обновить зависимости\nДобавить отчет об ошибках Sentry",
-                "pt": "atualizar dependências\nAdicionar relatório de erro de Sentry",
-                "nl": "update afhankelijkheden\nVoeg Sentry-foutrapportage toe",
-                "fr": "mettre à jour les dépendances\nAjouter un rapport d'erreur Sentry",
-                "it": "aggiornare le dipendenze\nAggiungi la segnalazione degli errori di Sentry",
-                "es": "actualizar dependencias\nAgregar informe de errores de Sentry",
-                "pl": "zależności aktualizacji\nDodaj raportowanie błędów Sentry",
-                "zh-cn": "更新依赖\n添加Sentry错误报告"
-            },
-            "1.1.3": {
-                "en": "Fix Admin",
-                "de": "Fixe Admin",
-                "ru": "Fix Admin",
-                "pt": "Corrigir Admin",
-                "nl": "Admin oplossen",
-                "fr": "Fix Admin",
-                "it": "Correggi Admin",
-                "es": "Fix Admin",
-                "pl": "Napraw administratora",
-                "zh-cn": "修复管理员"
-            },
-            "1.1.2": {
-                "en": "fix status parsing",
-                "de": "Statuserkennung verbessert",
-                "ru": "fix status parsing",
-                "pt": "corrigir análise de status",
-                "nl": "status parsing repareren",
-                "fr": "correction de l'analyse de l'état",
-                "it": "correggere l'analisi dello stato",
-                "es": "corregir el análisis de estado",
-                "pl": "naprawić parsowanie stanu",
-                "zh-cn": "修复状态解析"
-            },
-            "1.1.1": {
-                "en": "enhance error handling",
-                "de": "Fehlerbehandlung verbessert",
-                "ru": "enhance error handling",
-                "pt": "melhorar o tratamento de erros",
-                "nl": "verbetering van foutafhandeling",
-                "fr": "améliorer la gestion des erreurs",
-                "it": "migliorare la gestione degli errori",
-                "es": "mejorar el manejo de errores",
-                "pl": "usprawnić obsługę błędów",
-                "zh-cn": "增强错误处理"
-            },
-            "1.1.0": {
-                "en": "Add possibility to call commands on the UPS",
-                "de": "Möglichkeit hinzugefügt Kommandos auf der USV auszuführen",
-                "ru": "Add possibility to call commands on the UPS",
-                "pt": "Adicionar possibilidade de chamar comandos no UPS",
-                "nl": "Mogelijkheid toegevoegd om commando's op de UPS op te roepen",
-                "fr": "Ajout de la possibilité d'appeler des commandes sur l'onduleur",
-                "it": "Aggiunta la possibilità di chiamare i comandi sull'UPS",
-                "es": "Agregue la posibilidad de llamar a comandos en el UPS",
-                "pl": "Dodaj możliwość wywoływania poleceń na UPS",
-                "zh-cn": "增加在UPS上调用命令的可能性"
-            },
-            "1.0.0": {
-                "en": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity",
-                "de": "Adapter arbeitet nun als Deamon, Notify-Support per upsmon hinzugefügt, status.severity hinzugefügt",
-                "ru": "change mode from schedule to deamon, implement message support to receive messages from upsmon, add status.severity",
-                "pt": "mude o modo de agendamento para deamon, implemente o suporte a mensagens para receber mensagens do upsmon, adicione status.severity",
-                "nl": "verander modus van schema naar deamon, implementeer berichtondersteuning om berichten van upsmon te ontvangen, voeg status.severity toe",
-                "fr": "changer de mode de planification à démon, implémenter la prise en charge des messages pour recevoir des messages d'upsmon, ajouter status.severity",
-                "it": "cambia la modalità da pianificazione a demone, implementa il supporto dei messaggi per ricevere messaggi da upsmon, aggiungi status.severity",
-                "es": "cambiar el modo de horario a demonio, implementar soporte de mensajes para recibir mensajes de upsmon, agregar estado.",
-                "pl": "zmień tryb z harmonogramu na demona, zaimplementuj obsługę wiadomości, aby otrzymywać wiadomości z upsmon, dodaj status.severity",
-                "zh-cn": "从计划更改为守护进程的模式，实现消息支持以接收来自upsmon的消息，添加状态。"
-            },
-            "0.3.1": {
-                "en": "add better usable status states under 'status' channel",
-                "de": "Besser nutzbare Stati States unter 'status' eingefügt",
-                "ru": "add better usable status states under 'status' channel",
-                "pt": "adicione melhores estados de status utilizáveis ​​no canal 'status'",
-                "nl": "voeg beter bruikbare statusstatussen toe onder 'status'-kanaal",
-                "fr": "ajouter de meilleurs états de statut utilisables sous le canal «statut»",
-                "it": "aggiungere stati di stato meglio utilizzabili nel canale \"stato\"",
-                "es": "agregue mejores estados de estado utilizables en el canal 'estado'",
-                "pl": "dodaj lepsze stany statusu użytkowego w kanale „status”",
-                "zh-cn": "在“状态”通道下添加更好的可用状态状态"
-            }
-        },
-        "authors": [
-            "Apollon77 <ingo@fischer-ka.de>"
-        ],
-        "title": "Network UPS",
-        "titleLang": {
-            "en": "Network UPS",
-            "de": "Netzwerk-USV",
-            "ru": "Сетевой ИБП",
-            "pt": "UPS de rede",
-            "nl": "Netwerk-UPS",
-            "fr": "Réseau UPS",
-            "it": "UPS di rete",
-            "es": "UPS de red",
-            "pl": "Sieciowy UPS",
-            "zh-cn": "网络不间断电源"
-        },
-        "desc": {
-            "en": "Read all data from your UPS/USV via nut protocol",
-            "de": "Lesen Sie alle Daten von Ihrer USV / USV über das Mutterprotokoll",
-            "ru": "Считайте все данные с вашего UPS / USV по протоколу Nut",
-            "pt": "Leia todos os dados do seu UPS / USV via protocolo nut",
-            "nl": "Lees alle gegevens van uw UPS / USV via een moer-protocol",
-            "fr": "Lisez toutes les données de votre UPS / USV via le protocole d'écrou",
-            "it": "Leggi tutti i dati dal tuo UPS / USV tramite protocollo dado",
-            "es": "Lea todos los datos de su UPS / USV a través del protocolo de tuerca",
-            "pl": "Odczytaj wszystkie dane z UPS / USV za pomocą protokołu NUT",
-            "zh-cn": "通过螺母协议从UPS / USV读取所有数据"
-        },
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "messagebox": true,
-        "subscribe": "messagebox",
-        "compact": true,
-        "stopBeforeUpdate": true,
-        "icon": "nut.png",
-        "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
-        "readme": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
-        "license": "MIT",
-        "npmLibs": [],
-        "type": "hardware",
-        "keywords": [
-            "iobroker",
-            "nut",
-            "ups",
-            "usv"
-        ],
-        "loglevel": "info",
-        "enabled": false,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://63484d47ef2e49f5b0194808454cafb1@sentry.iobroker.net/111",
-                "errorBlacklist": [
-                    "SyntaxError"
-                ]
-            }
-        },
-        "dependencies": [
-            {
-                "js-controller": ">=2.0.0"
-            }
-        ],
-        "tier": 2,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "jsonConfig": true,
-        "adminUI": {
-            "config": "json"
-        }
+  "common": {
+    "name": "nut",
+    "version": "1.5.1",
+    "news": {
+      "1.5.1": {
+        "en": "jsonConfig added\ntest and release updated",
+        "de": "jsonConfig hinzugefügt\nTest und Release aktualisiert",
+        "ru": "добавлен jsonconfig\nтест и выпуск обновлены",
+        "pt": "jsonConfig adicionado\nteste e lançamento atualizado",
+        "nl": "jsonConfig toegevoegd\ntest en release bijgewerkt",
+        "fr": "jsonConfig ajouté\ntest et version mis à jour",
+        "it": "jsonConfig aggiunto\ntest e rilascio aggiornati",
+        "es": "jsonConfig añadido\nprueba y versión actualizada",
+        "pl": "dodano jsonConfig\nzaktualizowano test i wydanie",
+        "zh-cn": "添加了 jsonConfig\n测试和发布更新"
+      },
+      "1.5.0": {
+        "en": "Add connection states\nOptimize for js-controller 3.3\nwe fixed the state value type set to `battery.charge`",
+        "de": "Verbindungsstatus hinzufügen\nOptimieren für js-controller 3.3\nWir haben den Statuswerttyp auf \"Batterie.Ladung\" festgelegt",
+        "ru": "Добавить состояния подключения\nОптимизировать под js-controller 3.3\nмы исправили тип значения состояния, установленный на `battery.charge`",
+        "pt": "Adicionar estados de conexão\nOtimize para js-controller 3.3\ncorrigimos o tipo de valor de estado definido como `battery.charge`",
+        "nl": "Voeg verbindingsstatussen toe\nOptimaliseren voor js-controller 3.3\nwe hebben het statuswaardetype vastgesteld op `batterij.lading`",
+        "fr": "Ajouter des états de connexion\nOptimiser pour js-controller 3.3\nnous avons corrigé le type de valeur d'état défini sur `battery.charge`",
+        "it": "Aggiungi stati di connessione\nOttimizza per js-controller 3.3\nabbiamo corretto il tipo di valore dello stato impostato su `battery.charge`",
+        "es": "Agregar estados de conexión\nOptimizar para js-controller 3.3\narreglamos el tipo de valor de estado establecido en `battery.charge`",
+        "pl": "Dodaj stany połączeń\nOptymalizacja pod kątem kontrolera js 3.3\nnaprawiliśmy typ wartości stanu ustawiony na „battery.charge”",
+        "zh-cn": "添加连接状态\n针对js-controller 3.3进行优化\n我们将状态值类型固定为`battery.charge'"
+      },
+      "1.4.3": {
+        "en": "Enhance the port check",
+        "de": "Erweitern Sie die Portprüfung",
+        "ru": "Улучшите проверку порта",
+        "pt": "Aprimore a verificação da porta",
+        "nl": "Verbeter de poortcontrole",
+        "fr": "Améliorer la vérification du port",
+        "it": "Migliora il controllo delle porte",
+        "es": "Mejora la verificación del puerto",
+        "pl": "Popraw sprawdzanie portu",
+        "zh-cn": "增强端口检查"
+      },
+      "1.4.2": {
+        "en": "Check configured port before using it (Sentry IOBROKER-NUT-3)",
+        "de": "Überprüfen Sie den konfigurierten Port, bevor Sie ihn verwenden (Sentry IOBROKER-NUT-3).",
+        "ru": "Перед использованием проверьте настроенный порт (Sentry IOBROKER-NUT-3)",
+        "pt": "Verifique a porta configurada antes de usá-la (Sentry IOBROKER-NUT-3)",
+        "nl": "Controleer de geconfigureerde poort voordat u deze gebruikt (Sentry IOBROKER-NUT-3)",
+        "fr": "Vérifiez le port configuré avant de l'utiliser (Sentry IOBROKER-NUT-3)",
+        "it": "Controllare la porta configurata prima di utilizzarla (Sentry IOBROKER-NUT-3)",
+        "es": "Verifique el puerto configurado antes de usarlo (Sentry IOBROKER-NUT-3)",
+        "pl": "Sprawdź skonfigurowany port przed użyciem (Sentry IOBROKER-NUT-3)",
+        "zh-cn": "在使用之前检查配置的端口（Sentry IOBROKER-NUT-3）"
+      },
+      "1.4.1": {
+        "en": "Optimize stop handling (Sentry IOBROKER-NUT-1)",
+        "de": "Optimieren Sie die Stop-Handhabung (Sentry IOBROKER-NUT-1)",
+        "ru": "Оптимизация обработки останова (Sentry IOBROKER-NUT-1)",
+        "pt": "Otimize o manuseio de parada (Sentry IOBROKER-NUT-1)",
+        "nl": "Optimaliseer het afhandelen van stops (Sentry IOBROKER-NUT-1)",
+        "fr": "Optimiser la gestion des arrêts (Sentry IOBROKER-NUT-1)",
+        "it": "Ottimizza la gestione delle fermate (Sentry IOBROKER-NUT-1)",
+        "es": "Optimizar el manejo de paradas (Sentry IOBROKER-NUT-1)",
+        "pl": "Zoptymalizuj obsługę zatrzymania (Sentry IOBROKER-NUT-1)",
+        "zh-cn": "优化停止处理（Sentry IOBROKER-NUT-1）"
+      },
+      "1.4.0": {
+        "en": "Prevent warnings in js-controller 3.2\nRequire at least js-controller 2.0",
+        "de": "Verhindern Sie Warnungen in js-controller 3.2\nBenötigen Sie mindestens js-controller 2.0",
+        "ru": "Предотвращение предупреждений в js-controller 3.2\nТребуется как минимум js-controller 2.0",
+        "pt": "Evite avisos no js-controller 3.2\nRequer pelo menos js-controller 2.0",
+        "nl": "Voorkom waarschuwingen in js-controller 3.2\nVereist ten minste js-controller 2.0",
+        "fr": "Empêcher les avertissements dans js-controller 3.2\nNécessite au moins js-controller 2.0",
+        "it": "Prevenire gli avvisi in js-controller 3.2\nRichiede almeno js-controller 2.0",
+        "es": "Prevenir advertencias en js-controller 3.2\nRequiere al menos js-controller 2.0",
+        "pl": "Zapobiegaj ostrzeżeniom w js-controller 3.2\nWymagaj co najmniej js-controller 2.0",
+        "zh-cn": "在js-controller 3.2中防止警告\n至少需要js-controller 2.0"
+      },
+      "1.3.0": {
+        "en": "adjust connection close handling\nadd compact mode",
+        "de": "Anpassen der Verbindungsabschlussbehandlung\nKompaktmodus hinzufügen",
+        "ru": "настроить закрытие соединения\nдобавить компактный режим",
+        "pt": "ajustar conexão perto manuseio\nadicionar modo compacto",
+        "nl": "pas verbinding sluiten afhandeling aan\nvoeg compacte modus toe",
+        "fr": "ajuster la connexion fermer la manipulation\najouter le mode compact",
+        "it": "regolare la chiusura della connessione\naggiungi la modalità compatta",
+        "es": "ajustar la conexión estrecha manipulación\nagregar modo compacto",
+        "pl": "dostosować połączenie blisko obsługi\ndodaj tryb kompaktowy",
+        "zh-cn": "调整连接关闭处理\n添加紧凑模式"
+      }
     },
-    "native": {
-        "host_ip": "127.0.0.1",
-        "host_port": "3493",
-        "ups_name": "nutName",
-        "update_interval": 300,
-        "username": "",
-        "password": ""
+    "authors": [
+      "Apollon77 <ingo@fischer-ka.de>"
+    ],
+    "title": "Network UPS",
+    "titleLang": {
+      "en": "Network UPS",
+      "de": "Netzwerk-USV",
+      "ru": "Сетевой ИБП",
+      "pt": "UPS de rede",
+      "nl": "Netwerk-UPS",
+      "fr": "Réseau UPS",
+      "it": "UPS di rete",
+      "es": "UPS de red",
+      "pl": "Sieciowy UPS",
+      "zh-cn": "网络不间断电源"
     },
-    "objects": [],
-    "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
-        {
-            "_id": "info.connection",
-            "type": "state",
-            "common": {
-                "role": "indicator.connected",
-                "name": "If connected to Cloud",
-                "type": "boolean",
-                "read": true,
-                "write": false,
-                "def": false
-            },
-            "native": {}
-        }
-    ]
+    "desc": {
+      "en": "Read all data from your UPS/USV via nut protocol",
+      "de": "Lesen Sie alle Daten von Ihrer USV / USV über das Mutterprotokoll",
+      "ru": "Считайте все данные с вашего UPS / USV по протоколу Nut",
+      "pt": "Leia todos os dados do seu UPS / USV via protocolo nut",
+      "nl": "Lees alle gegevens van uw UPS / USV via een moer-protocol",
+      "fr": "Lisez toutes les données de votre UPS / USV via le protocole d'écrou",
+      "it": "Leggi tutti i dati dal tuo UPS / USV tramite protocollo dado",
+      "es": "Lea todos los datos de su UPS / USV a través del protocolo de tuerca",
+      "pl": "Odczytaj wszystkie dane z UPS / USV za pomocą protokołu NUT",
+      "zh-cn": "通过螺母协议从UPS / USV读取所有数据"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "messagebox": true,
+    "subscribe": "messagebox",
+    "compact": true,
+    "stopBeforeUpdate": true,
+    "icon": "nut.png",
+    "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
+    "readme": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
+    "license": "MIT",
+    "npmLibs": [],
+    "type": "hardware",
+    "keywords": [
+      "iobroker",
+      "nut",
+      "ups",
+      "usv"
+    ],
+    "loglevel": "info",
+    "enabled": false,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://63484d47ef2e49f5b0194808454cafb1@sentry.iobroker.net/111",
+        "errorBlacklist": [
+          "SyntaxError"
+        ]
+      }
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "tier": 2,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "jsonConfig": true,
+    "adminUI": {
+      "config": "json"
+    }
+  },
+  "native": {
+    "host_ip": "127.0.0.1",
+    "host_port": "3493",
+    "ups_name": "nutName",
+    "update_interval": 300,
+    "username": "",
+    "password": ""
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to Cloud",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

@@ -84,8 +84,7 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
-
-### __WORK IN PROGRESS__
+### 1.5.1 (2022-02-19)
 * (simatec) jsonConfig added
 * (simatec) test and release updated
 
