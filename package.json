@@ -17,17 +17,16 @@
     "url": "https://github.com/Apollon77/ioBroker.nut"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.5.1",
+    "@iobroker/adapter-core": "^2.6.7",
     "node-nut": "^1.0.3"
   },
   "devDependencies": {
     "@alcalzone/release-script": "^3.5.9",
     "@alcalzone/release-script-plugin-iobroker": "^3.5.9",
     "@alcalzone/release-script-plugin-license": "3.5.9",
-    "axios": "^0.27.2",
-    "chai": "^4.3.6",
-    "gulp": "^4.0.2",
-    "mocha": "^9.2.2",
+    "@iobroker/adapter-dev": "^1.2.0",
+    "chai": "^4.3.7",
+    "mocha": "^10.1.0",
     "nyc": "^15.1.0"
   },
   "bugs": {
@@ -36,7 +35,8 @@
   "main": "nut.js",
   "scripts": {
     "test": "nyc --reporter=lcov node_modules/mocha/bin/mocha test/testAdapter.js --exit  && node node_modules/mocha/bin/mocha test/testPackageFiles.js",
-    "release": "release-script"
+    "release": "release-script",
+    "translate": "translate-adapter"
   },
   "nyc": {
     "exclude": [

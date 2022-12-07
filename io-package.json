@@ -126,7 +126,6 @@
     "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
     "readme": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
     "license": "MIT",
-    "npmLibs": [],
     "type": "hardware",
     "keywords": [
       "iobroker",
@@ -146,7 +145,7 @@
     },
     "dependencies": [
       {
-        "js-controller": ">=2.0.0"
+        "js-controller": ">=3.0.0"
       }
     ],
     "tier": 2,
