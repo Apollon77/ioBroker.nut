@@ -34,7 +34,7 @@
   },
   "main": "nut.js",
   "scripts": {
-    "test": "nyc --reporter=lcov mocha test/testAdapter.js --exit  && node mocha test/testPackageFiles.js",
+    "test": "nyc --reporter=lcov mocha test/testAdapter.js --exit  && mocha test/testPackageFiles.js",
     "release": "release-script",
     "translate": "translate-adapter"
   },
