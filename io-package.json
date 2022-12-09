@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nut",
-    "version": "1.5.1",
+    "version": "1.6.0",
     "news": {
+      "1.6.0": {
+        "en": "IMPORTANT: js-controller 3.0 is now needed at least\nDelay adapter initialization when USV is not reachable on adapter start",
+        "de": "WICHTIG: Js-Controller 3.0 wird nun mindestens benötigt\nDelay Adapter Initialisierung, wenn USV nicht an Adapterstart erreichbar ist",
+        "ru": "ВАЖНО: js-controller 3.0 теперь нужен по крайней мере\nИнициализация адаптера задержки, когда USV недоступен на запуске адаптера",
+        "pt": "IMPORTANTE: js-controller 3.0 é agora necessário pelo menos\nInicialização do adaptador de atraso quando USV não é acessível no início do adaptador",
+        "nl": "Js-controller 3.0 is nu in ieder geval nodig\nVertragingsaanwijzing als USV niet bereikbaar is voor adapter start",
+        "fr": "IMPORTANT: js-controller 3.0 est maintenant nécessaire au moins\nDélayer l'initialisation de l'adaptateur lorsque l'USV n'est pas accessible sur le démarrage de l'adaptateur",
+        "it": "IMPORTANTE: js-controller 3.0 è ora necessario almeno\nAvviamento dell'adattatore di ritardo quando USV non è raggiungibile all'inizio dell'adattatore",
+        "es": "IMPORTANTE: js-controller 3.0 ahora es necesario al menos\nIniciación del adaptador de delay cuando USV no es accesible en el inicio del adaptador",
+        "pl": "IMPORTANT: js-kontroler 3.0 jest obecnie potrzebny przynajmniej do tego czasu\nOpóźny adapter inicjuje się, gdy USV nie jest w stanie osiągnąć adapteru",
+        "uk": "IMPORTANT: js-controller 3.0 тепер потрібен принаймні\nВиявлення ініціалізації адаптера, коли USV не досягається запуску адаптера",
+        "zh-cn": "IMPORTANT: j 控制ler 3.0 现已至少需要\n如果美国人无法适应开端,则延迟调整初始化"
+      },
       "1.5.1": {
         "en": "jsonConfig added\ntest and release updated",
         "de": "jsonConfig hinzugefügt\nTest und Release aktualisiert",
@@ -74,18 +87,6 @@
         "es": "Prevenir advertencias en js-controller 3.2\nRequiere al menos js-controller 2.0",
         "pl": "Zapobiegaj ostrzeżeniom w js-controller 3.2\nWymagaj co najmniej js-controller 2.0",
         "zh-cn": "在js-controller 3.2中防止警告\n至少需要js-controller 2.0"
-      },
-      "1.3.0": {
-        "en": "adjust connection close handling\nadd compact mode",
-        "de": "Anpassen der Verbindungsabschlussbehandlung\nKompaktmodus hinzufügen",
-        "ru": "настроить закрытие соединения\nдобавить компактный режим",
-        "pt": "ajustar conexão perto manuseio\nadicionar modo compacto",
-        "nl": "pas verbinding sluiten afhandeling aan\nvoeg compacte modus toe",
-        "fr": "ajuster la connexion fermer la manipulation\najouter le mode compact",
-        "it": "regolare la chiusura della connessione\naggiungi la modalità compatta",
-        "es": "ajustar la conexión estrecha manipulación\nagregar modo compacto",
-        "pl": "dostosować połączenie blisko obsługi\ndodaj tryb kompaktowy",
-        "zh-cn": "调整连接关闭处理\n添加紧凑模式"
       }
     },
     "authors": [
