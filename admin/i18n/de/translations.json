@@ -2,7 +2,7 @@
     "Readme Settings and Troubleshooting": "Readme Einstellungen und Fehlerbehebung",
     "host_ip": "NUT Server IP",
     "host_port": "NUT Server port",
-    "ip_info": "IP Adresse des NUT Servers. NUT muss im Server-Mode konfiguriert sein und von dem Rechner, auf dem die ioBroker Adapter-Instanz installiert ist, erreichbar sein. Bei Problemen sollten die Firewall-Einstellungen geprüft werden, dass der Zugriff gestattet ist. Wenn der NUT Server lokal installiert ist kann 127.0.0.1 oder localhost genutzt werden.",
+    "ip_info": "IP-Adresse des NUT Servers. NUT muss im Server-Mode konfiguriert sein und von dem Rechner, auf dem die ioBroker Adapter-Instanz installiert ist, erreichbar sein. Bei Problemen sollten die Firewall-Einstellungen geprüft werden, dass der Zugriff gestattet ist. Wenn der NUT Server lokal installiert ist kann 127.0.0.1 oder localhost genutzt werden.",
     "name_info": "Name der USV, wie in den NUT Einstellungen definiert.</p>Hinweis: Für eine USV, die an eine Synology Diskstation angeschlossen ist, lautet der Name 'ups'.",
     "page_title": "NUT Instanz-Einstellungen",
     "password": "Passwort der UPS",
