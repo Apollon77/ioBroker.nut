@@ -1,0 +1,133 @@
+2025-09-19 08:40:49.276  - [32minfo[39m: nut.0 (3829) starting. Version 1.6.0 in /home/runner/work/ioBroker.nut/ioBroker.nut/tmp/node_modules/iobroker.nut, node: v20.19.5, js-controller: 7.0.8-alpha.5-20250913-8ad7f66ce
+2025-09-19 08:40:49.286  - [34mdebug[39m: nut.0 (3829) Create Channel status
+2025-09-19 08:40:49.296  - [34mdebug[39m: nut.0 (3829) connected set to false
+2025-09-19 08:40:49.339  - [34mdebug[39m: nut.0 (3829) Create State status.online
+2025-09-19 08:40:49.341  - [34mdebug[39m: nut.0 (3829) Set State status.online = false
+2025-09-19 08:40:49.343  - [34mdebug[39m: nut.0 (3829) Create State status.onbattery
+2025-09-19 08:40:49.345  - [34mdebug[39m: nut.0 (3829) Set State status.onbattery = false
+2025-09-19 08:40:49.347  - [34mdebug[39m: nut.0 (3829) Create State status.lowbattery
+2025-09-19 08:40:49.348  - [34mdebug[39m: nut.0 (3829) Set State status.lowbattery = false
+2025-09-19 08:40:49.350  - [34mdebug[39m: nut.0 (3829) Create State status.highbattery
+2025-09-19 08:40:49.352  - [34mdebug[39m: nut.0 (3829) Set State status.highbattery = false
+2025-09-19 08:40:49.354  - [34mdebug[39m: nut.0 (3829) Create State status.replacebattery
+2025-09-19 08:40:49.355  - [34mdebug[39m: nut.0 (3829) Set State status.replacebattery = false
+2025-09-19 08:40:49.357  - [34mdebug[39m: nut.0 (3829) Create State status.charging
+2025-09-19 08:40:49.359  - [34mdebug[39m: nut.0 (3829) Set State status.charging = false
+2025-09-19 08:40:49.361  - [34mdebug[39m: nut.0 (3829) Create State status.discharging
+2025-09-19 08:40:49.362  - [34mdebug[39m: nut.0 (3829) Set State status.discharging = false
+2025-09-19 08:40:49.364  - [34mdebug[39m: nut.0 (3829) Create State status.bypass
+2025-09-19 08:40:49.365  - [34mdebug[39m: nut.0 (3829) Set State status.bypass = false
+2025-09-19 08:40:49.367  - [34mdebug[39m: nut.0 (3829) Create State status.calibration
+2025-09-19 08:40:49.369  - [34mdebug[39m: nut.0 (3829) Set State status.calibration = false
+2025-09-19 08:40:49.370  - [34mdebug[39m: nut.0 (3829) Create State status.offline
+2025-09-19 08:40:49.372  - [34mdebug[39m: nut.0 (3829) Set State status.offline = false
+2025-09-19 08:40:49.374  - [34mdebug[39m: nut.0 (3829) Create State status.overload
+2025-09-19 08:40:49.375  - [34mdebug[39m: nut.0 (3829) Set State status.overload = false
+2025-09-19 08:40:49.377  - [34mdebug[39m: nut.0 (3829) Create State status.trimming
+2025-09-19 08:40:49.379  - [34mdebug[39m: nut.0 (3829) Set State status.trimming = false
+2025-09-19 08:40:49.381  - [34mdebug[39m: nut.0 (3829) Create State status.boosting
+2025-09-19 08:40:49.382  - [34mdebug[39m: nut.0 (3829) Set State status.boosting = false
+2025-09-19 08:40:49.384  - [34mdebug[39m: nut.0 (3829) Create State status.shutdown
+2025-09-19 08:40:49.385  - [34mdebug[39m: nut.0 (3829) Set State status.shutdown = false
+2025-09-19 08:40:49.387  - [34mdebug[39m: nut.0 (3829) Set State status.severity = 4
+2025-09-19 08:40:49.393  - [31merror[39m: nut.0 (3829) Error happened: Error: connect ECONNREFUSED 127.0.0.1:3493
+2025-09-19 08:40:49.394  - [34mdebug[39m: nut.0 (3829) NUT Connection closed. Done.
+2025-09-19 08:40:49.395  - [34mdebug[39m: nut.0 (3829) Create State status.online
+2025-09-19 08:40:49.395  - [34mdebug[39m: nut.0 (3829) Set State status.online = false
+2025-09-19 08:40:49.395  - [31merror[39m: nut.0 (3829) USV not available - Delay initialization
+2025-09-19 08:40:49.438  - [34mdebug[39m: nut.0 (3829) Create State status.onbattery
+2025-09-19 08:40:49.438  - [34mdebug[39m: nut.0 (3829) Set State status.onbattery = false
+2025-09-19 08:40:49.440  - [34mdebug[39m: nut.0 (3829) Create State status.lowbattery
+2025-09-19 08:40:49.440  - [34mdebug[39m: nut.0 (3829) Set State status.lowbattery = false
+2025-09-19 08:40:49.441  - [34mdebug[39m: nut.0 (3829) Create State status.highbattery
+2025-09-19 08:40:49.442  - [34mdebug[39m: nut.0 (3829) Set State status.highbattery = false
+2025-09-19 08:40:49.443  - [34mdebug[39m: nut.0 (3829) Create State status.replacebattery
+2025-09-19 08:40:49.443  - [34mdebug[39m: nut.0 (3829) Set State status.replacebattery = false
+2025-09-19 08:40:49.445  - [34mdebug[39m: nut.0 (3829) Create State status.charging
+2025-09-19 08:40:49.445  - [34mdebug[39m: nut.0 (3829) Set State status.charging = false
+2025-09-19 08:40:49.447  - [34mdebug[39m: nut.0 (3829) Create State status.discharging
+2025-09-19 08:40:49.447  - [34mdebug[39m: nut.0 (3829) Set State status.discharging = false
+2025-09-19 08:40:49.449  - [34mdebug[39m: nut.0 (3829) Create State status.bypass
+2025-09-19 08:40:49.449  - [34mdebug[39m: nut.0 (3829) Set State status.bypass = false
+2025-09-19 08:40:49.451  - [34mdebug[39m: nut.0 (3829) Create State status.calibration
+2025-09-19 08:40:49.451  - [34mdebug[39m: nut.0 (3829) Set State status.calibration = false
+2025-09-19 08:40:49.453  - [34mdebug[39m: nut.0 (3829) Create State status.offline
+2025-09-19 08:40:49.453  - [34mdebug[39m: nut.0 (3829) Set State status.offline = false
+2025-09-19 08:40:49.454  - [34mdebug[39m: nut.0 (3829) Create State status.overload
+2025-09-19 08:40:49.454  - [34mdebug[39m: nut.0 (3829) Set State status.overload = false
+2025-09-19 08:40:49.456  - [34mdebug[39m: nut.0 (3829) Create State status.trimming
+2025-09-19 08:40:49.456  - [34mdebug[39m: nut.0 (3829) Set State status.trimming = false
+2025-09-19 08:40:49.458  - [34mdebug[39m: nut.0 (3829) Create State status.boosting
+2025-09-19 08:40:49.458  - [34mdebug[39m: nut.0 (3829) Set State status.boosting = false
+2025-09-19 08:40:49.460  - [34mdebug[39m: nut.0 (3829) Create State status.shutdown
+2025-09-19 08:40:49.460  - [34mdebug[39m: nut.0 (3829) Set State status.shutdown = false
+2025-09-19 08:40:49.462  - [34mdebug[39m: nut.0 (3829) Set State status.severity = 4
+2025-09-19 08:41:01.313  - [32minfo[39m: nut.0 (3829) Message received = {"command":"notify","message":{"notifytype":"COMMBAD","upsname":"nutName@127.0.0.1"},"from":"system.adapter.test.0","callback":{"message":{"notifytype":"COMMBAD","upsname":"nutName@127.0.0.1"},"id":1,"ack":false,"time":1758271261312},"_id":4080767}
+2025-09-19 08:41:01.314  - [32minfo[39m: nut.0 (3829) got Notify COMMBAD for: nutName@127.0.0.1
+2025-09-19 08:41:01.314  - [32minfo[39m: nut.0 (3829) ownName=nutName@127.0.0.1 --> true
+2025-09-19 08:41:01.314  - [34mdebug[39m: nut.0 (3829) Create State status.online
+2025-09-19 08:41:01.314  - [34mdebug[39m: nut.0 (3829) Set State status.online = false
+2025-09-19 08:41:01.315  - [34mdebug[39m: nut.0 (3829) Start NUT update
+2025-09-19 08:41:01.315  - [31merror[39m: nut.0 (3829) Error happened: Error: connect ECONNREFUSED 127.0.0.1:3493
+2025-09-19 08:41:01.316  - [34mdebug[39m: nut.0 (3829) NUT Connection closed. Done.
+2025-09-19 08:41:01.317  - [34mdebug[39m: nut.0 (3829) Create State status.online
+2025-09-19 08:41:01.317  - [34mdebug[39m: nut.0 (3829) Set State status.online = false
+2025-09-19 08:41:01.321  - [34mdebug[39m: nut.0 (3829) Create State status.onbattery
+2025-09-19 08:41:01.321  - [34mdebug[39m: nut.0 (3829) Set State status.onbattery = false
+2025-09-19 08:41:01.362  - [34mdebug[39m: nut.0 (3829) Create State status.onbattery
+2025-09-19 08:41:01.363  - [34mdebug[39m: nut.0 (3829) Set State status.onbattery = false
+2025-09-19 08:41:01.364  - [34mdebug[39m: nut.0 (3829) Create State status.lowbattery
+2025-09-19 08:41:01.364  - [34mdebug[39m: nut.0 (3829) Set State status.lowbattery = false
+2025-09-19 08:41:01.365  - [34mdebug[39m: nut.0 (3829) Create State status.lowbattery
+2025-09-19 08:41:01.366  - [34mdebug[39m: nut.0 (3829) Set State status.lowbattery = false
+2025-09-19 08:41:01.367  - [34mdebug[39m: nut.0 (3829) Create State status.highbattery
+2025-09-19 08:41:01.367  - [34mdebug[39m: nut.0 (3829) Set State status.highbattery = false
+2025-09-19 08:41:01.368  - [34mdebug[39m: nut.0 (3829) Create State status.highbattery
+2025-09-19 08:41:01.369  - [34mdebug[39m: nut.0 (3829) Set State status.highbattery = false
+2025-09-19 08:41:01.370  - [34mdebug[39m: nut.0 (3829) Create State status.replacebattery
+2025-09-19 08:41:01.370  - [34mdebug[39m: nut.0 (3829) Set State status.replacebattery = false
+2025-09-19 08:41:01.371  - [34mdebug[39m: nut.0 (3829) Create State status.replacebattery
+2025-09-19 08:41:01.372  - [34mdebug[39m: nut.0 (3829) Set State status.replacebattery = false
+2025-09-19 08:41:01.373  - [34mdebug[39m: nut.0 (3829) Create State status.charging
+2025-09-19 08:41:01.373  - [34mdebug[39m: nut.0 (3829) Set State status.charging = false
+2025-09-19 08:41:01.375  - [34mdebug[39m: nut.0 (3829) Create State status.charging
+2025-09-19 08:41:01.375  - [34mdebug[39m: nut.0 (3829) Set State status.charging = false
+2025-09-19 08:41:01.376  - [34mdebug[39m: nut.0 (3829) Create State status.discharging
+2025-09-19 08:41:01.376  - [34mdebug[39m: nut.0 (3829) Set State status.discharging = false
+2025-09-19 08:41:01.377  - [34mdebug[39m: nut.0 (3829) Create State status.discharging
+2025-09-19 08:41:01.378  - [34mdebug[39m: nut.0 (3829) Set State status.discharging = false
+2025-09-19 08:41:01.379  - [34mdebug[39m: nut.0 (3829) Create State status.bypass
+2025-09-19 08:41:01.379  - [34mdebug[39m: nut.0 (3829) Set State status.bypass = false
+2025-09-19 08:41:01.380  - [34mdebug[39m: nut.0 (3829) Create State status.bypass
+2025-09-19 08:41:01.380  - [34mdebug[39m: nut.0 (3829) Set State status.bypass = false
+2025-09-19 08:41:01.382  - [34mdebug[39m: nut.0 (3829) Create State status.calibration
+2025-09-19 08:41:01.382  - [34mdebug[39m: nut.0 (3829) Set State status.calibration = false
+2025-09-19 08:41:01.383  - [34mdebug[39m: nut.0 (3829) Create State status.calibration
+2025-09-19 08:41:01.383  - [34mdebug[39m: nut.0 (3829) Set State status.calibration = false
+2025-09-19 08:41:01.385  - [34mdebug[39m: nut.0 (3829) Create State status.offline
+2025-09-19 08:41:01.385  - [34mdebug[39m: nut.0 (3829) Set State status.offline = true
+2025-09-19 08:41:01.386  - [34mdebug[39m: nut.0 (3829) Create State status.offline
+2025-09-19 08:41:01.386  - [34mdebug[39m: nut.0 (3829) Set State status.offline = false
+2025-09-19 08:41:01.388  - [34mdebug[39m: nut.0 (3829) Severity Flag action_needed=true
+2025-09-19 08:41:01.388  - [34mdebug[39m: nut.0 (3829) Create State status.overload
+2025-09-19 08:41:01.388  - [34mdebug[39m: nut.0 (3829) Set State status.overload = false
+2025-09-19 08:41:01.389  - [34mdebug[39m: nut.0 (3829) Create State status.overload
+2025-09-19 08:41:01.389  - [34mdebug[39m: nut.0 (3829) Set State status.overload = false
+2025-09-19 08:41:01.391  - [34mdebug[39m: nut.0 (3829) Create State status.trimming
+2025-09-19 08:41:01.391  - [34mdebug[39m: nut.0 (3829) Set State status.trimming = false
+2025-09-19 08:41:01.393  - [34mdebug[39m: nut.0 (3829) Create State status.trimming
+2025-09-19 08:41:01.393  - [34mdebug[39m: nut.0 (3829) Set State status.trimming = false
+2025-09-19 08:41:01.394  - [34mdebug[39m: nut.0 (3829) Create State status.boosting
+2025-09-19 08:41:01.394  - [34mdebug[39m: nut.0 (3829) Set State status.boosting = false
+2025-09-19 08:41:01.396  - [34mdebug[39m: nut.0 (3829) Create State status.boosting
+2025-09-19 08:41:01.396  - [34mdebug[39m: nut.0 (3829) Set State status.boosting = false
+2025-09-19 08:41:01.397  - [34mdebug[39m: nut.0 (3829) Create State status.shutdown
+2025-09-19 08:41:01.397  - [34mdebug[39m: nut.0 (3829) Set State status.shutdown = false
+2025-09-19 08:41:01.399  - [34mdebug[39m: nut.0 (3829) Create State status.shutdown
+2025-09-19 08:41:01.399  - [34mdebug[39m: nut.0 (3829) Set State status.shutdown = false
+2025-09-19 08:41:01.400  - [34mdebug[39m: nut.0 (3829) Set State status.severity = 3
+2025-09-19 08:41:01.402  - [34mdebug[39m: nut.0 (3829) Set State status.severity = 4
+2025-09-19 08:41:01.447  - [32minfo[39m: nut.0 (3829) terminating
+2025-09-19 08:41:01.448  - [34mdebug[39m: nut.0 (3829) Plugin sentry destroyed
+2025-09-19 08:41:01.448  - [32minfo[39m: nut.0 (3829) Terminated (NO_ERROR): Without reason
+2025-09-19 08:41:01.907  - [32minfo[39m: nut.0 (3829) terminating
