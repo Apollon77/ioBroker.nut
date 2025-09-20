@@ -1,5 +1,0 @@
-{"k":"**META**","v":{"states.protocolVersion":"4"}}
-{"k":"system.host.runnervmf4ws1.plugins.sentry.enabled","v":{"val":false,"ack":true,"ts":1758356379876,"q":0,"from":"system.host.runnervmf4ws1.plugins.sentry","lc":1758356379876}}
-{"k":"system.host.runnervmf4ws1.plugins.sentry.enabled","v":{"val":false,"ack":true,"ts":1758356394024,"q":0,"from":"system.host.runnervmf4ws1.plugins.sentry","lc":1758356379876}}
-{"k":"system.adapter.nut.upload","v":{"val":0,"ack":true,"ts":1758356394040,"q":0,"lc":1758356394040}}
-{"k":"nut.0.info.connection","v":{"val":false,"ack":true,"ts":1758356394099,"q":0,"from":"system.host.runnervmf4ws1.cli","lc":1758356394099}}
