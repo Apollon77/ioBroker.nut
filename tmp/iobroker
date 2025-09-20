@@ -1,0 +1,2 @@
+#!/usr/bin/env node
+require('/home/runner/work/ioBroker.nut/ioBroker.nut/tmp/node_modules/@iobroker/js-controller-cli/build/esm/lib/setup').execute();

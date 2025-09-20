@@ -1,0 +1,15 @@
+{
+    "Readme Settings and Troubleshooting": "Configuración y resolución de problemas del archivo Léame",
+    "host_ip": "IP del servidor NUT",
+    "host_port": "Puerto del servidor NUT",
+    "ip_info": "Dirección IP del servidor NUT. ",
+    "name_info": "Nombre del SAI tal como se define en la configuración NUT del servidor NUT. </p> Sugerencia: si desea conectarse a un SAI conectado a una estación de disco Synology, el nombre es simplemente \"ups\".",
+    "page_title": "Ajustes del adaptador NUT",
+    "password": "Contraseña del UPS",
+    "port_info": "Puerto de NUT. ",
+    "trouble_info": "Cuando convierte el adaptador en depuración, puede ver todos los estados creados y sus datos en el archivo de registro. ",
+    "update_interval": "Intervalo de actualización",
+    "update_interval_info": "Intervalo en segundos para actualizar los datos.",
+    "ups_name": "NUT Nombre del SAI",
+    "username": "Nombre de usuario del UPS"
+}

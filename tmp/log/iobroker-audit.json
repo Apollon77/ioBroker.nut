@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/home/runner/work/ioBroker.nut/ioBroker.nut/tmp/log/iobroker-audit.json",
+    "files": [
+        {
+            "date": 1758356396310,
+            "name": "/home/runner/work/ioBroker.nut/ioBroker.nut/tmp/log/iobroker.2025-09-20.log",
+            "hash": "5d533ed27d5273ab61aa75be901e3788326598d7f4dbe08e8e177e924d4a999c"
+        }
+    ],
+    "hashType": "sha256"
+}
