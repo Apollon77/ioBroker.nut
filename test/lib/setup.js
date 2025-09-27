@@ -56,7 +56,7 @@ function copyFileSync(source, target) {
 
     try {
         fs.writeFileSync(targetFile, fs.readFileSync(source));
-    } catch (err) {
+    } catch {
         console.log(`file copy error: ${source} -> ${targetFile} (error ignored)`);
     }
 }
@@ -130,7 +130,7 @@ async function storeOriginalFiles() {
             const f = fs.readFileSync(`${dataDir}states.json`);
             fs.writeFileSync(`${dataDir}states.json.original`, f);
             console.log('Store original states.json');
-        } catch (err) {
+        } catch {
             console.log('no states.json found - ignore');
         }
     }
@@ -302,7 +302,7 @@ async function checkIsControllerInstalled(cb, counter) {
         } else {
             console.error(`checkIsControllerInstalled: No objects file found in datadir ${dataDir}`);
         }
-    } catch (err) {}
+    } catch {}
 
     if (counter > 20) {
         console.log('checkIsControllerInstalled: Cannot install!');
@@ -491,7 +491,6 @@ function installJsController(cb) {
                     });
                 } else {
                     console.log('Setup js-controller...');
-                    let __pid;
                     if (debug) {
                         // start controller
                         child_process.exec(`node ${appName}.js setup first`, {
@@ -578,7 +577,7 @@ function clearControllerLog() {
             files = [];
             fs.mkdirSync(dirPath);
         }
-    } catch (e) {
+    } catch {
         console.error(`Cannot read "${dirPath}"`);
         return;
     }
@@ -607,7 +606,7 @@ function clearDB() {
             files = [];
             fs.mkdirSync(dirPath);
         }
-    } catch (e) {
+    } catch {
         console.error(`Cannot read "${dirPath}"`);
         return;
     }
@@ -642,7 +641,7 @@ function setupController(cb) {
                 try {
                     objs = fs.readFileSync(`${dataDir}objects.json`);
                     objs = JSON.parse(objs);
-                } catch (e) {
+                } catch {
                     console.log('ERROR reading/parsing system configuration. Ignore');
                     objs = { 'system.config': {} };
                 }
@@ -904,7 +903,7 @@ function stopAdapter(cb) {
             }
         });
 
-        pid.on('close', function (code, signal) {
+        pid.on('close', function (_code, _signal) {
             if (pid) {
                 if (cb) {
                     cb();

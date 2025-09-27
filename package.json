@@ -26,6 +26,7 @@
     "@alcalzone/release-script-plugin-license": "3.7.0",
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/eslint-config": "^2.2.0",
+    "@iobroker/testing": "^5.0.0",
     "chai": "^4.5.0",
     "mocha": "^11.7.2",
     "nyc": "^17.1.0"
@@ -35,8 +36,8 @@
   },
   "main": "nut.js",
   "scripts": {
-    "test": "nyc --reporter=lcov mocha test/testAdapter.js --exit  && mocha test/testPackageFiles.js",
-    "lint": "eslint --ignore-pattern 'test/*'",
+    "test": "mocha test/integration.js --exit && mocha test/testPackageFiles.js",
+    "lint": "eslint",
     "release": "release-script",
     "translate": "translate-adapter"
   },

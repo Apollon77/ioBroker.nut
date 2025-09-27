@@ -7,7 +7,6 @@ var setup = require(`${__dirname}/lib/setup`);
 var objects = null;
 var states = null;
 var onStateChanged = null;
-var onObjectChanged = null;
 var sendToID = 1;
 
 var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.') + 1);
@@ -34,35 +33,6 @@ function checkConnectionOfAdapter(cb, counter) {
             setTimeout(function () {
                 checkConnectionOfAdapter(cb, counter + 1);
             }, 1000);
-        }
-    });
-}
-
-function checkValueOfState(id, value, cb, counter) {
-    counter = counter || 0;
-    if (counter > 20) {
-        if (cb) {
-            cb(`Cannot check value Of State ${id}`);
-        }
-        return;
-    }
-
-    states.getState(id, function (err, state) {
-        if (err) {
-            console.error(err);
-        }
-        if (value === null && !state) {
-            if (cb) {
-                cb();
-            }
-        } else if (state && (value === undefined || state.val === value)) {
-            if (cb) {
-                cb();
-            }
-        } else {
-            setTimeout(function () {
-                checkValueOfState(id, value, cb, counter + 1);
-            }, 500);
         }
     });
 }
@@ -105,7 +75,7 @@ describe(`Test ${adapterShortName} adapter`, function () {
 
             setup.startController(
                 true,
-                function (id, obj) {},
+                function (_id, _obj) {},
                 function (id, state) {
                     if (onStateChanged) {
                         onStateChanged(id, state);
@@ -178,7 +148,6 @@ describe(`Test ${adapterShortName} adapter`, function () {
 
     it(`Test ${adapterShortName} adapter: send notify Message and receive answer`, function (done) {
         this.timeout(25000);
-        var now = new Date().getTime();
 
         states.subscribe('nut.0.status.last_notify');
         states.subscribe('nut.0.status.severity');
