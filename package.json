@@ -36,7 +36,7 @@
   "main": "nut.js",
   "scripts": {
     "test": "nyc --reporter=lcov mocha test/testAdapter.js --exit  && mocha test/testPackageFiles.js",
-    "lint": "eslint",
+    "lint": "eslint --ignore-pattern 'test/*'",
     "release": "release-script",
     "translate": "translate-adapter"
   },
