@@ -1,29 +1,35 @@
-/* jshint -W097 */// jshint strict:false
+/* jshint -W097 */ // jshint strict:false
 /*jslint node: true */
 /*jshint expr: true*/
 var expect = require('chai').expect;
-var setup  = require(__dirname + '/lib/setup');
+var setup = require(`${__dirname}/lib/setup`);
 
 var objects = null;
-var states  = null;
+var states = null;
 var onStateChanged = null;
 var onObjectChanged = null;
 var sendToID = 1;
 
-var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.')+1);
+var adapterShortName = setup.adapterName.substring(setup.adapterName.indexOf('.') + 1);
 
 function checkConnectionOfAdapter(cb, counter) {
     counter = counter || 0;
-    console.log('Try check #' + counter);
+    console.log(`Try check #${counter}`);
     if (counter > 30) {
-        if (cb) cb('Cannot check connection');
+        if (cb) {
+            cb('Cannot check connection');
+        }
         return;
     }
 
-    states.getState('system.adapter.' + adapterShortName + '.0.alive', function (err, state) {
-        if (err) console.error(err);
+    states.getState(`system.adapter.${adapterShortName}.0.alive`, function (err, state) {
+        if (err) {
+            console.error(err);
+        }
         if (state && state.val) {
-            if (cb) cb();
+            if (cb) {
+                cb();
+            }
         } else {
             setTimeout(function () {
                 checkConnectionOfAdapter(cb, counter + 1);
@@ -35,17 +41,24 @@ function checkConnectionOfAdapter(cb, counter) {
 function checkValueOfState(id, value, cb, counter) {
     counter = counter || 0;
     if (counter > 20) {
-        if (cb) cb('Cannot check value Of State ' + id);
+        if (cb) {
+            cb(`Cannot check value Of State ${id}`);
+        }
         return;
     }
 
     states.getState(id, function (err, state) {
-        if (err) console.error(err);
+        if (err) {
+            console.error(err);
+        }
         if (value === null && !state) {
-            if (cb) cb();
-        } else
-        if (state && (value === undefined || state.val === value)) {
-            if (cb) cb();
+            if (cb) {
+                cb();
+            }
+        } else if (state && (value === undefined || state.val === value)) {
+            if (cb) {
+                cb();
+            }
         } else {
             setTimeout(function () {
                 checkValueOfState(id, value, cb, counter + 1);
@@ -63,86 +76,97 @@ function sendTo(target, command, message, callback) {
         };
     }
 
-    states.pushMessage('system.adapter.' + target, {
-        command:    command,
-        message:    message,
-        from:       'system.adapter.test.0',
+    states.pushMessage(`system.adapter.${target}`, {
+        command: command,
+        message: message,
+        from: 'system.adapter.test.0',
         callback: {
             message: message,
-            id:      sendToID++,
-            ack:     false,
-            time:    (new Date()).getTime()
-        }
+            id: sendToID++,
+            ack: false,
+            time: new Date().getTime(),
+        },
     });
 }
 
-describe('Test ' + adapterShortName + ' adapter', function() {
-    before('Test ' + adapterShortName + ' adapter: Start js-controller', function (_done) {
+describe(`Test ${adapterShortName} adapter`, function () {
+    before(`Test ${adapterShortName} adapter: Start js-controller`, function (_done) {
         this.timeout(600000); // because of first install from npm
 
         setup.setupController(async function () {
             var config = await setup.getAdapterConfig();
             // enable adapter
-            config.common.enabled  = true;
+            config.common.enabled = true;
             config.common.loglevel = 'debug';
 
             //config.native.dbtype   = 'sqlite';
 
             await setup.setAdapterConfig(config.common, config.native);
 
-            setup.startController(true, function(id, obj) {}, function (id, state) {
-                    if (onStateChanged) onStateChanged(id, state);
+            setup.startController(
+                true,
+                function (id, obj) {},
+                function (id, state) {
+                    if (onStateChanged) {
+                        onStateChanged(id, state);
+                    }
                 },
                 function (_objects, _states) {
                     objects = _objects;
-                    states  = _states;
+                    states = _states;
                     _done();
-                });
+                },
+            );
         });
     });
 
-    it('Test ' + adapterShortName + ' adapter: Check if adapter started', function (done) {
+    it(`Test ${adapterShortName} adapter: Check if adapter started`, function (done) {
         this.timeout(60000);
         checkConnectionOfAdapter(function (res) {
-            if (res) console.log(res);
+            if (res) {
+                console.log(res);
+            }
             expect(res).not.to.be.equal('Cannot check connection');
-            objects.setObject('system.adapter.test.0', {
-                    common: {
-
-                    },
-                    type: 'instance'
+            objects.setObject(
+                'system.adapter.test.0',
+                {
+                    common: {},
+                    type: 'instance',
                 },
                 function () {
                     states.subscribeMessage('system.adapter.test.0');
                     done();
-                });
+                },
+            );
         });
     });
 
     // We expect ERROR as last Notify necause no nut is running there
-    it('Test ' + adapterShortName + ' adapter: test initial state as ERROR', function (done) {
+    it(`Test ${adapterShortName} adapter: test initial state as ERROR`, function (done) {
         this.timeout(25000);
 
-        setTimeout(function() {
+        setTimeout(function () {
             states.getState('nut.0.status.last_notify', function (err, state) {
-                if (err) console.error(err);
+                if (err) {
+                    console.error(err);
+                }
                 expect(state).to.exist;
                 if (!state) {
                     console.error('state "status.last_notify" not set');
-                }
-                else {
-                    console.log('check status.last_notify ... ' + state.val);
+                } else {
+                    console.log(`check status.last_notify ... ${state.val}`);
                     expect(state.val).to.exist;
                     expect(state.val).to.be.equal('ERROR');
                 }
                 states.getState('nut.0.status.severity', function (err, state) {
-                    if (err) console.error(err);
+                    if (err) {
+                        console.error(err);
+                    }
                     expect(state).to.exist;
                     if (!state) {
                         console.error('state "status.severity" not set');
-                    }
-                    else {
-                        console.log('check status.severity ... ' + state.val);
+                    } else {
+                        console.log(`check status.severity ... ${state.val}`);
                     }
                     expect(state.val).to.exist;
                     expect(state.val).to.be.equal(4);
@@ -152,7 +176,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         }, 12000);
     });
 
-    it('Test ' + adapterShortName + ' adapter: send notify Message and receive answer', function (done) {
+    it(`Test ${adapterShortName} adapter: send notify Message and receive answer`, function (done) {
         this.timeout(25000);
         var now = new Date().getTime();
 
@@ -168,7 +192,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 if (!state) {
                     console.error('state "status.last_notify" not set');
                 } else {
-                    console.log('check status.last_notify ... ' + state.val);
+                    console.log(`check status.last_notify ... ${state.val}`);
                 }
                 expect(state.val).to.be.equal('COMMBAD');
             }
@@ -179,7 +203,7 @@ describe('Test ' + adapterShortName + ' adapter', function() {
                 if (!state) {
                     console.error('state "status.severity" not set');
                 } else {
-                    console.log('check status.severity ... ' + state.val);
+                    console.log(`check status.severity ... ${state.val}`);
                 }
                 expect(state.val).to.exist;
                 expect(state.val).to.be.equal(3);
@@ -191,14 +215,14 @@ describe('Test ' + adapterShortName + ' adapter', function() {
         };
 
         console.log('send notify with "COMMBAD" to adapter ...');
-        sendTo('nut.0', 'notify', {notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1'});
+        sendTo('nut.0', 'notify', { notifytype: 'COMMBAD', upsname: 'nutName@127.0.0.1' });
     });
 
-    after('Test ' + adapterShortName + ' adapter: Stop js-controller', function (done) {
+    after(`Test ${adapterShortName} adapter: Stop js-controller`, function (done) {
         this.timeout(10000);
 
         setup.stopController(function (normalTerminated) {
-            console.log('Adapter normal terminated: ' + normalTerminated);
+            console.log(`Adapter normal terminated: ${normalTerminated}`);
             done();
         });
     });

@@ -84,6 +84,9 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
+### __WORK IN PROGRESS__
+* (copilot) Migrated to ESLint 9 and @iobroker/eslint-config
+
 ### 1.6.0 (2022-12-09)
 * IMPORTANT: js-controller 3.0 is now needed at least
 * (Apollon77) Delay adapter initialization when USV is not reachable on adapter start
