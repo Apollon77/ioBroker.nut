@@ -19,7 +19,7 @@ const Nut = require('node-nut');
 let nutTimeout;
 let stopInProgress;
 
-let nutCommands = null;
+// let nutCommands = null; // TODO: Check if this is needed later
 let connected = null;
 
 function startAdapter(options) {
@@ -232,7 +232,7 @@ async function initNutCommands(cmdlist) {
     if (!cmdlist) {
         return;
     }
-    nutCommands = cmdlist;
+    // nutCommands = cmdlist; // TODO: Check if this is needed later
     for (let i = 0; i < cmdlist.length; i++) {
         const cmdName = cmdlist[i].replace(/\./g, '-');
         adapter.log.debug(`Create State commands.${cmdName}`);

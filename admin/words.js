@@ -5,7 +5,7 @@
 | `translate-adapter adminLanguages2words` to update it.   |
 +===================== DO NOT MODIFY ======================+
 */
-/* eslint-disable no-global-assign, @typescript-eslint/no-unused-vars */
+/* eslint-disable */
 'use strict';
 
 systemDictionary = {
