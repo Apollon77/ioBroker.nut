@@ -36,7 +36,10 @@
   },
   "main": "nut.js",
   "scripts": {
-    "test": "mocha test/integration.js --exit && mocha test/testPackageFiles.js",
+    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:package": "mocha test/package --exit",
+    "test:integration": "mocha test/integration --exit",
+    "test": "npm run test:integration && npm run test:package",
     "lint": "eslint",
     "release": "release-script",
     "translate": "translate-adapter"
