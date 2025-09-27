@@ -12,28 +12,19 @@ tests.integration(path.join(__dirname, '..'), {
                 try {
                     console.log('🔍 Starting adapter startup test...');
 
-                    // Get adapter configuration using promise-based method
-                    const obj = await harness.objects.getObjectAsync('system.adapter.nut.0');
-                    if (!obj) {
-                        throw new Error('Adapter object not found');
-                    }
-
-                    console.log('✅ Adapter object loaded');
-
-                    // Configure adapter for basic functionality
-                    Object.assign(obj.native, {
-                        host_ip: 'localhost',
-                        host_port: 3493,
-                        ups_name: 'ups',
-                        update_interval: 300,
+                    // Configure adapter using harness method
+                    await harness.changeAdapterConfig('nut', {
+                        native: {
+                            host_ip: 'localhost',
+                            host_port: 3493,
+                            ups_name: 'ups',
+                            update_interval: 300,
+                        },
+                        common: {
+                            enabled: true,
+                            loglevel: 'debug',
+                        },
                     });
-
-                    // Enable adapter and set debug logging
-                    obj.common.enabled = true;
-                    obj.common.loglevel = 'debug';
-
-                    // Use promise-based method for setting object
-                    await harness.objects.setObjectAsync(obj._id, obj);
                     console.log('✅ Adapter configuration updated');
 
                     // Start the adapter
@@ -44,48 +35,33 @@ tests.integration(path.join(__dirname, '..'), {
                     console.log('⏳ Waiting for adapter initialization...');
                     await new Promise(res => setTimeout(res, 15000));
 
-                    // Check if connection state exists using promise-based method
+                    // Check if connection state exists using promise-based method with assertions
                     const connectionState = await harness.states.getStateAsync('nut.0.info.connection');
-                    if (connectionState !== null) {
-                        console.log(`✅ Connection state found: ${connectionState.val}`);
-                    } else {
-                        throw new Error('Expected connection state to exist');
-                    }
+                    expect(connectionState, 'Connection state should exist').to.not.be.null;
+                    expect(connectionState.val, 'Connection should be false when no NUT server available').to.be.false;
+                    console.log(`✅ Connection state verified: ${connectionState.val}`);
 
                     // Test initial state - We expect ERROR as last_notify because no NUT server is running
                     const lastNotifyState = await harness.states.getStateAsync('nut.0.status.last_notify');
-                    if (lastNotifyState) {
-                        console.log(`Check status.last_notify: ${lastNotifyState.val}`);
-                        if (lastNotifyState.val === 'ERROR') {
-                            console.log('✅ Correct initial notify state: ERROR (no NUT server available)');
-                        } else {
-                            console.log(`ℹ️ Unexpected notify value: ${lastNotifyState.val} (expected ERROR)`);
-                        }
-                    }
+                    expect(lastNotifyState, 'Last notify state should exist').to.not.be.null;
+                    expect(lastNotifyState.val, 'Should show ERROR when no NUT server available').to.equal('ERROR');
+                    console.log('✅ Correct initial notify state: ERROR (no NUT server available)');
 
                     const severityState = await harness.states.getStateAsync('nut.0.status.severity');
-                    if (severityState) {
-                        console.log(`Check status.severity: ${severityState.val}`);
-                        if (severityState.val === 4) {
-                            console.log('✅ Correct initial severity: 4 (unknown - no NUT server available)');
-                        } else {
-                            console.log(`ℹ️ Unexpected severity value: ${severityState.val} (expected 4)`);
-                        }
-                    }
+                    expect(severityState, 'Severity state should exist').to.not.be.null;
+                    expect(severityState.val, 'Should show severity 4 (unknown) when no NUT server available').to.equal(
+                        4,
+                    );
+                    console.log('✅ Correct initial severity: 4 (unknown - no NUT server available)');
 
                     // Check for other basic states that should be created
                     const stateIds = await harness.dbConnection.getStateIDs('nut.0.*');
-                    console.log(`📊 Found ${stateIds.length} states`);
-                    if (stateIds.length > 0) {
-                        console.log('✅ Adapter successfully created states');
-                    } else {
-                        throw new Error('No states created - adapter may not be working correctly');
-                    }
+                    expect(stateIds, 'Adapter should create states').to.be.an('array');
+                    expect(stateIds.length, 'Should have created multiple states').to.be.greaterThan(0);
+                    console.log(`📊 Found ${stateIds.length} states - ✅ Adapter successfully created states`);
 
                     await harness.stopAdapter();
                     console.log('🛑 Adapter stopped');
-
-                    return true;
                 } catch (error) {
                     console.error('❌ Test failed:', error.message);
                     throw error;
@@ -99,24 +75,19 @@ tests.integration(path.join(__dirname, '..'), {
                 try {
                     console.log('🔍 Starting notify message test...');
 
-                    // Get and configure adapter using promise-based method
-                    const obj = await harness.objects.getObjectAsync('system.adapter.nut.0');
-                    if (!obj) {
-                        throw new Error('Adapter object not found');
-                    }
-
-                    Object.assign(obj.native, {
-                        host_ip: 'localhost',
-                        host_port: 3493,
-                        ups_name: 'ups',
-                        update_interval: 300,
+                    // Configure adapter using harness method
+                    await harness.changeAdapterConfig('nut', {
+                        native: {
+                            host_ip: 'localhost',
+                            host_port: 3493,
+                            ups_name: 'ups',
+                            update_interval: 300,
+                        },
+                        common: {
+                            enabled: true,
+                            loglevel: 'debug',
+                        },
                     });
-
-                    obj.common.enabled = true;
-                    obj.common.loglevel = 'debug';
-
-                    // Use promise-based method for setting object
-                    await harness.objects.setObjectAsync(obj._id, obj);
                     console.log('✅ Adapter configured for notify test');
 
                     // Start the adapter
@@ -164,11 +135,16 @@ tests.integration(path.join(__dirname, '..'), {
                                 const severityState = await harness.states.getStateAsync('nut.0.status.severity');
 
                                 if (lastNotifyState && lastNotifyState.val === 'COMMBAD' && !notifyChecked) {
+                                    expect(lastNotifyState.val, 'Notify message should be COMMBAD').to.equal('COMMBAD');
                                     console.log('✅ Correct notify message received: COMMBAD');
                                     notifyChecked = true;
                                 }
 
                                 if (severityState && severityState.val === 3 && !severityChecked) {
+                                    expect(
+                                        severityState.val,
+                                        'Severity should be 3 (action needed) for COMMBAD',
+                                    ).to.equal(3);
                                     console.log('✅ Correct severity received: 3 (action needed)');
                                     severityChecked = true;
                                 }
