@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nut",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "news": {
+      "1.7.0": {
+        "en": "IMPORTANT: js-controller 6.0 is now needed at least\nDependencies updated",
+        "de": "WICHTIG: js-controller 6.0 wird nun mindestens benötigt\nAusgaben aktualisiert",
+        "ru": "JS-контроллер 6.0 теперь необходим\nОбновленные зависимости",
+        "pt": "IMPORTANTE: js-controller 6.0 agora é necessário pelo menos\nDependências atualizadas",
+        "nl": "BELANGRIJK: js-controller 6.0 is nu minstens nodig\nAfhankelijkheden bijgewerkt",
+        "fr": "IMPORTANT: js-controller 6.0 est maintenant nécessaire au moins\nDépendances actualisées",
+        "it": "IMPORTANTE: js-controller 6.0 è ora necessario almeno\nDipendenze aggiornate",
+        "es": "IMPORTANTE: js-controller 6.0 ahora es necesario al menos\nActualización de las dependencias",
+        "pl": "WAŻNE: kontroler js- 6.0 jest teraz potrzebny co najmniej\nAktualizacja zależności",
+        "uk": "IMPORTANT: js-controller 6.0 тепер потрібно принаймні\nЗалежність оновлено",
+        "zh-cn": "现在至少需要js控制器6.0\n更新的依赖关系"
+      },
       "1.6.0": {
         "en": "IMPORTANT: js-controller 3.0 is now needed at least\nDelay adapter initialization when USV is not reachable on adapter start",
         "de": "WICHTIG: Js-Controller 3.0 wird nun mindestens benötigt\nDelay Adapter Initialisierung, wenn USV nicht an Adapterstart erreichbar ist",
@@ -75,18 +88,6 @@
         "es": "Optimizar el manejo de paradas (Sentry IOBROKER-NUT-1)",
         "pl": "Zoptymalizuj obsługę zatrzymania (Sentry IOBROKER-NUT-1)",
         "zh-cn": "优化停止处理（Sentry IOBROKER-NUT-1）"
-      },
-      "1.4.0": {
-        "en": "Prevent warnings in js-controller 3.2\nRequire at least js-controller 2.0",
-        "de": "Verhindern Sie Warnungen in js-controller 3.2\nBenötigen Sie mindestens js-controller 2.0",
-        "ru": "Предотвращение предупреждений в js-controller 3.2\nТребуется как минимум js-controller 2.0",
-        "pt": "Evite avisos no js-controller 3.2\nRequer pelo menos js-controller 2.0",
-        "nl": "Voorkom waarschuwingen in js-controller 3.2\nVereist ten minste js-controller 2.0",
-        "fr": "Empêcher les avertissements dans js-controller 3.2\nNécessite au moins js-controller 2.0",
-        "it": "Prevenire gli avvisi in js-controller 3.2\nRichiede almeno js-controller 2.0",
-        "es": "Prevenir advertencias en js-controller 3.2\nRequiere al menos js-controller 2.0",
-        "pl": "Zapobiegaj ostrzeżeniom w js-controller 3.2\nWymagaj co najmniej js-controller 2.0",
-        "zh-cn": "在js-controller 3.2中防止警告\n至少需要js-controller 2.0"
       }
     },
     "authors": [
