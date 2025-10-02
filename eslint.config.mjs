@@ -3,7 +3,7 @@ import config from '@iobroker/eslint-config';
 export default [
     ...config,
     {
-        ignores: ['**/*{.,-}min.js', 'admin/words.js'],
+        ignores: ['**/*{.,-}min.js', 'admin/words.js', 'tmp/**/*'],
     },
     {
         files: ['test/**/*.js'],
