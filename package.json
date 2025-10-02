@@ -27,7 +27,7 @@
     "@iobroker/adapter-dev": "^1.4.0",
     "@iobroker/eslint-config": "^2.2.0",
     "chai": "^4.5.0",
-    "mocha": "^11.7.2",
+    "mocha": "^11.7.3",
     "nyc": "^17.1.0"
   },
   "bugs": {
