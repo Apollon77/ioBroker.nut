@@ -123,7 +123,7 @@ tests.integration(path.join(__dirname, '..'), {
 
                     // Send notify message - this is a simpler test just to verify messaging works
                     console.log('📤 Sending notify message: COMMBAD for ups@localhost');
-                    
+
                     // Send the notify message and verify it's received by checking logs
                     harness.states.pushMessage('system.adapter.nut.0', {
                         command: 'notify',
@@ -136,10 +136,10 @@ tests.integration(path.join(__dirname, '..'), {
                             time: new Date().getTime(),
                         },
                     });
-                    
+
                     // Wait for message processing
                     await new Promise(res => setTimeout(res, 3000));
-                    
+
                     // Since the adapter processes the notify but then resets due to NUT connection failure,
                     // we verify the test by confirming the adapter is responsive to messages
                     // The logs show the adapter correctly receives and processes the notification
