@@ -127,7 +127,10 @@
     "icon": "nut.png",
     "extIcon": "https://raw.githubusercontent.com/Apollon77/ioBroker.nut/master/admin/nut.png",
     "readme": "https://github.com/Apollon77/ioBroker.nut/blob/master/README.md",
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "type": "hardware",
     "keywords": [
       "iobroker",
