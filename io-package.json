@@ -2,6 +2,7 @@
   "common": {
     "name": "nut",
     "version": "1.7.0",
+    "main": "src/main.js",
     "news": {
       "1.7.0": {
         "en": "IMPORTANT: js-controller 6.0 is now needed at least\nDependencies updated",
