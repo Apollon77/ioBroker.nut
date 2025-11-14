@@ -37,6 +37,9 @@
   "bugs": {
     "url": "https://github.com/Apollon77/ioBroker.nut/issues"
   },
+  "files": [
+    "src/"
+  ],
   "main": "src/main.js",
   "scripts": {
     "check": "tsc --noEmit",
