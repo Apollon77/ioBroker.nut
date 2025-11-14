@@ -25,511 +25,513 @@ declare global {
     }
 }
 
-let adapter: ioBroker.Adapter;
+class NutAdapter extends utils.Adapter {
+    #nutTimeout: ioBroker.Timeout | null | undefined = null;
+    #stopInProgress = false;
+    #nutConnected: boolean | null = null;
 
-let nutTimeout: NodeJS.Timeout | null;
-let stopInProgress: boolean;
+    public constructor(options: Partial<utils.AdapterOptions> = {}) {
+        super({
+            ...options,
+            name: 'nut',
+        });
 
-let connected: boolean | null = null;
+        this.on('ready', this.#onReady.bind(this));
+        this.on('stateChange', this.#onStateChange.bind(this));
+        this.on('message', this.#onMessage.bind(this));
+        this.on('unload', this.#onUnload.bind(this));
+    }
 
-function startAdapter(options: Partial<utils.AdapterOptions> = {}): ioBroker.Adapter {
-    const adapterOptions = Object.assign({}, options, {
-        name: 'nut',
-    });
-    adapter = new utils.Adapter(adapterOptions);
+    /**
+     * Is called when databases are connected and adapter received configuration.
+     */
+    async #onReady(): Promise<void> {
+        this.#setConnected(false);
 
-    adapter.on('ready', () => {
-        void main();
-    });
+        void this.getForeignObject(`system.adapter.${this.namespace}`, (err, obj) => {
+            if (!err && obj && obj.common.mode !== 'daemon') {
+                obj.common.mode = 'daemon';
+                if (obj.common.schedule) {
+                    delete obj.common.schedule;
+                }
+                void this.setForeignObject(obj._id, obj);
+            }
+        });
 
-    adapter.on('message', msg => {
-        processMessage(msg);
-    });
+        this.log.debug('Create Channel status');
+        try {
+            await this.setObjectNotExistsAsync('status', {
+                type: 'channel',
+                common: { name: 'status' },
+                native: {},
+            });
+        } catch (err: unknown) {
+            this.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
+        }
+        try {
+            await this.setObjectNotExistsAsync('status.severity', {
+                type: 'state',
+                common: {
+                    name: 'status.severity',
+                    role: 'indicator',
+                    type: 'number',
+                    read: true,
+                    write: false,
+                    def: 4,
+                    states: { 0: 'idle', 1: 'operating', 2: 'operating_critical', 3: 'action_needed', 4: 'unknown' },
+                },
+                native: { id: 'status.severity' },
+            });
+        } catch (err: unknown) {
+            this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+        }
+        await this.#parseAndSetSeverity('', true);
+        try {
+            await this.setObjectNotExistsAsync('status.last_notify', {
+                type: 'state',
+                common: {
+                    name: 'status.last_notify',
+                    type: 'string',
+                    role: 'state',
+                    read: true,
+                    write: false,
+                },
+                native: {
+                    id: 'status.last_notify',
+                },
+            });
+        } catch (err: unknown) {
+            this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+        }
+        this.getState('status.last_notify', async (err, state) => {
+            if (!err && !state) {
+                await this.setStateAsync('status.last_notify', { ack: true, val: '' });
+            }
+            this.#initializeNutDevice();
+        });
+    }
 
-    adapter.on('stateChange', (id, state) => {
-        adapter.log.debug(`stateChange ${id} ${JSON.stringify(state)}`);
-        const realNamespace = `${adapter.namespace}.commands.`;
-        const stateId = id.substring(realNamespace.length);
-        if (!state || state.ack || id.indexOf(realNamespace) !== 0) {
+    /**
+     * Is called when adapter shuts down - callback has to be called under any circumstances!
+     *
+     * @param callback - callback function
+     */
+    #onUnload(callback: () => void): void {
+        try {
+            this.#stopInProgress = true;
+            if (this.#nutTimeout) {
+                this.clearTimeout(this.#nutTimeout);
+            }
+            this.#nutTimeout = null;
+            this.#setConnected(false);
+        } catch {
+            // ignore
+        } finally {
+            callback();
+        }
+    }
+
+    /**
+     * Is called if a subscribed state changes
+     *
+     * @param id - state ID
+     * @param state - state object
+     */
+    #onStateChange(id: string, state: ioBroker.State | null | undefined): void {
+        if (state) {
+            this.log.debug(`stateChange ${id} ${JSON.stringify(state)}`);
+            const realNamespace = `${this.namespace}.commands.`;
+            const stateId = id.substring(realNamespace.length);
+            if (state.ack || id.indexOf(realNamespace) !== 0) {
+                return;
+            }
+
+            const command = stateId.replace(/-/g, '.');
+            this.#initNutConnection(oNut => {
+                if (!oNut) {
+                    this.log.error(`USV not available - Error while sending command: ${command}`);
+                    return;
+                }
+                if (this.#stopInProgress) {
+                    return;
+                } // adapter already unloaded
+                if (this.config.username && this.config.password) {
+                    this.log.info(`send username for command ${command}`);
+                    oNut.SetUsername(this.config.username, (err: any) => {
+                        if (err) {
+                            this.log.error(`Err while sending username: ${err}`);
+                            oNut.close();
+                        } else {
+                            this.log.info(`send password for command ${command}`);
+                            oNut.SetPassword(this.config.password, (err: any) => {
+                                if (err) {
+                                    this.log.error(`Err while sending password: ${err}`);
+                                    oNut.close();
+                                } else {
+                                    this.log.info(`send command ${command}`);
+                                    oNut.RunUPSCommand(this.config.ups_name, command, (err: any) => {
+                                        if (err) {
+                                            this.log.error(`Err while sending command ${command}: ${err}`);
+                                            oNut.close();
+                                        }
+                                        this.#getCurrentNutValues(oNut, true);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    this.log.info(`send command ${command} without username and password`);
+                    oNut.RunUPSCommand(this.config.ups_name, command, (err: any) => {
+                        if (err) {
+                            this.log.error(`Err while sending command ${command}: ${err}`);
+                        }
+                        this.#getCurrentNutValues(oNut, true);
+                    });
+                }
+
+                void this.setState(id, { ack: true, val: false });
+            });
+        }
+    }
+
+    /**
+     * Some message was sent to this instance over message box.
+     *
+     * @param obj - message object
+     */
+    #onMessage(obj: ioBroker.Message): void {
+        if (!obj) {
             return;
         }
 
-        const command = stateId.replace(/-/g, '.');
-        initNutConnection(oNut => {
-            if (!oNut) {
-                adapter.log.error(`USV not available - Error while sending command: ${command}`);
-                return;
-            }
-            if (stopInProgress) {
-                return;
-            } // adapter already unloaded
-            if (adapter.config.username && adapter.config.password) {
-                adapter.log.info(`send username for command ${command}`);
-                oNut.SetUsername(adapter.config.username, (err: any) => {
-                    if (err) {
-                        adapter.log.error(`Err while sending username: ${err}`);
-                        oNut.close();
-                    } else {
-                        adapter.log.info(`send password for command ${command}`);
-                        oNut.SetPassword(adapter.config.password, (err: any) => {
-                            if (err) {
-                                adapter.log.error(`Err while sending password: ${err}`);
-                                oNut.close();
-                            } else {
-                                adapter.log.info(`send command ${command}`);
-                                oNut.RunUPSCommand(adapter.config.ups_name, command, (err: any) => {
-                                    if (err) {
-                                        adapter.log.error(`Err while sending command ${command}: ${err}`);
-                                        oNut.close();
-                                    }
-                                    getCurrentNutValues(oNut, true);
-                                });
-                            }
-                        });
-                    }
-                });
-            } else {
-                adapter.log.info(`send command ${command} without username and password`);
-                oNut.RunUPSCommand(adapter.config.ups_name, command, (err: any) => {
-                    if (err) {
-                        adapter.log.error(`Err while sending command ${command}: ${err}`);
-                    }
-                    getCurrentNutValues(oNut, true);
-                });
-            }
+        this.log.info(`Message received = ${JSON.stringify(obj)}`);
 
-            void adapter.setState(id, { ack: true, val: false });
-        });
-    });
-
-    adapter.on('unload', callback => {
-        stopInProgress = true;
-        if (nutTimeout) {
-            clearTimeout(nutTimeout);
+        let updateNut = false;
+        if (obj.command === 'notify' && obj.message) {
+            const msg = obj.message;
+            this.log.info(`got Notify ${msg.notifytype} for: ${msg.upsname}`);
+            const ownName = `${this.config.ups_name}@${this.config.host_ip}`;
+            this.log.info(`ownName=${ownName} --> ${ownName === msg.upsname}`);
+            if (ownName === msg.upsname) {
+                updateNut = true;
+                void this.setState('status.last_notify', { ack: true, val: msg.notifytype });
+                if (msg.notifytype === 'COMMBAD' || msg.notifytype === 'NOCOMM') {
+                    void this.#parseAndSetSeverity('OFF');
+                }
+            }
+        } else {
+            updateNut = true;
         }
-        nutTimeout = null;
-        try {
-            setConnected(false);
-        } finally {
-            if (typeof callback === 'function') {
-                callback();
+
+        if (updateNut) {
+            if (this.#nutTimeout) {
+                this.clearTimeout(this.#nutTimeout);
             }
+            this.#updateNutData();
         }
-    });
+    }
 
-    return adapter;
-}
-
-function setConnected(isConnected: boolean): void {
-    if (connected !== isConnected) {
-        connected = isConnected;
-        if (adapter) {
-            void adapter.setState('info.connection', connected, true, err => {
+    #setConnected(isConnected: boolean): void {
+        if (this.#nutConnected !== isConnected) {
+            this.#nutConnected = isConnected;
+            void this.setState('info.connection', this.#nutConnected, true, err => {
                 // analyse if the state could be set (because of permissions)
-                if (err && adapter && adapter.log) {
-                    adapter.log.error(`Can not update connected state: ${String(err)}`);
-                } else if (adapter && adapter.log) {
-                    adapter.log.debug(`connected set to ${connected}`);
+                if (err) {
+                    this.log.error(`Can not update connected state: ${String(err)}`);
+                } else {
+                    this.log.debug(`connected set to ${this.#nutConnected}`);
                 }
             });
         }
     }
-}
 
-async function main(): Promise<void> {
-    setConnected(false);
-    void adapter.getForeignObject(`system.adapter.${adapter.namespace}`, (err, obj) => {
-        if (!err && obj && obj.common.mode !== 'daemon') {
-            obj.common.mode = 'daemon';
-            if (obj.common.schedule) {
-                delete obj.common.schedule;
+    #initializeNutDevice(): void {
+        const update_interval = parseInt(String(this.config.update_interval), 10) || 60;
+
+        this.#initNutConnection(oNut => {
+            if (!oNut) {
+                this.log.error('USV not available - Delay initialization');
+
+                this.#nutTimeout = this.setTimeout(() => this.#initializeNutDevice(), update_interval * 1000);
+
+                return;
             }
-            void adapter.setForeignObject(obj._id, obj);
-        }
-    });
+            oNut.GetUPSCommands(this.config.ups_name, (cmdlist: string[], err: any) => {
+                if (err) {
+                    this.log.error(`Err while getting all commands: ${err}`);
+                } else {
+                    this.log.debug('Got commands, create and subscribe command states');
+                    void this.#initNutCommands(cmdlist);
+                }
 
-    adapter.log.debug('Create Channel status');
-    try {
-        await adapter.setObjectNotExistsAsync('status', {
-            type: 'channel',
-            common: { name: 'status' },
-            native: {},
+                this.#getCurrentNutValues(oNut, true);
+
+                this.#nutTimeout = this.setTimeout(() => this.#updateNutData(), update_interval * 1000);
+            });
         });
-    } catch (err: unknown) {
-        adapter.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
-    }
-    try {
-        await adapter.setObjectNotExistsAsync('status.severity', {
-            type: 'state',
-            common: {
-                name: 'status.severity',
-                role: 'indicator',
-                type: 'number',
-                read: true,
-                write: false,
-                def: 4,
-                states: { 0: 'idle', 1: 'operating', 2: 'operating_critical', 3: 'action_needed', 4: 'unknown' },
-            },
-            native: { id: 'status.severity' },
-        });
-    } catch (err: unknown) {
-        adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
-    }
-    await parseAndSetSeverity('', true);
-    try {
-        await adapter.setObjectNotExistsAsync('status.last_notify', {
-            type: 'state',
-            common: {
-                name: 'status.last_notify',
-                type: 'string',
-                role: 'state',
-                read: true,
-                write: false,
-            },
-            native: {
-                id: 'status.last_notify',
-            },
-        });
-    } catch (err: unknown) {
-        adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
-    }
-    adapter.getState('status.last_notify', async (err, state) => {
-        if (!err && !state) {
-            await adapter.setStateAsync('status.last_notify', { ack: true, val: '' });
-        }
-        initializeNutDevice();
-    });
-}
-
-function initializeNutDevice(): void {
-    const update_interval = parseInt(String(adapter.config.update_interval), 10) || 60;
-
-    initNutConnection(oNut => {
-        if (!oNut) {
-            adapter.log.error('USV not available - Delay initialization');
-
-            nutTimeout = setTimeout(initializeNutDevice, update_interval * 1000);
-
-            return;
-        }
-        oNut.GetUPSCommands(adapter.config.ups_name, (cmdlist: string[], err: any) => {
-            if (err) {
-                adapter.log.error(`Err while getting all commands: ${err}`);
-            } else {
-                adapter.log.debug('Got commands, create and subscribe command states');
-                void initNutCommands(cmdlist);
-            }
-
-            getCurrentNutValues(oNut, true);
-
-            nutTimeout = setTimeout(updateNutData, update_interval * 1000);
-        });
-    });
-}
-
-async function initNutCommands(cmdlist: string[]): Promise<void> {
-    adapter.log.debug('Create Channel commands');
-    try {
-        await adapter.setObjectNotExistsAsync('commands', {
-            type: 'channel',
-            common: { name: 'commands' },
-            native: {},
-        });
-    } catch (err: unknown) {
-        adapter.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
     }
 
-    if (!cmdlist) {
-        return;
-    }
-
-    for (let i = 0; i < cmdlist.length; i++) {
-        const cmdName = cmdlist[i].replace(/\./g, '-');
-        adapter.log.debug(`Create State commands.${cmdName}`);
+    async #initNutCommands(cmdlist: string[]): Promise<void> {
+        this.log.debug('Create Channel commands');
         try {
-            await adapter.setObjectNotExistsAsync(`commands.${cmdName}`, {
-                type: 'state',
-                common: {
-                    name: `commands.${cmdName}`,
-                    role: 'button',
-                    type: 'boolean',
-                    read: true,
-                    write: true,
-                    def: false,
-                },
-                native: { id: `commands.${cmdName}` },
+            await this.setObjectNotExistsAsync('commands', {
+                type: 'channel',
+                common: { name: 'commands' },
+                native: {},
             });
         } catch (err: unknown) {
-            adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+            this.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
         }
-        await adapter.setStateAsync(`commands.${cmdName}`, { ack: true, val: false });
-    }
-    adapter.subscribeStates('commands.*');
-}
 
-/*
-Command Datapoint to be used with "NOIFY EVENTS" and upsmon
-ONLINE   : The UPS is back on line.
-ONBATT   : The UPS is on battery.
-LOWBATT  : The UPS battery is low (as determined by the driver).
-FSD      : The UPS has been commanded into the "forced shutdown" mode.
-COMMOK   : Communication with the UPS has been established.
-COMMBAD  : Communication with the UPS was just lost.
-SHUTDOWN : The local system is being shut down.
-REPLBATT : The UPS needs to have its battery replaced.
-NOCOMM   : The UPS can't be contacted for monitoring.
-*/
-function processMessage(message: ioBroker.Message): void {
-    if (!message) {
-        return;
-    }
-
-    adapter.log.info(`Message received = ${JSON.stringify(message)}`);
-
-    let updateNut = false;
-    if (message.command === 'notify' && message.message) {
-        const msg = message.message;
-        adapter.log.info(`got Notify ${msg.notifytype} for: ${msg.upsname}`);
-        const ownName = `${adapter.config.ups_name}@${adapter.config.host_ip}`;
-        adapter.log.info(`ownName=${ownName} --> ${ownName === msg.upsname}`);
-        if (ownName === msg.upsname) {
-            updateNut = true;
-            void adapter.setState('status.last_notify', { ack: true, val: msg.notifytype });
-            if (msg.notifytype === 'COMMBAD' || msg.notifytype === 'NOCOMM') {
-                void parseAndSetSeverity('OFF');
-            }
-        }
-    } else {
-        updateNut = true;
-    }
-
-    if (updateNut) {
-        if (nutTimeout) {
-            clearTimeout(nutTimeout);
-        }
-        updateNutData();
-    }
-}
-
-function initNutConnection(callback: (oNut: any) => void): void {
-    const host_port = parseInt(String(adapter.config.host_port), 10);
-    if (host_port < 0 || host_port > 65535 || isNaN(host_port)) {
-        adapter.log.error(`Configured Port invalid: ${adapter.config.host_port}`);
-        adapter.terminate
-            ? adapter.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION)
-            : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
-        return;
-    }
-
-    const oNut = new Nut(host_port, adapter.config.host_ip);
-
-    oNut.on('error', (err: any) => {
-        if (stopInProgress) {
+        if (!cmdlist) {
             return;
-        } // adapter already unloaded
-        adapter.log.error(`Error happened: ${err}`);
-        setConnected(false);
-        adapter.getState('status.last_notify', (err, state) => {
-            if (
-                (!err && !state) ||
-                (state && state.val !== 'COMMBAD' && state.val !== 'SHUTDOWN' && state.val !== 'NOCOMM')
-            ) {
-                void adapter.setState('status.last_notify', { ack: true, val: 'ERROR' });
-            }
-            if (!err) {
-                void parseAndSetSeverity('');
-            }
-            callback(null);
-        });
-    });
-
-    oNut.on('close', () => {
-        adapter.log.debug('NUT Connection closed. Done.');
-    });
-
-    oNut.on('ready', () => {
-        adapter.log.debug('NUT Connection ready');
-        setConnected(true);
-        callback(oNut);
-    });
-
-    oNut.start();
-}
-
-function updateNutData(): void {
-    adapter.log.debug('Start NUT update');
-
-    initNutConnection(oNut => {
-        oNut && getCurrentNutValues(oNut, true);
-    });
-
-    const update_interval = parseInt(String(adapter.config.update_interval), 10) || 60;
-    nutTimeout = setTimeout(updateNutData, update_interval * 1000);
-}
-
-function getCurrentNutValues(oNut: any, closeConnection: boolean): void {
-    oNut.GetUPSVars(adapter.config.ups_name, (varlist: Record<string, any>, err: any) => {
-        if (err) {
-            adapter.log.error(`Err while getting NUT values: ${err}`);
-        } else {
-            adapter.log.debug('Got values, start setting them');
-            void storeNutData(varlist);
-        }
-        if (closeConnection) {
-            oNut.close();
-        }
-    });
-}
-
-async function storeNutData(varlist: Record<string, any>): Promise<void> {
-    let last = '';
-    let current = '';
-    let index = 0;
-    let stateName = '';
-
-    for (const key in varlist) {
-        if (!Object.prototype.hasOwnProperty.call(varlist, key)) {
-            continue;
         }
 
-        index = key.indexOf('.');
-        if (index > 0) {
-            current = key.substring(0, index);
-        } else {
-            current = '';
-            last = '';
-            index = -1;
-        }
-        if ((last === '' || last !== current) && current !== '') {
-            adapter.log.debug(`Create Channel ${current}`);
+        for (let i = 0; i < cmdlist.length; i++) {
+            const cmdName = cmdlist[i].replace(/\./g, '-');
+            this.log.debug(`Create State commands.${cmdName}`);
             try {
-                await adapter.setObjectNotExistsAsync(current, {
-                    type: 'channel',
-                    common: {
-                        name: current,
-                    },
-                    native: {},
-                });
-            } catch (err: unknown) {
-                adapter.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
-            }
-        }
-        stateName = `${current}.${key.substring(index + 1).replace(/\./g, '-')}`;
-        adapter.log.debug(`Create State ${stateName}`);
-        if (stateName === 'battery.charge') {
-            try {
-                // it has type string but should be an integer
-                varlist[key] = parseInt(varlist[key]);
-                await adapter.setObjectNotExistsAsync(stateName, {
+                await this.setObjectNotExistsAsync(`commands.${cmdName}`, {
                     type: 'state',
                     common: {
-                        name: stateName,
-                        type: 'number',
-                        role: 'value.battery',
+                        name: `commands.${cmdName}`,
+                        role: 'button',
+                        type: 'boolean',
                         read: true,
-                        write: false,
-                        unit: '%',
+                        write: true,
+                        def: false,
                     },
-                    native: { id: stateName },
+                    native: { id: `commands.${cmdName}` },
                 });
             } catch (err: unknown) {
-                adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+                this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
             }
-        } else {
-            try {
-                await adapter.setObjectNotExistsAsync(stateName, {
-                    type: 'state',
-                    common: { name: stateName, type: 'string', role: 'state', read: true, write: false },
-                    native: { id: stateName },
-                });
-            } catch (err: unknown) {
-                adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
-            }
+            await this.setStateAsync(`commands.${cmdName}`, { ack: true, val: false });
         }
-        adapter.log.debug(`Set State ${stateName} = ${varlist[key]}`);
-        await adapter.setStateAsync(stateName, { ack: true, val: varlist[key] });
-        last = current;
+        this.subscribeStates('commands.*');
     }
 
-    if (varlist['ups.status']) {
-        await parseAndSetSeverity(varlist['ups.status']);
-    } else {
-        await parseAndSetSeverity('');
+    #initNutConnection(callback: (oNut: any) => void): void {
+        const host_port = parseInt(String(this.config.host_port), 10);
+        if (host_port < 0 || host_port > 65535 || isNaN(host_port)) {
+            this.log.error(`Configured Port invalid: ${this.config.host_port}`);
+            this.terminate
+                ? this.terminate(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION)
+                : process.exit(utils.EXIT_CODES.ADAPTER_REQUESTED_TERMINATION);
+            return;
+        }
+
+        const oNut = new Nut(host_port, this.config.host_ip);
+
+        oNut.on('error', (err: any) => {
+            if (this.#stopInProgress) {
+                return;
+            } // adapter already unloaded
+            this.log.error(`Error happened: ${err}`);
+            this.#setConnected(false);
+            this.getState('status.last_notify', (err, state) => {
+                if (
+                    (!err && !state) ||
+                    (state && state.val !== 'COMMBAD' && state.val !== 'SHUTDOWN' && state.val !== 'NOCOMM')
+                ) {
+                    void this.setState('status.last_notify', { ack: true, val: 'ERROR' });
+                }
+                if (!err) {
+                    void this.#parseAndSetSeverity('');
+                }
+                callback(null);
+            });
+        });
+
+        oNut.on('close', () => {
+            this.log.debug('NUT Connection closed. Done.');
+        });
+
+        oNut.on('ready', () => {
+            this.log.debug('NUT Connection ready');
+            this.#setConnected(true);
+            callback(oNut);
+        });
+
+        oNut.start();
     }
 
-    adapter.log.debug('All Nut values set');
-}
+    #updateNutData(): void {
+        this.log.debug('Start NUT update');
 
-async function parseAndSetSeverity(ups_status: string, createObjects?: boolean): Promise<void> {
-    const statusMap: Record<string, { name: string; severity: string }> = {
-        OL: { name: 'online', severity: 'idle' },
-        OB: { name: 'onbattery', severity: 'operating' },
-        LB: { name: 'lowbattery', severity: 'operating_critical' },
-        HB: { name: 'highbattery', severity: 'operating_critical' },
-        RB: { name: 'replacebattery', severity: 'action_needed' },
-        CHRG: { name: 'charging', severity: 'idle' },
-        DISCHRG: { name: 'discharging', severity: 'operating' },
-        BYPASS: { name: 'bypass', severity: 'action_needed' },
-        CAL: { name: 'calibration', severity: 'operating' },
-        OFF: { name: 'offline', severity: 'action_needed' },
-        OVER: { name: 'overload', severity: 'action_needed' },
-        TRIM: { name: 'trimming', severity: 'operating' },
-        BOOST: { name: 'boosting', severity: 'operating' },
-        FSD: { name: 'shutdown', severity: 'operating_critical' },
-    };
-    const severity: Record<string, boolean> = {
-        idle: false,
-        operating: false,
-        operating_critical: false,
-        action_needed: false,
-    };
-    if (ups_status.indexOf('FSD') !== -1) {
-        ups_status += ' OB LB';
+        this.#initNutConnection(oNut => {
+            oNut && this.#getCurrentNutValues(oNut, true);
+        });
+
+        const update_interval = parseInt(String(this.config.update_interval), 10) || 60;
+        this.#nutTimeout = this.setTimeout(() => this.#updateNutData(), update_interval * 1000);
     }
-    const checker = ` ${ups_status} `;
-    let stateName = '';
-    for (const idx in statusMap) {
-        if (Object.prototype.hasOwnProperty.call(statusMap, idx)) {
-            const found = checker.indexOf(` ${idx}`) > -1;
-            stateName = `status.${statusMap[idx].name}`;
-            adapter.log.debug(`Create State ${stateName}`);
-            try {
-                createObjects &&
-                    (await adapter.setObjectNotExistsAsync(stateName, {
+
+    #getCurrentNutValues(oNut: any, closeConnection: boolean): void {
+        oNut.GetUPSVars(this.config.ups_name, (varlist: Record<string, any>, err: any) => {
+            if (err) {
+                this.log.error(`Err while getting NUT values: ${err}`);
+            } else {
+                this.log.debug('Got values, start setting them');
+                void this.#storeNutData(varlist);
+            }
+            if (closeConnection) {
+                oNut.close();
+            }
+        });
+    }
+
+    async #storeNutData(varlist: Record<string, any>): Promise<void> {
+        let last = '';
+        let current = '';
+        let index = 0;
+        let stateName = '';
+
+        for (const key in varlist) {
+            if (!Object.prototype.hasOwnProperty.call(varlist, key)) {
+                continue;
+            }
+
+            index = key.indexOf('.');
+            if (index > 0) {
+                current = key.substring(0, index);
+            } else {
+                current = '';
+                last = '';
+                index = -1;
+            }
+            if ((last === '' || last !== current) && current !== '') {
+                this.log.debug(`Create Channel ${current}`);
+                try {
+                    await this.setObjectNotExistsAsync(current, {
+                        type: 'channel',
+                        common: {
+                            name: current,
+                        },
+                        native: {},
+                    });
+                } catch (err: unknown) {
+                    this.log.error(`Error creating Channel: ${err instanceof Error ? err.message : String(err)}`);
+                }
+            }
+            stateName = `${current}.${key.substring(index + 1).replace(/\./g, '-')}`;
+            this.log.debug(`Create State ${stateName}`);
+            if (stateName === 'battery.charge') {
+                try {
+                    // it has type string but should be an integer
+                    varlist[key] = parseInt(varlist[key]);
+                    await this.setObjectNotExistsAsync(stateName, {
                         type: 'state',
-                        common: { name: stateName, type: 'boolean', role: 'indicator', read: true, write: false },
+                        common: {
+                            name: stateName,
+                            type: 'number',
+                            role: 'value.battery',
+                            read: true,
+                            write: false,
+                            unit: '%',
+                        },
                         native: { id: stateName },
-                    }));
-            } catch (err: unknown) {
-                adapter.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+                    });
+                } catch (err: unknown) {
+                    this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+                }
+            } else {
+                try {
+                    await this.setObjectNotExistsAsync(stateName, {
+                        type: 'state',
+                        common: { name: stateName, type: 'string', role: 'state', read: true, write: false },
+                        native: { id: stateName },
+                    });
+                } catch (err: unknown) {
+                    this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+                }
             }
-            adapter.log.debug(`Set State ${stateName} = ${found}`);
-            await adapter.setStateAsync(stateName, { ack: true, val: found });
-            if (found) {
-                severity[statusMap[idx].severity] = true;
-                adapter.log.debug(`Severity Flag ${statusMap[idx].severity}=true`);
+            this.log.debug(`Set State ${stateName} = ${varlist[key]}`);
+            await this.setStateAsync(stateName, { ack: true, val: varlist[key] });
+            last = current;
+        }
+
+        if (varlist['ups.status']) {
+            await this.#parseAndSetSeverity(varlist['ups.status']);
+        } else {
+            await this.#parseAndSetSeverity('');
+        }
+
+        this.log.debug('All Nut values set');
+    }
+
+    async #parseAndSetSeverity(ups_status: string, createObjects?: boolean): Promise<void> {
+        const statusMap: Record<string, { name: string; severity: string }> = {
+            OL: { name: 'online', severity: 'idle' },
+            OB: { name: 'onbattery', severity: 'operating' },
+            LB: { name: 'lowbattery', severity: 'operating_critical' },
+            HB: { name: 'highbattery', severity: 'operating_critical' },
+            RB: { name: 'replacebattery', severity: 'action_needed' },
+            CHRG: { name: 'charging', severity: 'idle' },
+            DISCHRG: { name: 'discharging', severity: 'operating' },
+            BYPASS: { name: 'bypass', severity: 'action_needed' },
+            CAL: { name: 'calibration', severity: 'operating' },
+            OFF: { name: 'offline', severity: 'action_needed' },
+            OVER: { name: 'overload', severity: 'action_needed' },
+            TRIM: { name: 'trimming', severity: 'operating' },
+            BOOST: { name: 'boosting', severity: 'operating' },
+            FSD: { name: 'shutdown', severity: 'operating_critical' },
+        };
+        const severity: Record<string, boolean> = {
+            idle: false,
+            operating: false,
+            operating_critical: false,
+            action_needed: false,
+        };
+        if (ups_status.indexOf('FSD') !== -1) {
+            ups_status += ' OB LB';
+        }
+        const checker = ` ${ups_status} `;
+        let stateName = '';
+        for (const idx in statusMap) {
+            if (Object.prototype.hasOwnProperty.call(statusMap, idx)) {
+                const found = checker.indexOf(` ${idx}`) > -1;
+                stateName = `status.${statusMap[idx].name}`;
+                this.log.debug(`Create State ${stateName}`);
+                try {
+                    createObjects &&
+                        (await this.setObjectNotExistsAsync(stateName, {
+                            type: 'state',
+                            common: { name: stateName, type: 'boolean', role: 'indicator', read: true, write: false },
+                            native: { id: stateName },
+                        }));
+                } catch (err: unknown) {
+                    this.log.error(`Error creating State: ${err instanceof Error ? err.message : String(err)}`);
+                }
+                this.log.debug(`Set State ${stateName} = ${found}`);
+                await this.setStateAsync(stateName, { ack: true, val: found });
+                if (found) {
+                    severity[statusMap[idx].severity] = true;
+                    this.log.debug(`Severity Flag ${statusMap[idx].severity}=true`);
+                }
             }
         }
-    }
-    let severityVal = 4;
-    if (severity.operating_critical) {
-        severityVal = 2;
-    } else if (severity.action_needed) {
-        severityVal = 3;
-    } else if (severity.operating) {
-        severityVal = 1;
-    } else if (severity.idle) {
-        severityVal = 0;
-    }
+        let severityVal = 4;
+        if (severity.operating_critical) {
+            severityVal = 2;
+        } else if (severity.action_needed) {
+            severityVal = 3;
+        } else if (severity.operating) {
+            severityVal = 1;
+        } else if (severity.idle) {
+            severityVal = 0;
+        }
 
-    adapter.log.debug(`Set State status.severity = ${severityVal}`);
-    await adapter.setStateAsync('status.severity', { ack: true, val: severityVal });
+        this.log.debug(`Set State status.severity = ${severityVal}`);
+        await this.setStateAsync('status.severity', { ack: true, val: severityVal });
+    }
 }
 
-// If started as allInOne/compact mode => return function to create instance
-if (module && module.parent) {
-    module.exports = startAdapter;
+if (require.main !== module) {
+    // Export the constructor in compact mode
+    module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new NutAdapter(options);
 } else {
-    // or start the instance directly
-    startAdapter();
+    // otherwise start the instance directly
+    (() => new NutAdapter())();
 }
