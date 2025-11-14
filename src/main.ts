@@ -10,22 +10,18 @@ import * as utils from '@iobroker/adapter-core';
 // @ts-expect-error no types available
 import Nut from 'node-nut';
 
-// Extend the AdapterConfig type to include custom settings
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace ioBroker {
-        interface AdapterConfig {
-            host_ip: string;
-            host_port: string | number;
-            ups_name: string;
-            update_interval: string | number;
-            username: string;
-            password: string;
-        }
-    }
+interface NutAdapterConfig extends ioBroker.AdapterConfig {
+    host_ip: string;
+    host_port: string | number;
+    ups_name: string;
+    update_interval: string | number;
+    username: string;
+    password: string;
 }
 
 class NutAdapter extends utils.Adapter {
+    declare config: NutAdapterConfig;
+
     #nutTimeout: ioBroker.Timeout | null | undefined = null;
     #stopInProgress = false;
     #nutConnected: boolean | null = null;

@@ -38,7 +38,13 @@
     "url": "https://github.com/Apollon77/ioBroker.nut/issues"
   },
   "files": [
-    "src/"
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "lib/",
+    "src/",
+    "nut.js",
+    "io-package.json",
+    "LICENSE"
   ],
   "main": "src/main.js",
   "scripts": {
