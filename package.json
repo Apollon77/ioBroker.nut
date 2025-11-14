@@ -42,11 +42,10 @@
     "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
     "lib/",
     "src/",
-    "nut.js",
     "io-package.json",
     "LICENSE"
   ],
-  "main": "src/main.js",
+  "main": "src/main.ts",
   "scripts": {
     "check": "tsc --noEmit",
     "test:package": "mocha test/package --exit",
