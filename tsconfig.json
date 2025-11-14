@@ -18,5 +18,11 @@
 	"exclude": [
 		"node_modules/**",
 		"admin/**"
-	]
+	],
+	"ts-node": {
+		"transpileOnly": true,
+		"compilerOptions": {
+			"checkJs": false
+		}
+	}
 }
