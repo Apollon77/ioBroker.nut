@@ -20,9 +20,6 @@
 		"admin/**"
 	],
 	"ts-node": {
-		"transpileOnly": true,
-		"compilerOptions": {
-			"checkJs": false
-		}
+		"transpileOnly": true
 	}
 }
