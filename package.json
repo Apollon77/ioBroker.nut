@@ -26,18 +26,30 @@
     "@alcalzone/release-script-plugin-license": "^3.7.0",
     "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/eslint-config": "^2.2.0",
-    "@iobroker/testing": "^5.1.1",
-    "chai": "^4.5.0",
-    "mocha": "^11.7.4",
-    "nyc": "^17.1.0"
+    "@iobroker/testing": "^5.2.2",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^22.10.2",
+    "nyc": "^17.1.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.7.2"
   },
   "bugs": {
     "url": "https://github.com/Apollon77/ioBroker.nut/issues"
   },
-  "main": "nut.js",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).{json,json5}",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "lib/",
+    "src/",
+    "io-package.json",
+    "LICENSE"
+  ],
+  "main": "src/main.ts",
   "scripts": {
-    "test:package": "mocha test/package --exit",
-    "test:integration": "mocha test/integration --exit",
+    "check": "tsc --noEmit",
+    "test:package": "mocha --config test/mocharc.custom.json test/package --exit",
+    "test:integration": "mocha --config test/mocharc.custom.json test/integration --exit",
     "test": "npm run test:integration && npm run test:package",
     "lint": "eslint",
     "release": "release-script",
