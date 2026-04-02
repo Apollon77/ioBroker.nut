@@ -29,7 +29,7 @@
     "@iobroker/testing": "^5.1.1",
     "chai": "^4.5.0",
     "mocha": "^11.7.4",
-    "nyc": "^17.1.0"
+    "nyc": "^18.0.0"
   },
   "bugs": {
     "url": "https://github.com/Apollon77/ioBroker.nut/issues"
