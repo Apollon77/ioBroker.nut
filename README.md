@@ -148,6 +148,8 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 ### 0.1.0
 * initial release for testing
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 The MIT License (MIT)
