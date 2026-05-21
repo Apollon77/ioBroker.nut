@@ -84,6 +84,10 @@ directory) to try it out on the commandline. Call the scripts using "node filena
 	Placeholder for the next version (at the beginning of the line):
 	### __WORK IN PROGRESS__
 -->
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 1.7.0 (2025-10-02)
 * IMPORTANT: js-controller 6.0 is now needed at least
 * (Apollon77) Dependencies updated
